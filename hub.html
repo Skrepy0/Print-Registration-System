@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 
     <script>
       tailwind.config = {
@@ -628,8 +629,8 @@
           <td class="px-3 py-3">${r.printType}</td>
           <td class="px-3 py-3">${r.totalPages}</td>
           <td class="px-3 py-3">
-            <button class="edit-btn text-blue-500 p-1 hover:text-blue-700 transition-transform hover:scale-110"><i class="fa fa-pencil"></i></button>
-            <button class="delete-btn text-red-500 p-1 hover:text-red-700 transition-transform hover:scale-110"><i class="fa fa-trash"></i></button>
+            <button class="edit-btn text-blue-500 p-1 hover:text-blue-700 transition-transform hover:scale-110"><i class="fa fa-pencil">edit</i></button>
+            <button class="delete-btn text-red-500 p-1 hover:text-red-700 transition-transform hover:scale-110"><i class="fa fa-trash">del</i></button>
           </td>
         `;
         recordsTableBody.appendChild(tr);
