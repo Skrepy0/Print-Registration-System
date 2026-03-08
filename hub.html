@@ -15,7 +15,9 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="./data/script/init.js"></script>
+    <script src="data/script/init.js"></script>
+    <script src="config/select.js"></script>
+    <script src="config/teachers.js"></script>
 
 
 </head>
@@ -355,8 +357,7 @@
 
 <!-- 编辑模态框 (内部费用分类区块已同步修改，无单价/金额) -->
 <div id="edit-modal"
-     class="fixed inset-0 flex items-center justify-center z-50 hidden modal-backdrop transition-all duration-300"
-     style="backdrop-filter: blur(4px); background-color: rgba(0, 0, 0, 0.3);">
+     class="fixed inset-0 flex items-center justify-center z-50 hidden modal-backdrop transition-all duration-300">
     <div class="bg-white/95 backdrop-blur-md rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4 transition-all duration-500 scale-95 opacity-0 shadow-2xl border border-white/50"
          id="modal-content">
         <div class="p-5 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm z-10 rounded-t-2xl">
@@ -374,6 +375,7 @@
         </div>
     </div>
 </div>
+
 <!-- 设置模态框 -->
 <div id="settingsModal" class="fixed inset-0 z-50 hidden flex items-center justify-center"
      style="backdrop-filter: blur(4px); background-color: rgba(0, 0, 0, 0.3);">

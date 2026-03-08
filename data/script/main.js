@@ -68,48 +68,56 @@
   // 预设值列表
   let subjects_options;
   let expense_type_options = ['试卷', '答题卡'];
-  fetch('./config/select.json')
-    .then(res => res.json())
-    .then(data => {
-      data.added_expense_type.forEach(expenseType => {
-        const option = document.createElement('option');
-        option.text = expenseType;
-        option.value = expenseType;
-        expenseTypeSelect.insertBefore(option, expenseTypeSelect[2]);
-        expense_type_options.push(expenseType);
-      });
-      subjects_options = data.subject;
-      data.subject.forEach(subject => {
-        const option = document.createElement('option');
-        option.text = subject;
-        option.value = subject;
-        subjectSelect.insertBefore(option, subjectSelect[1]);
-      });
-    })
-    .catch(error => {
-      console.log(error);
-      showToast('json数据加载失败：' + error.message, 'error');
-    })
-
-  let getSubjectBySubmitter;
   let submitterOptions;
-  fetch('./config/teachers.json')
-    .then(response => response.json())
-    .then(data => {
-      getSubjectBySubmitter = data;
-      submitterOptions = Object.keys(getSubjectBySubmitter);
+  document.addEventListener('DOMContentLoaded', function() {
+    // ===== 处理 select 数据 =====
+    if (window.selectData) {
+      const data = window.selectData;
+
+      // 添加额外费用类型
+      if (data.added_expense_type && Array.isArray(data.added_expense_type)) {
+        data.added_expense_type.forEach(expenseType => {
+          const option = document.createElement('option');
+          option.text = expenseType;
+          option.value = expenseType;
+          // 插入到第二个选项之前（索引1），保留第一个提示项
+          expenseTypeSelect.insertBefore(option, expenseTypeSelect[1]);
+          expense_type_options.push(expenseType);
+        });
+      }
+
+      // 设置科目选项
+      if (data.subject && Array.isArray(data.subject)) {
+        subjects_options = data.subject; // 保存到全局变量（如果需要）
+        data.subject.forEach(subject => {
+          const option = document.createElement('option');
+          option.text = subject;
+          option.value = subject;
+          subjectSelect.insertBefore(option, subjectSelect[1]);
+        });
+      }
+      showToast('配置数据加载成功', 'info');
+    } else {
+      console.error('selectData 未定义');
+      showToast('配置数据加载失败', 'error');
+    }
+
+    // ===== 处理 teachers 数据 =====
+    if (window.teachersData) {
+      window.getSubjectBySubmitter = window.teachersData; // 保持全局变量名一致
+      submitterOptions = Object.keys(window.teachersData);
       submitterOptions.forEach((submitter) => {
         const option = document.createElement('option');
         option.text = submitter;
         option.value = submitter;
         submitterSelect.insertBefore(option, submitterSelect[1]);
-      })
-      showToast("教师数据加载成功", 'info')
-    })
-    .catch(error => {
-      console.log(error);
-      showToast("json数据加载失败！", 'error');
-    })
+      });
+      showToast('教师数据加载成功', 'info');
+    } else {
+      console.error('teachersData 未定义');
+      showToast('教师数据加载失败', 'error');
+    }
+  });
   const GRADE_OPTIONS = ['高一', '高二', '高三'];
   const PAPER_SIZE_OPTIONS = ['A3', 'A4', 'A5', 'B4', 'B5'];
 

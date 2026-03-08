@@ -1,3 +1,4 @@
 **商丘市人民印刷有限公司**印刷登记快速录入系统
 用于**商丘市第一高级中学**印刷数据统计
+<img src="resources/1.png">
 二次修改自[这里](https://www.52pojie.cn/thread-2076303-1-1.html)
