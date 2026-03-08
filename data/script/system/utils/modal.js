@@ -1,6 +1,5 @@
 import * as constants from "../../data/constants.js";
 
-// ========== 模态框 ==========
 export function openModal() {
   constants.editModal.classList.remove('hidden');
   void constants.modalContent.offsetWidth;

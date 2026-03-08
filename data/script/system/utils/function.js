@@ -45,6 +45,7 @@ export function updateSubject() {
     }
   }
 }
+
 export function togglePaperSizeOther() {
   constants.paperSizeSelect.value === '其他' ? constants.paperSizeOtherContainer.classList.remove('hidden') : (constants.paperSizeOtherContainer.classList.add('hidden'), constants.paperSizeOtherInput.value = '');
 }

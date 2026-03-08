@@ -26,11 +26,11 @@
 <!-- 顶部导航栏 -->
 <header class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50 transition-custom border-b border-white/20">
     <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
-        <div class="flex items-center mb-2 md:mb-0 group">
+        <a class="flex items-center mb-2 md:mb-0 group" href="https://github.com/Skrepy0/Print-Registration-System" target="_blank">
             <i class="fa fa-print text-primary text-3xl mr-3 transition-transform group-hover:rotate-6 group-hover:scale-110 duration-300"></i>
-            <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-pulse-slow">
+            <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-pulse-slow no-select">
                 印刷登记快速录入系统</h1>
-        </div>
+        </a>
 
         <div class="flex items-center space-x-1 md:space-x-4 w-full md:w-auto justify-between">
             <div class="flex items-center text-sm text-neutral mr-2 bg-light/60 px-3 py-1.5 rounded-full">
@@ -246,13 +246,14 @@
             </div>
         </div>
 
-        <!-- 右侧：数据列表 (无金额列，与之前精简版一致) -->
+        <!-- 右侧：数据列表 -->
         <div class="lg:col-span-2 space-y-6">
             <div class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 transition-all duration-300 hover:shadow-2xl border border-white/50 inner-glow">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 pb-2 border-b border-gray-100">
                     <h2 class="text-lg font-semibold mb-2 md:mb-0 flex items-center">
                         <i class="fa fa-list-alt text-primary mr-2 animate-pulse-slow"></i>印刷记录列表
                     </h2>
+                    <div id="del-selected" class="no-select">删除选中</div>
                     <div class="w-full md:w-auto flex space-x-2">
                         <div class="relative flex-1 md:flex-none md:w-64">
                             <input type="text" id="search-input" placeholder="搜索记录..."
@@ -266,7 +267,7 @@
                     </div>
                 </div>
 
-                <!-- 数据表格 (列数已减少) -->
+                <!-- 数据表格 -->
                 <div class="overflow-x-auto rounded-xl border border-gray-100">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gradient-to-r from-primary/5 to-secondary/5">
@@ -324,13 +325,16 @@
                 </div>
             </div>
 
-            <!-- 数据统计图表 (仅印刷总数) -->
+            <!-- 数据统计图表 -->
             <div class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 transition-all duration-300 hover:shadow-2xl border border-white/50 inner-glow">
                 <h2 class="text-lg font-semibold mb-4 pb-2 border-b border-gray-100 flex items-center">
                     <i class="fa fa-bar-chart text-primary mr-2 animate-pulse-slow"></i>近7日印刷总数趋势
                 </h2>
                 <div class="h-64 p-2 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl">
                     <canvas id="statistics-chart"></canvas>
+                </div>
+                <div id="total-print-box" class="flex items-center space-x-2">印刷总数：
+                <span id="total-print" class="info-link" data-info="当前记录的印刷总数"></span>
                 </div>
             </div>
         </div>
@@ -365,7 +369,8 @@
                 编辑印刷记录</h3>
             <button id="close-modal"
                     class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
-                <i class="fa fa-times text-xl"></i>
+                <i class="fa fa-times text-xl">
+                </i>
             </button>
         </div>
         <div class="p-5">
@@ -383,17 +388,16 @@
         <!-- 标题与关闭按钮 -->
         <div class="flex justify-between items-center mb-5">
             <h3 class="text-lg font-semibold text-gray-800">⚙️ 设置</h3>
-            <button id="closeSettings" class="text-gray-400 hover:text-gray-600 transition-custom">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+            <button id="closeSettings"
+                    class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
+                <i class="fa fa-times text-xl">
+                </i>
             </button>
         </div>
 
         <!-- 设置项：开关 -->
         <div class="flex items-center justify-between py-3 border-b border-gray-100">
-            <span class="info-link text-sm font-medium text-gray-700" data-info="开启后，系统将根据教师姓名自动填充学科字段。">根据教师名称自动匹配学科</span>
+            <span class="info-link setting" data-info="开启后，系统将根据教师姓名自动填充学科字段。">根据教师名称自动匹配学科</span>
             <span id="transform-button" class="settings-button no-select"></span>
         </div>
     </div>

@@ -4,19 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="修bug">
-      <change afterPath="$PROJECT_DIR$/data/script/data/constants.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/components/chart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/components/form.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/components/records.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/init.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/utils/event.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/utils/function.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/utils/io.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/utils/modal.js" afterDir="false" />
+    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="重构代码">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/data/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/script/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/data/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/data/constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/components/chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/components/chart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/components/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/components/form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/components/records.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/components/records.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/init.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/init.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/event.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/function.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/function.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/io.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/io.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/modal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hub.html" beforeDir="false" afterPath="$PROJECT_DIR$/hub.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +95,7 @@
       <option name="presentableId" value="Default" />
       <updated>1772945967570</updated>
       <workItem from="1772945969570" duration="18710000" />
-      <workItem from="1772967202440" duration="7891000" />
+      <workItem from="1772967202440" duration="12876000" />
     </task>
     <task id="LOCAL-00001" summary="添加选择送印人功能，优化删除，修改按钮">
       <option name="closed" value="true" />
@@ -122,7 +121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772964571586</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="重构代码">
+      <option name="closed" value="true" />
+      <created>1772976134834</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1772976134834</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,6 +139,7 @@
     <MESSAGE value="添加选择送印人功能，优化删除，修改按钮" />
     <MESSAGE value="重构代码，添加设置界面" />
     <MESSAGE value="修bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="修bug" />
+    <MESSAGE value="重构代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="重构代码" />
   </component>
 </project>

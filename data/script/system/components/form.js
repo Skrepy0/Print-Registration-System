@@ -3,6 +3,7 @@ import {state} from "../../data/constants.js";
 import {showToast, calculateTotalPages, getFinalValue} from "../utils/function.js";
 import {getFilteredRecords, renderRecords, saveRecords} from "./records.js";
 import {updateChart} from "./chart.js";
+
 export function handleFormSubmit(e) {
   e.preventDefault();
   const grade = getFinalValue(constants.gradeSelect, constants.gradeOtherInput);
@@ -10,8 +11,8 @@ export function handleFormSubmit(e) {
   const submitter = getFinalValue(constants.submitterSelect, constants.submitterOtherInput);
   const paperSize = getFinalValue(constants.paperSizeSelect, constants.paperSizeOtherInput);
   const expenseType = getFinalValue(constants.expenseTypeSelect, constants.expenseTypeOtherInput);
-  if (!grade || grade === '请选择年级') return showToast('请选择年级', 'warning');
-  if (!subject) return showToast('请选择或输入学科', 'warning');
+  if (!grade || grade === '请选择年级' || grade === '其他') return showToast('请选择年级', 'warning');
+  if (!subject || subject === '其他') return showToast('请选择或输入学科', 'warning');
   if (!submitter || submitter === '其他') return showToast('请输入有效的送印人', 'warning');
 
   const newRecord = {
@@ -37,7 +38,6 @@ export function handleFormSubmit(e) {
   showToast('记录保存成功', 'success');
 }
 
-// ========== 分页、搜索、排序 ==========
 export function goToPrevPage() {
   if (state.currentPage > 1) {
     state.currentPage--;

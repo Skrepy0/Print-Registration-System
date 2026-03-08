@@ -38,6 +38,8 @@ export const fileUploadInput = document.getElementById('file-upload');
 export const settingsModal = document.getElementById('settingsModal');
 export const closeBtn = document.getElementById('closeSettings');
 export const autoMatchToggle = document.getElementById('transform-button');
+export const delSelectedRecord = document.getElementById('del-selected');
+export const totalPrintNum = document.getElementById('total-print');
 // 设置部分的全局变量
 autoMatchToggle.textContent = state.autoMatchEnabled ? "开" : "关";
 // 计算字段 (印刷总数)
@@ -52,7 +54,8 @@ export const paperSizeOtherInput = document.getElementById('paper-size-other');
 export const gradeSelect = document.getElementById('grade');
 export const gradeOtherContainer = document.getElementById('grade-other-container');
 export const gradeOtherInput = document.getElementById('grade-other');
-// 费用分类相关 (已恢复)
+
+// 费用分类相关
 export const expenseTypeSelect = document.getElementById('expense-type');
 export const expenseTypeOtherContainer = document.getElementById('expense-type-other-container');
 export const expenseTypeOtherInput = document.getElementById('expense-type-other');
@@ -63,27 +66,24 @@ export const submitterSelect = document.getElementById('submitter');
 export const submitterOtherContainer = document.getElementById('submitter-other-container');
 export const submitterOtherInput = document.getElementById('submitter-other');
 export const responsiblePersonInput = document.getElementById('responsible-person'); // 已移入费用分类
+
 // 预设值列表
 document.addEventListener('DOMContentLoaded', function () {
-  // ===== 处理 select 数据 =====
   if (window.selectData) {
     const data = window.selectData;
 
-    // 添加额外费用类型
     if (data.added_expense_type && Array.isArray(data.added_expense_type)) {
       data.added_expense_type.forEach(expenseType => {
         const option = document.createElement('option');
         option.text = expenseType;
         option.value = expenseType;
-        // 插入到第二个选项之前（索引1），保留第一个提示项
         expenseTypeSelect.insertBefore(option, expenseTypeSelect[1]);
         state.expense_type_options.push(expenseType);
       });
     }
 
-    // 设置科目选项
     if (data.subject && Array.isArray(data.subject)) {
-      state.subjects_options = data.subject; // 保存到全局变量（如果需要）
+      state.subjects_options = data.subject;
       data.subject.forEach(subject => {
         const option = document.createElement('option');
         option.text = subject;
@@ -97,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
     showToast('配置数据加载失败', 'error');
   }
 
-  // ===== 处理 teachers 数据 =====
   if (window.teachersData) {
     window.getSubjectBySubmitter = window.teachersData; // 保持全局变量名一致
     state.submitterOptions = Object.keys(window.teachersData);
@@ -116,5 +115,4 @@ document.addEventListener('DOMContentLoaded', function () {
 export const GRADE_OPTIONS = ['高一', '高二', '高三'];
 export const PAPER_SIZE_OPTIONS = ['A3', 'A4', 'A5', 'B4', 'B5'];
 
-// 初始化日期为今天
 document.getElementById('date').valueAsDate = new Date();

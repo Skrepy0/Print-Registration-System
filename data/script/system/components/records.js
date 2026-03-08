@@ -80,7 +80,6 @@ export function renderRecords() {
   updateSelectAllStatus();
 }
 
-// ========== 编辑记录 (恢复费用分类区块，无单价/金额) ==========
 export function editRecord(id) {
   const record = state.records.find(r => r.id === id);
   if (!record) {
@@ -265,20 +264,33 @@ export function editRecord(id) {
   constants.editForm.addEventListener('submit', handleEditSubmit);
   openModal();
 }
-// 保存至localStorage并清理旧字段
 export function saveRecords() {
   state.records = state.records.map(({unitPrice, totalAmount, ...keep}) => keep);
   localStorage.setItem('printingRecords', JSON.stringify(state.records));
   updateSyncStatus(true);
 }
-// ========== 删除 ==========
+function delRecord(id) {
+  state.records = state.records.filter(r => r.id !== id);
+  saveRecords();
+  renderRecords();
+  updateChart();
+  showToast('已删除', 'success');
+}
 export function deleteRecord(id) {
   if (confirm('确定删除？')) {
-    state.records = state.records.filter(r => r.id !== id);
-    saveRecords();
-    renderRecords();
-    updateChart();
-    showToast('已删除', 'success');
+    delRecord(id);
+  }
+}
+
+export function delSelectedRecords(){
+  const ids = Array.from(document.querySelectorAll('.record-select:checked')).map(c => c.dataset.id);
+  if (!ids.length) return showToast('请选择记录', 'warning');
+  if (confirm('确定删除？')) {
+    state.records.filter(r => {
+      if (ids.includes(r.id)){
+        delRecord(r.id);
+      }
+    });
   }
 }
 

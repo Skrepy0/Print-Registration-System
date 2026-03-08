@@ -1,4 +1,4 @@
-import { showToast} from "./function.js";
+import {showToast} from "./function.js";
 import * as constants from "../../data/constants.js";
 import {state} from "../../data/constants.js";
 import {renderRecords} from "../components/records.js";
@@ -80,7 +80,7 @@ export function handleFileUpload(e) {
       updateChart();
       showToast('导入成功', 'success');
     } catch (err) {
-      showToast('解析失败'+err, 'error');
+      showToast('解析失败' + err, 'error');
       console.log(err);
     }
     constants.fileUploadInput.value = '';
