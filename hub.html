@@ -66,6 +66,32 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .modal-backdrop { backdrop-filter: blur(4px); background-color: rgba(0, 0, 0, 0.3); }
         .inner-glow { box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8); }
+        .info-link {
+            position: relative;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .info-link::after {
+            content: attr(data-info);  /* 从 data-info 获取文本 */
+            position: absolute;
+            bottom: 150%;              /* 显示在链接上方 */
+            left: -30px;
+            background: #333;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s;
+            pointer-events: none;       /* 避免遮挡鼠标事件 */
+            z-index: 10;
+        }
+        .info-link:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body class="font-sans text-dark antialiased">
@@ -164,7 +190,32 @@
                             </div>
                             <div>
                                 <label for="submitter" class="block text-sm font-medium mb-1">送印人 <span class="text-red-500">*</span></label>
-                                <input type="text" id="submitter" required placeholder="张三" class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
+                                <select id="submitter" required class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
+                                    <option value="">请选择送印人</option>
+                                    <option value="李寒光">李寒光</option>
+                                    <option value="姬传涛">姬传涛</option>
+                                    <option value="杨阳">杨阳</option>
+                                    <option value="沈文文">沈文文</option>
+                                    <option value="王莹莹">王莹莹</option>
+                                    <option value="沈新启">沈新启</option>
+                                    <option value="蒋丰慧">蒋丰慧</option>
+                                    <option value="刘峰涛">刘峰涛</option>
+                                    <option value="耿庆雷">耿庆雷</option>
+                                    <option value="梁从丽">梁从丽</option>
+                                    <option value="李翔冲">李翔冲</option>
+                                    <option value="黄曼曼">黄曼曼</option>
+                                    <option value="朱一凡">朱一凡</option>
+                                    <option value="李星">李星</option>
+                                    <option value="周文辉">周文辉</option>
+                                    <option value="赵永芳">赵永芳</option>
+                                    <option value="刁洪涛">刁洪涛</option>
+                                    <option value="闫威">闫威</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                                <div id="submitter-other-container" class="mt-2 hidden">
+                                    <label for="submitter-other" class="block text-sm font-medium mb-1 text-gray-600">送印人</label>
+                                    <input type="text" id="submitter-other" placeholder="送印人..." class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -176,8 +227,8 @@
                             <div>
                                 <label for="paper-size" class="block text-sm font-medium mb-1">纸张规格</label>
                                 <select id="paper-size" class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                    <option value="A3">A3</option>
-                                    <option value="A4" selected>A4</option>
+                                    <option value="A3" selected>A3</option>
+                                    <option value="A4">A4</option>
                                     <option value="A5">A5</option>
                                     <option value="B4">B4</option>
                                     <option value="B5">B5</option>
@@ -426,12 +477,17 @@
     const subjectSelect = document.getElementById('subject');
     const subjectOtherContainer = document.getElementById('subject-other-container');
     const subjectOtherInput = document.getElementById('subject-other');
+    const submitterSelect = document.getElementById('submitter');
+    const submitterOtherContainer = document.getElementById('submitter-other-container');
+    const submitterOtherInput = document.getElementById('submitter-other');
     const responsiblePersonInput = document.getElementById('responsible-person'); // 已移入费用分类
 
     // 预设值列表
     const GRADE_OPTIONS = ['高一', '高二', '高三'];
     const PAPER_SIZE_OPTIONS = ['A3', 'A4', 'A5', 'B4', 'B5'];
     const SUBJECT_OPTIONS = ['语文', '数学', '英语', '物理', '化学', '生物', '地理', '政治', '历史'];
+    const SUBMITTER_OPTIONS = ["李寒光","姬传涛","杨阳","沈文文","王莹莹","沈新启","蒋丰慧",
+      "刘峰涛","耿庆雷","梁从丽","李翔冲","黄曼曼","朱一凡","李星","周文辉","赵永芳","刁洪涛","闫威"]
     const EXPENSE_TYPE_OPTIONS = ['教学资料', '试卷', '答题卡', '办公文件'];
 
     // 初始化日期为今天
@@ -485,6 +541,7 @@
       paperSizeSelect.addEventListener('change', togglePaperSizeOther);
       gradeSelect.addEventListener('change', toggleGradeOther);
       subjectSelect.addEventListener('change', toggleSubjectOther);
+      submitterSelect.addEventListener('change', toggleSubmitterOther)
       expenseTypeSelect.addEventListener('change', toggleExpenseTypeOther);
 
       printForm.addEventListener('reset', function () {
@@ -492,6 +549,7 @@
           paperSizeOtherInput.value = '';
           gradeOtherInput.value = '';
           subjectOtherInput.value = '';
+          submitterOtherContainer.value = '';
           expenseTypeOtherInput.value = '';
           togglePaperSizeOther();
           toggleGradeOther();
@@ -538,6 +596,9 @@
     function toggleSubjectOther() {
       subjectSelect.value === '其他' ? subjectOtherContainer.classList.remove('hidden') : (subjectOtherContainer.classList.add('hidden'), subjectOtherInput.value = '');
     }
+    function toggleSubmitterOther() {
+      submitterSelect.value === '其他' ? submitterOtherContainer.classList.remove('hidden') : (submitterOtherContainer.classList.add('hidden'), submitterOtherInput.value = '');
+    }
     function toggleExpenseTypeOther() {
       expenseTypeSelect.value === '其他' ? expenseTypeOtherContainer.classList.remove('hidden') : (expenseTypeOtherContainer.classList.add('hidden'), expenseTypeOtherInput.value = '');
     }
@@ -547,16 +608,17 @@
       e.preventDefault();
       const grade = getFinalValue(gradeSelect, gradeOtherInput);
       const subject = getFinalValue(subjectSelect, subjectOtherInput);
+      const submitter = getFinalValue(submitterSelect, submitterOtherInput);
       const paperSize = getFinalValue(paperSizeSelect, paperSizeOtherInput);
       const expenseType = getFinalValue(expenseTypeSelect, expenseTypeOtherInput);
+      if (!grade || grade==='请选择年级') return showToast('请选择年级','warning');
       if (!subject) return showToast('请选择或输入学科', 'warning');
-      if (!document.getElementById('submitter').value.trim()) return showToast('请输入送印人', 'warning');
+      if (!submitter || submitter === '其他') return showToast('请输入有效的送印人', 'warning');
 
       const newRecord = {
         id: Date.now().toString(),
         date: document.getElementById('date').value,
-        grade, subject, paperSize, expenseType,
-        submitter: document.getElementById('submitter').value.trim(),
+        grade, subject, paperSize, expenseType, submitter,
         printType: printTypeSelect.value,
         paperCount: parseInt(paperCountInput.value) || 0,
         copyCount: parseInt(copyCountInput.value) || 0,
@@ -629,8 +691,8 @@
           <td class="px-3 py-3">${r.printType}</td>
           <td class="px-3 py-3">${r.totalPages}</td>
           <td class="px-3 py-3">
-            <button class="edit-btn text-blue-500 p-1 hover:text-blue-700 transition-transform hover:scale-110"><i class="fa fa-pencil">edit</i></button>
-            <button class="delete-btn text-red-500 p-1 hover:text-red-700 transition-transform hover:scale-110"><i class="fa fa-trash">del</i></button>
+            <button class="edit-btn text-blue-500 p-1 hover:text-blue-700 transition-transform hover:scale-110"><i class="fa info-link" data-info="修改记录">📝</i></button>
+            <button class="delete-btn text-red-500 p-1 hover:text-red-700 transition-transform hover:scale-110"><i class="fa info-link" data-info="删除记录">🔥</i></button>
           </td>
         `;
         recordsTableBody.appendChild(tr);
@@ -801,6 +863,7 @@
 
       const isCustomGrade = !GRADE_OPTIONS.includes(record.grade);
       const isCustomSubject = !SUBJECT_OPTIONS.includes(record.subject);
+      const isCustomSubmitter = !SUBMITTER_OPTIONS.includes(record.submitter);
       const isCustomPaperSize = !PAPER_SIZE_OPTIONS.includes(record.paperSize);
       const isCustomExpenseType = !EXPENSE_TYPE_OPTIONS.includes(record.expenseType);
 
@@ -827,7 +890,11 @@
                     </select>
                     <div id="edit-subject-other-box" class="mt-2 ${isCustomSubject ? '' : 'hidden'}"><label class="block text-sm font-medium mb-1 text-gray-600">自定义学科：</label><input type="text" id="edit-subject-other" value="${isCustomSubject ? record.subject : ''}" class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"></div>
                 </div>
-                <div><label class="block text-sm font-medium mb-1">送印人 <span class="text-red-500">*</span></label><input type="text" id="edit-submitter" required value="${record.submitter}" class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"></div>
+                <div><label class="block text-sm font-medium mb-1">送印人 <span class="text-red-500">*</span></label>
+                    <select id="edit-submitter" required class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
+                        <option value="">请选择</option>${SUBMITTER_OPTIONS.map(s => `<option value="${s}" ${record.subject === s ? 'selected' : ''}>${s}</option>`).join('')}<option value="其他" ${isCustomSubmitter ? 'selected' : ''}>其他</option>
+                    </select>
+                    <div id="edit-submitter-other-box" class="mt-2 ${isCustomSubmitter ? '' : 'hidden'}"><label class="block text-sm font-medium mb-1 text-gray-600">其他送印人：</label><input type="text" id="edit-submitter-other" value="${isCustomSubmitter ? record.submitter : ''}" class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"></div>
             </div>
         </div>
 
@@ -900,6 +967,7 @@
       // 其他字段切换
       document.getElementById('edit-grade').addEventListener('change', function(){ document.getElementById('edit-grade-other-box').classList.toggle('hidden', this.value !== '其他'); });
       document.getElementById('edit-subject').addEventListener('change', function(){ document.getElementById('edit-subject-other-box').classList.toggle('hidden', this.value !== '其他'); });
+      document.getElementById('edit-submitter').addEventListener('change', function () {document.getElementById('edit-submitter-other-box').classList.toggle('hidden', this.value !== '其他');})
       document.getElementById('edit-paper-size').addEventListener('change', function(){ document.getElementById('edit-paper-other-box').classList.toggle('hidden', this.value !== '其他'); });
       document.getElementById('edit-expense-type').addEventListener('change', function(){ document.getElementById('edit-expense-other-box').classList.toggle('hidden', this.value !== '其他'); });
 
@@ -909,11 +977,13 @@
         e.preventDefault();
         const finalGrade = getFinalValue(document.getElementById('edit-grade'), document.getElementById('edit-grade-other'));
         const finalSubject = getFinalValue(document.getElementById('edit-subject'), document.getElementById('edit-subject-other'));
+        const finalSubmitter = getFinalValue(document.getElementById('edit-submitter'), document.getElementById('edit-submitter-other'));
         const finalPaperSize = getFinalValue(document.getElementById('edit-paper-size'), document.getElementById('edit-paper-other'));
         const finalExpenseType = getFinalValue(document.getElementById('edit-expense-type'), document.getElementById('edit-expense-other'));
         if (!document.getElementById('edit-date').value) return showToast('请选择日期', 'warning');
+        if (!finalGrade) return showToast('请选择年级','warning');
         if (!finalSubject) return showToast('请选择或输入学科', 'warning');
-        if (!document.getElementById('edit-submitter').value.trim()) return showToast('请输入送印人', 'warning');
+        if (!finalSubmitter) return showToast('请输入送印人', 'warning');
 
         const index = records.findIndex(r => r.id === id);
         if (index === -1) { showToast('记录不存在', 'error'); return; }
@@ -923,7 +993,7 @@
           date: document.getElementById('edit-date').value,
           grade: finalGrade,
           subject: finalSubject,
-          submitter: document.getElementById('edit-submitter').value.trim(),
+          submitter: finalSubmitter,
           paperSize: finalPaperSize,
           printType: editPrintType.value,
           paperCount: parseInt(editPaperCount.value) || 0,
