@@ -69,6 +69,7 @@ export function initEvents() {
       toggleGradeOther();
       toggleSubjectOther();
       toggleExpenseTypeOther();
+      toggleSubmitterOther();
       calculateTotalPages();
     }, 10);
   });
