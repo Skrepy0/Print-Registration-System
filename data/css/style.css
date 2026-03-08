@@ -1,0 +1,175 @@
+@layer utilities {
+    .content-auto { content-visibility: auto; }
+    .card-shadow { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06); }
+    .transition-custom { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+    .input-focus { @apply focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none; }
+    .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+    .btn-scale:active { transform: scale(0.97); }
+    .ripple-effect { position: relative; overflow: hidden; }
+    .ripple-effect::after { content: ''; position: absolute; top: 50%; left: 50%; width: 5px; height: 5px; background: rgba(255, 255, 255, 0.5); opacity: 0; border-radius: 100%; transform: translate(-50%, -50%) scale(1); transition: all 0.5s ease-out; }
+    .ripple-effect:active::after { width: 300px; height: 300px; opacity: 0.3; transition: 0s; }
+}
+
+body {
+    background: linear-gradient(145deg, #f9fafb 0%, #f1f5f9 100%);
+    min-height: 100vh;
+}
+
+tbody tr {
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+tbody tr:hover {
+    background-color: #f8fafc !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.inner-glow {
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+/* 优化后的工具提示样式 */
+.info-link {
+    /* CSS 变量，便于主题定制 */
+    --tooltip-bg: #60C78B;
+    --tooltip-text: #fff;
+    --tooltip-font-size: 16px;
+    --tooltip-padding: 4px 8px;
+    --tooltip-border-radius: 4px;
+    --tooltip-offset: 8px;          /* 提示与链接的距离 */
+    --tooltip-max-width: 5000px;      /* 防止过宽 */
+
+    position: relative;
+    text-decoration: none;
+    color: #007bff;
+    /* 保证定位计算准确 */
+    line-height: 1;
+}
+
+/* 提示框基础样式 */
+.info-link::after {
+    content: attr(data-info);
+    position: absolute;
+    /* 默认显示在链接上方 */
+    bottom: calc(100% + var(--tooltip-offset));
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: var(--tooltip-bg);
+    color: var(--tooltip-text);
+    font-size: var(--tooltip-font-size);
+    padding: var(--tooltip-padding);
+    border-radius: var(--tooltip-border-radius);
+
+    /* 文本处理：默认不换行，但可限制最大宽度 */
+    white-space: nowrap;
+    max-width: var(--tooltip-max-width);
+    word-wrap: break-word;
+
+    /* 初始隐藏 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+
+    /* 防止遮挡鼠标事件 */
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* 允许内容过长时换行（通过额外类激活） */
+.info-link.wrap-tooltip::after {
+    white-space: normal;
+    text-align: center;
+}
+
+/* 悬停和聚焦时显示（键盘导航友好） */
+.info-link:hover::after,
+.info-link:focus::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 可选：增加小箭头，指向链接 */
+.info-link::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + var(--tooltip-offset) - 1px); /* 紧贴提示框下方 */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--tooltip-bg) transparent transparent transparent; /* 箭头朝下 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.info-link:hover::before,
+.info-link:focus::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 若希望提示显示在下方，添加此类 */
+.info-link.tooltip-bottom::after {
+    bottom: auto;
+    top: calc(100% + var(--tooltip-offset));
+}
+
+.info-link.tooltip-bottom::before {
+    bottom: auto;
+    top: calc(100% + var(--tooltip-offset) - 1px);
+    border-color: transparent transparent var(--tooltip-bg) transparent; /* 箭头朝上 */
+}
+
+/* 尊重用户减少动画的偏好 */
+@media (prefers-reduced-motion: reduce) {
+    .info-link::after,
+    .info-link::before {
+        transition: none;
+    }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+    animation: fadeInUp 0.2s ease-out;
+}
+.modal-backdrop {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.settings-button{
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 30px;           /* 圆角胶囊效果 */
+    color: white;
+    background-color: #f3f8fe;      /* 绿色，表示“开”状态 */
+    border: 1px solid transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    cursor: default;                /* 若不是可点击按钮，用 default；若可点击改为 pointer */
+}
