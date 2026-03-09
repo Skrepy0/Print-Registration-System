@@ -1,7 +1,7 @@
 import * as constants from "../../data/constants.js";
 import {state} from "../../data/constants.js";
 import {config} from "../../data/config/config.js";
-
+import {data, saveData} from "../../data/catch/catch.js";
 export function showToast(msg, type = 'info') {
   const toast = document.getElementById('toast');
   const icon = document.getElementById('toast-icon');
@@ -37,12 +37,13 @@ export function updateSyncStatus(s) {
   document.getElementById('sync-status').innerHTML = s ? '<i class="fa fa-check-circle text-green-500 mr-1 animate-pulse"></i><span>数据已同步</span>' : '<i class="fa fa-exclamation-triangle text-yellow-500 mr-1"></i><span>数据未同步</span>';
 }
 
-export function updateSubject() {
+export function updateAutoData() {
   if (!config.autoMatchEnabled) return;
   const submitter = document.getElementById('submitter');
   if (submitter && submitter.value !== '其他') {
-    if (getSubjectBySubmitter[submitter.value]) {
-      constants.subjectSelect.value = getSubjectBySubmitter[submitter.value];
+    if (getAutoDataBySubmitter[submitter.value]) {
+      constants.subjectSelect.value = getAutoDataBySubmitter[submitter.value][1];
+      constants.gradeSelect.value = getAutoDataBySubmitter[submitter.value][0];
     }
   }
 }
@@ -68,7 +69,23 @@ export function toggleExpenseTypeOther() {
 }
 
 export function getFinalValue(sel, other) {
-  if (sel.value === '其他') return other.value.trim() || '其他';
+  if (sel.value === '其他') {
+    return other.value.trim() || '其他';
+  }
+  return sel.value || '';
+}
+
+export function getSubmitterFinalValue(sel, other) {
+  if (sel.value === '其他') {
+    if(other.value.trim()){
+      if (config.autoCatchInfo){
+        data.catchTeacherList[other.value.trim()]=[getFinalValue(constants.gradeSelect, constants.gradeOtherInput),getFinalValue(constants.subjectSelect, constants.subjectOtherInput)];
+        saveData();
+      }
+      return other.value.trim();
+    }
+    return '其他';
+  }
   return sel.value || '';
 }
 

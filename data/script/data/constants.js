@@ -1,15 +1,18 @@
 import {showToast} from "../system/utils/function.js";
-export const state ={
-  currentPage : 1,
-  pageSize : 10,
-  sortField : null,
-  sortDirection : 'asc',
-  searchTerm : '',
-  chart : null,
-  subjects_options:null,
+import {data} from "./catch/catch.js";
+import * as constants from "./constants.js";
+
+export const state = {
+  currentPage: 1,
+  pageSize: 10,
+  sortField: null,
+  sortDirection: 'asc',
+  searchTerm: '',
+  chart: null,
+  subjects_options: null,
   expense_type_options: ['试卷', '答题卡'],
-  submitterOptions:null,
-  records : (JSON.parse(localStorage.getItem('printingRecords')) || []).map(({unitPrice, totalAmount, ...rest}) => rest)
+  submitterOptions: null,
+  records: (JSON.parse(localStorage.getItem('printingRecords')) || []).map(({unitPrice, totalAmount, ...rest}) => rest)
 }
 
 // DOM 元素
@@ -38,9 +41,15 @@ export const settingsModal = document.getElementById('settingsModal');
 export const closeBtn = document.getElementById('closeSettings');
 export const delSelectedRecord = document.getElementById('del-selected');
 export const totalPrintNum = document.getElementById('total-print');
+// 设置
 export const toggles = document.getElementsByClassName("settings-button");
 export const autoMatchToggle = document.getElementById('auto-match-button');
 export const autoCatchToggle = document.getElementById('auto-catch-button');
+export const editTeacherDataToggle = document.getElementById('edit-catch-teacher-data-button');
+export const editTeacherDataModal = document.getElementById('edit-catch-modal');
+export const closeEditTeacherData = document.getElementById('close-edit-teacher-catch');
+export const editCatchTBody = document.getElementById('edit-catch-records-table-body');
+export const editCatchSelectAll = document.getElementById('edit-catch-select-all');
 // 计算字段 (印刷总数)
 export const paperCountInput = document.getElementById('paper-count');
 export const copyCountInput = document.getElementById('copy-count');
@@ -65,14 +74,44 @@ export const submitterSelect = document.getElementById('submitter');
 export const submitterOtherContainer = document.getElementById('submitter-other-container');
 export const submitterOtherInput = document.getElementById('submitter-other');
 export const responsiblePersonInput = document.getElementById('responsible-person'); // 已移入费用分类
+reload();
+export const GRADE_OPTIONS = ['高一', '高二', '高三'];
+export const PAPER_SIZE_OPTIONS = ['A3', 'A4', 'A5', 'B4', 'B5'];
+document.getElementById('date').valueAsDate = new Date();
 
-// 预设值列表
-document.addEventListener('DOMContentLoaded', function () {
+export function loadSubmitters() {
+  constants.submitterSelect.innerHTML = `<option value="">请选择送印人</option>
+                                        <option value="其他">其他</option>`;
+  if (data.catchTeacherList) {
+    Object.entries(data.catchTeacherList).forEach(([key, value]) => {
+      if (!Array.isArray(window.teachersData[key])) {
+        window.teachersData[key] = ['', ''];
+      }
+      window.teachersData[key][1] = value[1];
+      window.teachersData[key][0] = value[0];
+    });
+  }
+  if (window.teachersData) {
+    window.getAutoDataBySubmitter = window.teachersData; // 保持全局变量名一致
+    state.submitterOptions = Object.keys(window.teachersData);
+    state.submitterOptions.forEach((submitter) => {
+      const option = document.createElement('option');
+      option.text = submitter;
+      option.value = submitter;
+      constants.submitterSelect.insertBefore(option, submitterSelect[1]);
+    });
+    showToast('教师数据加载成功', 'info');
+  } else {
+    console.error('teachersData 未定义');
+    showToast('教师数据加载失败', 'error');
+  }
+}
+
+export function reload() {
   if (window.selectData) {
-    const data = window.selectData;
-
-    if (data.added_expense_type && Array.isArray(data.added_expense_type)) {
-      data.added_expense_type.forEach(expenseType => {
+    const selectData = window.selectData;
+    if (selectData.added_expense_type && Array.isArray(selectData.added_expense_type)) {
+      selectData.added_expense_type.forEach(expenseType => {
         const option = document.createElement('option');
         option.text = expenseType;
         option.value = expenseType;
@@ -81,9 +120,9 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    if (data.subject && Array.isArray(data.subject)) {
-      state.subjects_options = data.subject;
-      data.subject.forEach(subject => {
+    if (selectData.subject && Array.isArray(selectData.subject)) {
+      state.subjects_options = selectData.subject;
+      selectData.subject.forEach(subject => {
         const option = document.createElement('option');
         option.text = subject;
         option.value = subject;
@@ -96,22 +135,5 @@ document.addEventListener('DOMContentLoaded', function () {
     showToast('配置数据加载失败', 'error');
   }
 
-  if (window.teachersData) {
-    window.getSubjectBySubmitter = window.teachersData; // 保持全局变量名一致
-    state.submitterOptions = Object.keys(window.teachersData);
-    state.submitterOptions.forEach((submitter) => {
-      const option = document.createElement('option');
-      option.text = submitter;
-      option.value = submitter;
-      submitterSelect.insertBefore(option, submitterSelect[1]);
-    });
-    showToast('教师数据加载成功', 'info');
-  } else {
-    console.error('teachersData 未定义');
-    showToast('教师数据加载失败', 'error');
-  }
-});
-export const GRADE_OPTIONS = ['高一', '高二', '高三'];
-export const PAPER_SIZE_OPTIONS = ['A3', 'A4', 'A5', 'B4', 'B5'];
-
-document.getElementById('date').valueAsDate = new Date();
+  loadSubmitters();
+}

@@ -1,16 +1,18 @@
 import * as constants from "../../data/constants.js";
-import {state} from "../../data/constants.js";
-import {showToast, calculateTotalPages, getFinalValue} from "../utils/function.js";
+import {reload, state} from "../../data/constants.js";
+import {showToast, calculateTotalPages, getFinalValue, getSubmitterFinalValue} from "../utils/function.js";
 import {getFilteredRecords, renderRecords, saveRecords} from "./records.js";
 import {updateChart} from "./chart.js";
+import {saveData} from "../../data/catch/catch.js";
 
 export function handleFormSubmit(e) {
   e.preventDefault();
   const grade = getFinalValue(constants.gradeSelect, constants.gradeOtherInput);
   const subject = getFinalValue(constants.subjectSelect, constants.subjectOtherInput);
-  const submitter = getFinalValue(constants.submitterSelect, constants.submitterOtherInput);
+  const submitter = getSubmitterFinalValue(constants.submitterSelect, constants.submitterOtherInput);
   const paperSize = getFinalValue(constants.paperSizeSelect, constants.paperSizeOtherInput);
   const expenseType = getFinalValue(constants.expenseTypeSelect, constants.expenseTypeOtherInput);
+  saveData();
   if (!grade || grade === '请选择年级' || grade === '其他') return showToast('请选择年级', 'warning');
   if (!subject || subject === '其他') return showToast('请选择或输入学科', 'warning');
   if (!submitter || submitter === '其他') return showToast('请输入有效的送印人', 'warning');
@@ -36,6 +38,7 @@ export function handleFormSubmit(e) {
   document.getElementById('date').valueAsDate = new Date();
   calculateTotalPages();
   showToast('记录保存成功', 'success');
+  reload();
 }
 
 export function goToPrevPage() {

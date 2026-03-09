@@ -1,5 +1,5 @@
 import * as constants from "../../data/constants.js";
-import {state} from "../../data/constants.js";
+import {reload} from "../../data/constants.js";
 import {delSelectedRecords} from "../components/records.js";
 import {
   updateToggleUI,
@@ -7,7 +7,7 @@ import {
   toggleExpenseTypeOther,
   toggleGradeOther,
   togglePaperSizeOther,
-  toggleSubjectOther, toggleSubmitterOther, updateSubject, enableBackgroundWheel
+  toggleSubjectOther, toggleSubmitterOther, updateAutoData, enableBackgroundWheel
 } from "./function.js";
 import {
   goToNextPage,
@@ -20,6 +20,7 @@ import {
 import {backupData, exportAllRecords, exportSelectedRecords, handleFileUpload} from "./io.js";
 import {closeModal} from "./modal.js";
 import {config} from "../../data/config/config.js";
+import {handleSelectAllData, renderData} from "../../data/catch/form.js";
 
 export function registerEvents() {
   // 点击切换
@@ -30,15 +31,32 @@ export function registerEvents() {
       updateToggleUI();
     });
   }
+  document.addEventListener('DOMContentLoaded', reload);
+
   constants.autoMatchToggle.addEventListener('click', () => {
     config.autoMatchEnabled = !config.autoMatchEnabled;
     localStorage.setItem('autoMatchEnabled', JSON.stringify(config.autoMatchEnabled));
+  });
+
+  constants.autoCatchToggle.addEventListener('click', () => {
+    config.autoCatchInfo = !config.autoCatchInfo;
+    localStorage.setItem('autoCatchInfo', JSON.stringify(config.autoCatchInfo));
   });
 
   // 关闭模态框（点击遮罩或关闭按钮）
   constants.closeBtn.addEventListener('click', () => {
     constants.settingsModal.classList.add('hidden');
     enableBackgroundWheel();
+  });
+  constants.closeEditTeacherData.addEventListener('click', () => {
+    constants.editTeacherDataModal.classList.add('hidden');
+    enableBackgroundWheel();
+  })
+  constants.editTeacherDataModal.addEventListener('click', (e) => {
+    if (e.target === constants.editTeacherDataModal) {
+      constants.editTeacherDataModal.classList.add('hidden');
+      enableBackgroundWheel();
+    }
   });
 
   // 点击遮罩层关闭
@@ -51,7 +69,7 @@ export function registerEvents() {
 
   constants.delSelectedRecord.addEventListener('click', () => {
     delSelectedRecords()
-  })
+  });
 }
 
 export function initEvents() {
@@ -63,7 +81,7 @@ export function initEvents() {
   constants.gradeSelect.addEventListener('change', toggleGradeOther);
   constants.subjectSelect.addEventListener('change', toggleSubjectOther);
   constants.submitterSelect.addEventListener('change', toggleSubmitterOther)
-  constants.submitterSelect.addEventListener('change', updateSubject)
+  constants.submitterSelect.addEventListener('change', updateAutoData)
   constants.expenseTypeSelect.addEventListener('change', toggleExpenseTypeOther);
 
   constants.printForm.addEventListener('reset', function () {
@@ -89,6 +107,7 @@ export function initEvents() {
   constants.pageSizeSelect.addEventListener('change', handlePageSizeChange);
   constants.searchInput.addEventListener('input', handleSearch);
   constants.selectAllCheckbox.addEventListener('change', handleSelectAll);
+  constants.editCatchSelectAll, addEventListener('change', handleSelectAllData);
   constants.exportSelectedButton.addEventListener('click', exportSelectedRecords);
   constants.exportAllButton.addEventListener('click', exportAllRecords);
   constants.settingsButton.addEventListener('click', settings)
@@ -105,4 +124,10 @@ export function initEvents() {
 
   constants.importButton.addEventListener('click', () => constants.fileUploadInput.click());
   constants.fileUploadInput.addEventListener('change', handleFileUpload);
+
+  constants.editTeacherDataToggle.addEventListener('click', () => {
+    constants.settingsModal.classList.add('hidden');
+    constants.editTeacherDataModal.classList.remove('hidden');
+    renderData();
+  });
 }

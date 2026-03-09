@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>印刷登记快速录入系统 · 费用分类版</title>
+    <title>印刷登记快速录入系统</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -24,7 +24,8 @@
 <!-- 顶部导航栏 -->
 <header class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50 transition-custom border-b border-white/20">
     <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
-        <a class="flex items-center mb-2 md:mb-0 group" href="https://github.com/Skrepy0/Print-Registration-System" target="_blank">
+        <a class="flex items-center mb-2 md:mb-0 group" href="https://github.com/Skrepy0/Print-Registration-System"
+           target="_blank">
             <i class="fa fa-print text-primary text-3xl mr-3 transition-transform group-hover:rotate-6 group-hover:scale-110 duration-300"></i>
             <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-pulse-slow no-select">
                 印刷登记快速录入系统</h1>
@@ -61,18 +62,18 @@
     </div>
 </header>
 
-<!-- 主内容区 (恢复费用分类区块，删除了单价/金额) -->
+<!-- 主内容区 -->
 <main class="container mx-auto px-4 py-6 animate-fade-in-up">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- 左侧：数据录入表单 -->
         <div class="lg:col-span-1">
-            <div class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-white/50 inner-glow">
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 duration-300 hover:shadow-2xl border border-white/50 inner-glow">
                 <h2 class="text-lg font-semibold mb-4 pb-2 border-b border-gray-100 flex items-center">
                     <i class="fa fa-pencil-square-o text-primary mr-2 animate-pulse-slow"></i>印刷信息录入
                 </h2>
 
                 <form id="print-form" class="space-y-4">
-                    <!-- 基本信息 (不变) -->
+                    <!-- 基本信息 -->
                     <div class="space-y-3">
                         <h3 class="text-sm font-medium text-neutral/80 uppercase tracking-wider">基本信息</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -332,7 +333,7 @@
                     <canvas id="statistics-chart"></canvas>
                 </div>
                 <div id="total-print-box" class="flex items-center space-x-2">印刷总数：
-                <span id="total-print" class="info-link" data-info="当前记录的印刷总数"></span>
+                    <span id="total-print" class="info-link" data-info="当前记录的印刷总数"></span>
                 </div>
             </div>
         </div>
@@ -383,31 +384,74 @@
 <div id="settingsModal" class="fixed inset-0 z-50 hidden flex items-center justify-center"
      style="backdrop-filter: blur(4px); background-color: rgba(0, 0, 0, 0.3);">
     <div class="bg-white rounded-xl card-shadow w-96 max-w-md p-6 relative animate-fade-in-up">
-        <!-- 标题与关闭按钮 -->
         <div class="flex justify-between items-center mb-5">
             <h3 class="text-lg font-semibold text-gray-800">⚙️ 设置</h3>
             <button id="closeSettings"
                     class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
-                <i class="fa fa-times text-xl">
-                </i>
+                <i class="fa fa-times text-xl"></i>
             </button>
         </div>
-        <div class="flex items-center justify-between border-gray-100">
-
-                <span class="info-link setting" data-info="开启后，系统将根据教师姓名自动填充学科字段。">根据教师名称自动匹配学科</span>
-                <span id="auto-match-button" class="settings-button no-select"></span>
-
-
+        <div class="flex items-center justify-between border-gray-100 py-2">
+            <span class="info-link setting text-sm"
+                  data-info="开启后，系统将根据教师姓名自动填充学科,年级字段。">根据教师名称自动匹配信息</span>
+            <span id="auto-match-button" class="settings-button no-select"></span>
         </div>
-        <div class="flex items-center justify-between border-gray-100">
-            <span class="info-link setting" data-info="开启后，系统将每次提交自动记录与教师匹配的信息">记录提交信息</span>
-            <span id="auto-catch-button" class="settings-button no-select"></span>
+        <div class="flex items-center justify-between border-gray-100 py-2">
+            <button type="button" class="info-link setting text-sm text-left"
+                    data-info="开启后，系统将每次提交自动记录与教师匹配的信息"
+                    aria-describedby="info-desc">
+                记录提交信息
+            </button>
+            <div class="flex items-center gap-2">
+                <button id="edit-catch-teacher-data-button" type="button" class="px-3 py-1.5 bg-[#8DE0D9] hover:brightness-90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect whitespace-nowrap">
+                    编辑教师信息
+                </button>
+                <span id="auto-catch-button" class="settings-button no-select" role="status" aria-label="自动捕获状态"></span>
+            </div>
         </div>
-
+        <span id="info-desc" class="sr-only">开启后，系统将每次提交自动记录与教师匹配的信息</span>
     </div>
+</div>
 
+<div id="edit-catch-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="edit-catch-title">
+    <div class="modal-container animate-fade-in-up">
+        <div class="flex justify-between items-center mb-5">
+            <h2 id="edit-catch-title" class="modal-title text-lg font-semibold text-gray-800">系统已经存储的数据</h2>
+            <button id="close-edit-teacher-catch"
+                    class="text-neutral mr-4 hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                    aria-label="关闭">
+                <i class="fa fa-times text-lg"></i>
+            </button>
+        </div>
+        <div class="modal-content">
+            <!-- 数据表格 -->
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead class="table-header">
+                    <tr>
+                        <th scope="col" class="checkbox-col"><input type="checkbox" id="edit-catch-select-all"
+                                                                    class="select-all-checkbox" aria-label="全选">
+                        </th>
+                        <th scope="col" class="sortable" data-sort="teacher">教师 <i class="fa fa-sort"
+                                                                                     aria-hidden="true"></i></th>
+                        <th scope="col" class="sortable" data-sort="subject">学科 <i class="fa fa-sort"
+                                                                                     aria-hidden="true"></i></th>
+                        <th scope="col" class="sortable" data-sort="grade">年级 <i class="fa fa-sort"
+                                                                                   aria-hidden="true"></i></th>
+                        <th scope="col">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="edit-catch-records-table-body" class="table-body">
+                    <!-- 动态插入数据 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="./data/script/main.js" type="module"></script>
+<script src="./data/script/data/catch/catch.js" type="module"></script>
+<script src="./data/script/data/catch/form.js" type="module"></script>
 <script src="./data/script/data/constants.js" type="module"></script>
 <script src="./data/script/data/config/config.js" type="module"></script>
 <script src="./data/script/system/components/chart.js" type="module"></script>

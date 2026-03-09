@@ -1,7 +1,11 @@
 @layer utilities {
     .content-auto { content-visibility: auto; }
     .card-shadow { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06); }
-    .transition-custom { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+    .transition-custom {
+        transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .input-focus { @apply focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none; }
     .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
     .btn-scale:active { transform: scale(0.97); }
@@ -251,8 +255,9 @@ body.modal-open {
 }
 
 .setting {
+    display: flex;
+    align-items: center;
     font-weight: 700;
-    /* 其他建议样式 */
     margin-bottom: 1rem;
     padding: 0.75rem 1rem;
     background-color: #f9fafb;
@@ -272,4 +277,113 @@ body.modal-open {
 .setting select {
     width: 100%;
     padding: 0.5rem;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+}
+
+.modal-container {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+    margin: 0;
+    border-bottom: 1px solid #e5e7eb;
+    color: #1f2937;
+}
+
+.modal-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 0.75rem;
+    border: 1px solid #f3f4f6;
+}
+
+.data-table {
+    min-width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.table-header {
+    background: linear-gradient(to right, rgba(79, 70, 229, 0.05), rgba(236, 72, 153, 0.05));
+}
+
+.table-header th {
+    padding: 0.75rem 0.75rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.table-header th.sortable {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.table-header th.sortable:hover {
+    color: #4f46e5;
+}
+
+.table-header th.checkbox-col {
+    width: 2.5rem;
+}
+
+.select-all-checkbox {
+    border-radius: 0.25rem;
+    border: 1px solid #d1d5db;
+    accent-color: #4f46e5;
+}
+
+.select-all-checkbox:focus {
+    ring: 2px solid rgba(79, 70, 229, 0.3);
+    outline: none;
+}
+
+.table-body {
+    background-color: white;
+}
+
+.table-body tr {
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.table-body td {
+    padding: 0.75rem;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.fa {
+    margin-left: 0.25rem;
+    font-size: 0.75rem;
+    color: #9ca3af;
 }

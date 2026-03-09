@@ -22,8 +22,8 @@ export function renderRecords() {
     filtered.sort((a, b) => {
       let va = a[state.sortField];
       let vb = b[state.sortField];
-      if (va == null || va === '') va = constants.sortDirection === 'asc' ? '\uffff' : '';
-      if (vb == null || vb === '') vb = constants.sortDirection === 'asc' ? '\uffff' : '';
+      if (va == null || va === '') va = state.sortDirection === 'asc' ? '\uffff' : '';
+      if (vb == null || vb === '') vb = state.sortDirection === 'asc' ? '\uffff' : '';
       if (state.sortField === 'totalPages') {
         va = parseInt(va) || 0;
         vb = parseInt(vb) || 0;
@@ -207,8 +207,9 @@ export function editRecord(id) {
     if (!config.autoMatchEnabled) return;
     const submitter = document.getElementById('edit-submitter');
     if (submitter && submitter.value !== '其他') {
-      if (getSubjectBySubmitter[submitter.value]) {
-        document.getElementById('edit-subject').value = getSubjectBySubmitter[submitter.value];
+      if (getAutoDataBySubmitter[submitter.value]) {
+        document.getElementById('edit-subject').value = getAutoDataBySubmitter[submitter.value][1];
+        document.getElementById('edit-grade').value = getAutoDataBySubmitter[submitter.value][0];
       }
     }
   })
