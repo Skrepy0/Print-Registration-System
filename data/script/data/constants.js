@@ -9,7 +9,6 @@ export const state ={
   subjects_options:null,
   expense_type_options: ['试卷', '答题卡'],
   submitterOptions:null,
-  autoMatchEnabled : localStorage.getItem('autoMatchEnabled') !== null ? JSON.parse(localStorage.getItem('autoMatchEnabled')) : true,
   records : (JSON.parse(localStorage.getItem('printingRecords')) || []).map(({unitPrice, totalAmount, ...rest}) => rest)
 }
 
@@ -37,11 +36,11 @@ export const importButton = document.getElementById('import-btn');
 export const fileUploadInput = document.getElementById('file-upload');
 export const settingsModal = document.getElementById('settingsModal');
 export const closeBtn = document.getElementById('closeSettings');
-export const autoMatchToggle = document.getElementById('transform-button');
 export const delSelectedRecord = document.getElementById('del-selected');
 export const totalPrintNum = document.getElementById('total-print');
-// 设置部分的全局变量
-autoMatchToggle.textContent = state.autoMatchEnabled ? "开" : "关";
+export const toggles = document.getElementsByClassName("settings-button");
+export const autoMatchToggle = document.getElementById('auto-match-button');
+export const autoCatchToggle = document.getElementById('auto-catch-button');
 // 计算字段 (印刷总数)
 export const paperCountInput = document.getElementById('paper-count');
 export const copyCountInput = document.getElementById('copy-count');

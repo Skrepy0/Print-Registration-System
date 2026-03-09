@@ -3,6 +3,7 @@ import {state} from "../../data/constants.js";
 import {updateChart} from "./chart.js";
 import {getFinalValue, showToast, updateSyncStatus} from "../utils/function.js";
 import {closeModal, openModal} from "../utils/modal.js";
+import {config} from "../../data/config/config.js";
 
 export function getFilteredRecords() {
   if (!state.searchTerm) return state.records.slice();
@@ -203,7 +204,7 @@ export function editRecord(id) {
     document.getElementById('edit-submitter-other-box').classList.toggle('hidden', this.value !== '其他');
   })
   document.getElementById('edit-submitter').addEventListener('change', function () {
-    if (!state.autoMatchEnabled) return;
+    if (!config.autoMatchEnabled) return;
     const submitter = document.getElementById('edit-submitter');
     if (submitter && submitter.value !== '其他') {
       if (getSubjectBySubmitter[submitter.value]) {

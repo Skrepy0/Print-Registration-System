@@ -1,5 +1,6 @@
 import * as constants from "../../data/constants.js";
 import {state} from "../../data/constants.js";
+import {config} from "../../data/config/config.js";
 
 export function showToast(msg, type = 'info') {
   const toast = document.getElementById('toast');
@@ -37,7 +38,7 @@ export function updateSyncStatus(s) {
 }
 
 export function updateSubject() {
-  if (!state.autoMatchEnabled) return;
+  if (!config.autoMatchEnabled) return;
   const submitter = document.getElementById('submitter');
   if (submitter && submitter.value !== '其他') {
     if (getSubjectBySubmitter[submitter.value]) {
@@ -72,9 +73,25 @@ export function getFinalValue(sel, other) {
 }
 
 export function updateToggleUI() {
-  constants.autoMatchToggle.style.color = state.autoMatchEnabled ? 'green' : 'red';
+  for (let i = 0; i < constants.toggles.length; i++) {
+    let toggle = constants.toggles[i];
+    toggle.style.color = toggle.textContent === '开' ? 'green':'red';
+  }
 }
 
 export function settings() {
   constants.settingsModal.classList.remove('hidden');
+  disableBackgroundWheel();
+}
+function preventWheel(e) {
+  e.preventDefault();
+}
+// 禁用背景滚轮
+export function disableBackgroundWheel() {
+  document.body.addEventListener('wheel', preventWheel, { passive: false });
+}
+
+// 启用背景滚轮
+export function enableBackgroundWheel() {
+  document.body.removeEventListener('wheel', preventWheel);
 }

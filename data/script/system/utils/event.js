@@ -7,7 +7,7 @@ import {
   toggleExpenseTypeOther,
   toggleGradeOther,
   togglePaperSizeOther,
-  toggleSubjectOther, toggleSubmitterOther, updateSubject
+  toggleSubjectOther, toggleSubmitterOther, updateSubject, enableBackgroundWheel
 } from "./function.js";
 import {
   goToNextPage,
@@ -19,25 +19,33 @@ import {
 } from "../components/form.js";
 import {backupData, exportAllRecords, exportSelectedRecords, handleFileUpload} from "./io.js";
 import {closeModal} from "./modal.js";
+import {config} from "../../data/config/config.js";
 
 export function registerEvents() {
   // 点击切换
+  for (let i = 0; i < constants.toggles.length; i++) {
+    let toggle = constants.toggles[i];
+    toggle.addEventListener("click", () => {
+      toggle.textContent = toggle.textContent === '关' ? '开' : '关';
+      updateToggleUI();
+    });
+  }
   constants.autoMatchToggle.addEventListener('click', () => {
-    state.autoMatchEnabled = !state.autoMatchEnabled;
-    updateToggleUI();
-    constants.autoMatchToggle.textContent = state.autoMatchEnabled ? '开' : '关';
-    localStorage.setItem('autoMatchEnabled', JSON.stringify(state.autoMatchEnabled));
+    config.autoMatchEnabled = !config.autoMatchEnabled;
+    localStorage.setItem('autoMatchEnabled', JSON.stringify(config.autoMatchEnabled));
   });
 
   // 关闭模态框（点击遮罩或关闭按钮）
   constants.closeBtn.addEventListener('click', () => {
     constants.settingsModal.classList.add('hidden');
+    enableBackgroundWheel();
   });
 
   // 点击遮罩层关闭
   constants.settingsModal.addEventListener('click', (e) => {
     if (e.target === constants.settingsModal) {
       constants.settingsModal.classList.add('hidden');
+      enableBackgroundWheel();
     }
   });
 

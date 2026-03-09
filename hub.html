@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>印刷登记快速录入系统 · 费用分类版</title>
-    <!-- Tailwind CSS (CDN) -->
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- 外部自定义样式 -->
     <link rel="stylesheet" href="./data/css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="data/script/init.js"></script>
@@ -394,16 +392,24 @@
                 </i>
             </button>
         </div>
+        <div class="flex items-center justify-between border-gray-100">
 
-        <!-- 设置项：开关 -->
-        <div class="flex items-center justify-between py-3 border-b border-gray-100">
-            <span class="info-link setting" data-info="开启后，系统将根据教师姓名自动填充学科字段。">根据教师名称自动匹配学科</span>
-            <span id="transform-button" class="settings-button no-select"></span>
+                <span class="info-link setting" data-info="开启后，系统将根据教师姓名自动填充学科字段。">根据教师名称自动匹配学科</span>
+                <span id="auto-match-button" class="settings-button no-select"></span>
+
+
         </div>
+        <div class="flex items-center justify-between border-gray-100">
+            <span class="info-link setting" data-info="开启后，系统将每次提交自动记录与教师匹配的信息">记录提交信息</span>
+            <span id="auto-catch-button" class="settings-button no-select"></span>
+        </div>
+
     </div>
+
 </div>
 <script src="./data/script/main.js" type="module"></script>
 <script src="./data/script/data/constants.js" type="module"></script>
+<script src="./data/script/data/config/config.js" type="module"></script>
 <script src="./data/script/system/components/chart.js" type="module"></script>
 <script src="./data/script/system/components/records.js" type="module"></script>
 <script src="./data/script/system/components/form.js" type="module"></script>

@@ -126,7 +126,6 @@ tbody tr:hover {
     visibility: visible;
 }
 
-/* 若希望提示显示在下方，添加此类 */
 .info-link.tooltip-bottom::after {
     bottom: auto;
     top: calc(100% + var(--tooltip-offset));
@@ -137,8 +136,6 @@ tbody tr:hover {
     top: calc(100% + var(--tooltip-offset) - 1px);
     border-color: transparent transparent var(--tooltip-bg) transparent; /* 箭头朝上 */
 }
-
-/* 尊重用户减少动画的偏好 */
 @media (prefers-reduced-motion: reduce) {
     .info-link::after,
     .info-link::before {
@@ -148,6 +145,9 @@ tbody tr:hover {
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+body.modal-open {
+    overflow: hidden;
 }
 .animate-fade-in-up {
     animation: fadeInUp 0.2s ease-out;
