@@ -112,3 +112,12 @@ export function disableBackgroundWheel() {
 export function enableBackgroundWheel() {
   document.body.removeEventListener('wheel', preventWheel);
 }
+
+export function isToday(dateStr) {
+  const today = new Date();
+  // 假设日期格式为 YYYY-MM-DD 或 YYYY/MM/DD
+  const [year, month, day] = dateStr.split(/[-/]/).map(Number);
+  return today.getFullYear() === year &&
+    today.getMonth() + 1 === month && // getMonth() 返回 0-11
+    today.getDate() === day;
+}

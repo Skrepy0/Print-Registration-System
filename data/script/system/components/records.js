@@ -1,7 +1,7 @@
 import * as constants from "../../data/constants.js";
 import {state} from "../../data/constants.js";
 import {updateChart} from "./chart.js";
-import {getFinalValue, showToast, updateSyncStatus} from "../utils/function.js";
+import {getFinalValue, isToday, showToast, updateSyncStatus} from "../utils/function.js";
 import {closeModal, openModal} from "../utils/modal.js";
 import {config} from "../../data/config/config.js";
 
@@ -16,6 +16,7 @@ export function getFilteredRecords() {
     r.paperSize.toLowerCase().includes(term)
   );
 }
+
 export function renderRecords() {
   const filtered = getFilteredRecords();
   if (state.sortField) {
@@ -299,4 +300,24 @@ export function delSelectedRecords(){
 export function updateSelectAllStatus() {
   const cs = document.querySelectorAll('.record-select');
   constants.selectAllCheckbox.checked = cs.length && Array.from(cs).every(c => c.checked);
+}
+
+/**
+ * 选中所有今日记录对应的复选框
+ */
+export function selectToday() {
+  const rows = document.querySelectorAll('#records-table-body tr'); // 需要确保表格体有合适的 ID 或类名
+  rows.forEach(row => {
+    const dateCell = row.querySelector('td:nth-child(2)'); // 假设日期在第2列（根据表格结构）
+    if (dateCell) {
+      const dateText = dateCell.textContent.trim();
+      const isTodayRecord = isToday(dateText);
+      const checkbox = row.querySelector('.record-select');
+      if (checkbox) {
+        checkbox.checked = isTodayRecord;
+      }
+    }
+  });
+  // 更新全选状态
+  updateSelectAllStatus();
 }

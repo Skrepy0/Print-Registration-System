@@ -1,6 +1,6 @@
 import * as constants from "../../data/constants.js";
-import {reload} from "../../data/constants.js";
-import {delSelectedRecords} from "../components/records.js";
+import {deleteSelectData, reload, searchDataInput, selectTodayRecords} from "../../data/constants.js";
+import {delSelectedRecords, selectToday} from "../components/records.js";
 import {
   updateToggleUI,
   calculateTotalPages, settings,
@@ -20,7 +20,7 @@ import {
 import {backupData, exportAllRecords, exportSelectedRecords, handleFileUpload} from "./io.js";
 import {closeModal} from "./modal.js";
 import {config} from "../../data/config/config.js";
-import {handleSelectAllData, renderData} from "../../data/catch/form.js";
+import {deleteSelectDataRecords, handleDataSearch, handleSelectAllData, renderData} from "../../data/catch/form.js";
 
 export function registerEvents() {
   // 点击切换
@@ -107,11 +107,14 @@ export function initEvents() {
   constants.pageSizeSelect.addEventListener('change', handlePageSizeChange);
   constants.searchInput.addEventListener('input', handleSearch);
   constants.selectAllCheckbox.addEventListener('change', handleSelectAll);
-  constants.editCatchSelectAll, addEventListener('change', handleSelectAllData);
+  constants.editCatchSelectAll.addEventListener('change', handleSelectAllData);
   constants.exportSelectedButton.addEventListener('click', exportSelectedRecords);
   constants.exportAllButton.addEventListener('click', exportAllRecords);
   constants.settingsButton.addEventListener('click', settings)
   constants.backupButton.addEventListener('click', backupData);
+  constants.searchDataInput.addEventListener('input', handleDataSearch);
+  constants.deleteSelectData.addEventListener('click', deleteSelectDataRecords);
+  constants.selectTodayRecords.addEventListener('click', selectToday);
 
   document.querySelectorAll('.sortable').forEach(header => {
     header.addEventListener('click', () => handleSort(header.dataset.sort));

@@ -4,17 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="重构代码，修复滚轮相关bug">
-      <change afterPath="$PROJECT_DIR$/data/script/data/catch/catch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/data/catch/form.js" afterDir="false" />
+    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="添加自动补全年级的功能，优化数据结构">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/teachers.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/teachers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/data/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/data/catch/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/data/catch/form.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/script/data/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/data/constants.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/script/system/components/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/components/form.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/script/system/components/records.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/components/records.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/script/system/utils/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/event.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/script/system/utils/function.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/function.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/modal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hub.html" beforeDir="false" afterPath="$PROJECT_DIR$/hub.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +97,8 @@
       <workItem from="1772967202440" duration="13500000" />
       <workItem from="1773030670606" duration="3744000" />
       <workItem from="1773044345408" duration="9711000" />
-      <workItem from="1773058041690" duration="3450000" />
+      <workItem from="1773058041690" duration="3693000" />
+      <workItem from="1773066324150" duration="4040000" />
     </task>
     <task id="LOCAL-00001" summary="添加选择送印人功能，优化删除，修改按钮">
       <option name="closed" value="true" />
@@ -156,7 +156,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773034423460</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="添加自动补全年级的功能，优化数据结构">
+      <option name="closed" value="true" />
+      <created>1773061748968</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1773061748968</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +178,7 @@
     <MESSAGE value="美化格式，添加统计数据" />
     <MESSAGE value="修复忘记reset的bug，更改主页图片" />
     <MESSAGE value="重构代码，修复滚轮相关bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="重构代码，修复滚轮相关bug" />
+    <MESSAGE value="添加自动补全年级的功能，优化数据结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加自动补全年级的功能，优化数据结构" />
   </component>
 </project>

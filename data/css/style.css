@@ -189,7 +189,7 @@ body.modal-open {
     -moz-user-select: none;    /* Firefox */
     -ms-user-select: none;     /* IE/Edge */
 }
-#del-selected {
+.del-selected {
     float: left;
     text-align: left;
     padding: 8px 16px;
@@ -203,13 +203,13 @@ body.modal-open {
     transition: all 0.2s ease;
 }
 
-#del-selected:hover {
+.del-selected:hover {
     background-color: #dc2626;  /* 深红色 */
     transform: translateY(-1px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-#del-selected:active {
+.del-selected:active {
     transform: translateY(1px);
     box-shadow: none;
 }

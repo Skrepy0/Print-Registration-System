@@ -252,7 +252,8 @@
                     <h2 class="text-lg font-semibold mb-2 md:mb-0 flex items-center">
                         <i class="fa fa-list-alt text-primary mr-2 animate-pulse-slow"></i>印刷记录列表
                     </h2>
-                    <div id="del-selected" class="no-select">删除选中</div>
+                    <button id="select-today" class="px-3 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-xl transition-all duration-200 flex items-center shadow-md hover:shadow-lg btn-scale ripple-effect">选择今日记录</button>
+                    <button id="del-selected" class="del-selected no-select">删除选中</button>
                     <div class="w-full md:w-auto flex space-x-2">
                         <div class="relative flex-1 md:flex-none md:w-64">
                             <input type="text" id="search-input" placeholder="搜索记录..."
@@ -417,6 +418,15 @@
     <div class="modal-container animate-fade-in-up">
         <div class="flex justify-between items-center mb-5">
             <h2 id="edit-catch-title" class="modal-title text-lg font-semibold text-gray-800">系统已经存储的数据</h2>
+            <button id="delect-selected-data-button"
+                    class="del-selected no-select">
+                删除选中
+            </button>
+            <div class="relative flex-1 md:flex-none md:w-64">
+                <input type="text" id="data-search-input" placeholder="搜索..."
+                       class="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
+                <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-neutral/60"></i>
+            </div>
             <button id="close-edit-teacher-catch"
                     class="text-neutral mr-4 hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
                     aria-label="关闭">
@@ -432,12 +442,9 @@
                         <th scope="col" class="checkbox-col"><input type="checkbox" id="edit-catch-select-all"
                                                                     class="select-all-checkbox" aria-label="全选">
                         </th>
-                        <th scope="col" class="sortable" data-sort="teacher">教师 <i class="fa fa-sort"
-                                                                                     aria-hidden="true"></i></th>
-                        <th scope="col" class="sortable" data-sort="subject">学科 <i class="fa fa-sort"
-                                                                                     aria-hidden="true"></i></th>
-                        <th scope="col" class="sortable" data-sort="grade">年级 <i class="fa fa-sort"
-                                                                                   aria-hidden="true"></i></th>
+                        <th scope="col" class="sortable" data-sort="teacher">教师 </th>
+                        <th scope="col" class="sortable" data-sort="subject">学科 </th>
+                        <th scope="col" class="sortable" data-sort="grade">年级 </th>
                         <th scope="col">操作</th>
                     </tr>
                     </thead>
@@ -449,6 +456,8 @@
         </div>
     </div>
 </div>
+
+
 <script src="./data/script/main.js" type="module"></script>
 <script src="./data/script/data/catch/catch.js" type="module"></script>
 <script src="./data/script/data/catch/form.js" type="module"></script>

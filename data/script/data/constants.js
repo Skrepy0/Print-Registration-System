@@ -8,6 +8,7 @@ export const state = {
   sortField: null,
   sortDirection: 'asc',
   searchTerm: '',
+  searchData: '',
   chart: null,
   subjects_options: null,
   expense_type_options: ['试卷', '答题卡'],
@@ -41,6 +42,7 @@ export const settingsModal = document.getElementById('settingsModal');
 export const closeBtn = document.getElementById('closeSettings');
 export const delSelectedRecord = document.getElementById('del-selected');
 export const totalPrintNum = document.getElementById('total-print');
+export const selectTodayRecords = document.getElementById('select-today');
 // 设置
 export const toggles = document.getElementsByClassName("settings-button");
 export const autoMatchToggle = document.getElementById('auto-match-button');
@@ -50,6 +52,8 @@ export const editTeacherDataModal = document.getElementById('edit-catch-modal');
 export const closeEditTeacherData = document.getElementById('close-edit-teacher-catch');
 export const editCatchTBody = document.getElementById('edit-catch-records-table-body');
 export const editCatchSelectAll = document.getElementById('edit-catch-select-all');
+export const deleteSelectData = document.getElementById('delect-selected-data-button');
+export const searchDataInput = document.getElementById('data-search-input');
 // 计算字段 (印刷总数)
 export const paperCountInput = document.getElementById('paper-count');
 export const copyCountInput = document.getElementById('copy-count');

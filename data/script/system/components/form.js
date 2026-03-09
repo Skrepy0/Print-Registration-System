@@ -80,7 +80,6 @@ export function handleSort(f) {
   renderRecords();
 }
 
-// ========== 全选 ==========
 export function handleSelectAll() {
   document.querySelectorAll('.record-select').forEach(cb => cb.checked = constants.selectAllCheckbox.checked);
 }
