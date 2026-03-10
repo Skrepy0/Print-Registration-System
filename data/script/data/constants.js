@@ -43,9 +43,11 @@ export const closeBtn = document.getElementById('closeSettings');
 export const delSelectedRecord = document.getElementById('del-selected');
 export const totalPrintNum = document.getElementById('total-print');
 export const selectTodayRecords = document.getElementById('select-today');
+
 // 设置
 export const toggles = document.getElementsByClassName("settings-button");
 export const autoMatchToggle = document.getElementById('auto-match-button');
+export const reverseUpload = document.getElementById('reverse-upload-button');
 export const autoCatchToggle = document.getElementById('auto-catch-button');
 export const editTeacherDataToggle = document.getElementById('edit-catch-teacher-data-button');
 export const editTeacherDataModal = document.getElementById('edit-catch-modal');
@@ -54,6 +56,13 @@ export const editCatchTBody = document.getElementById('edit-catch-records-table-
 export const editCatchSelectAll = document.getElementById('edit-catch-select-all');
 export const deleteSelectData = document.getElementById('delect-selected-data-button');
 export const searchDataInput = document.getElementById('data-search-input');
+export const editDataModal = document.getElementById('edit-data-modal');
+export const dataModalContent = document.getElementById('data-modal-content');
+export const editDataForm = document.getElementById('edit-data-form');
+export const closeDataModalButton = document.getElementById('close-data-modal');
+export const backupSubmitterButton = document.getElementById('backup-data-button');
+export const loadBackupSubmitterButton = document.getElementById('import-data-button');
+export const uploadSubmitterFile = document.getElementById('import-submitter-file');
 // 计算字段 (印刷总数)
 export const paperCountInput = document.getElementById('paper-count');
 export const copyCountInput = document.getElementById('copy-count');

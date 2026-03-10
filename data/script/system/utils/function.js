@@ -100,17 +100,14 @@ export function settings() {
   constants.settingsModal.classList.remove('hidden');
   disableBackgroundWheel();
 }
-function preventWheel(e) {
-  e.preventDefault();
-}
 // 禁用背景滚轮
 export function disableBackgroundWheel() {
-  document.body.addEventListener('wheel', preventWheel, { passive: false });
+  document.body.classList.add('modal-open');
 }
 
 // 启用背景滚轮
 export function enableBackgroundWheel() {
-  document.body.removeEventListener('wheel', preventWheel);
+  document.body.classList.remove('modal-open');
 }
 
 export function isToday(dateStr) {

@@ -1,7 +1,14 @@
 import * as constants from "../../data/constants.js";
 import {state} from "../../data/constants.js";
 import {updateChart} from "./chart.js";
-import {getFinalValue, isToday, showToast, updateSyncStatus} from "../utils/function.js";
+import {
+  disableBackgroundWheel,
+  enableBackgroundWheel,
+  getFinalValue,
+  isToday,
+  showToast,
+  updateSyncStatus
+} from "../utils/function.js";
 import {closeModal, openModal} from "../utils/modal.js";
 import {config} from "../../data/config/config.js";
 
@@ -120,7 +127,7 @@ export function editRecord(id) {
                 </div>
                 <div><label class="block text-sm font-medium mb-1">送印人 <span class="text-red-500">*</span></label>
                     <select id="edit-submitter" required class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                        <option value="">请选择</option>${state.submitterOptions.map(s => `<option value="${s}" ${record.subject === s ? 'selected' : ''}>${s}</option>`).join('')}<option value="其他" ${isCustomSubmitter ? 'selected' : ''}>其他</option>
+                        <option value="">请选择</option>${state.submitterOptions.map(s => `<option value="${s}" ${record.submitter === s ? 'selected' : ''}>${s}</option>`).join('')}<option value="其他" ${isCustomSubmitter ? 'selected' : ''}>其他</option>
                     </select>
                     <div id="edit-submitter-other-box" class="mt-2 ${isCustomSubmitter ? '' : 'hidden'}"><label class="block text-sm font-medium mb-1 text-gray-600">其他送印人：</label><input type="text" id="edit-submitter-other" value="${isCustomSubmitter ? record.submitter : ''}" class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"></div>
             </div>
@@ -177,6 +184,7 @@ export function editRecord(id) {
             <button type="submit" class="flex-1 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl btn-scale ripple-effect"><i class="fa fa-save mr-1"></i> 保存修改</button>
         </div>
       `;
+  disableBackgroundWheel();
 
   // 绑定事件和计算逻辑 (仅总数)
   const editPaperCount = document.getElementById('edit-paper-count');
@@ -262,6 +270,7 @@ export function editRecord(id) {
     updateChart();
     closeModal();
     showToast('记录修改成功', 'success');
+    enableBackgroundWheel();
   };
   constants.editForm.removeEventListener('submit', handleEditSubmit);
   constants.editForm.addEventListener('submit', handleEditSubmit);

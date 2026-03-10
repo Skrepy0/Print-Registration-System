@@ -1,5 +1,12 @@
 import * as constants from "../../data/constants.js";
-import {deleteSelectData, reload, searchDataInput, selectTodayRecords} from "../../data/constants.js";
+import {
+  backupSubmitterButton,
+  closeDataModalButton,
+  deleteSelectData, loadBackupSubmitterButton,
+  reload,
+  searchDataInput,
+  selectTodayRecords, uploadSubmitterFile
+} from "../../data/constants.js";
 import {delSelectedRecords, selectToday} from "../components/records.js";
 import {
   updateToggleUI,
@@ -7,7 +14,7 @@ import {
   toggleExpenseTypeOther,
   toggleGradeOther,
   togglePaperSizeOther,
-  toggleSubjectOther, toggleSubmitterOther, updateAutoData, enableBackgroundWheel
+  toggleSubjectOther, toggleSubmitterOther, updateAutoData, enableBackgroundWheel, disableBackgroundWheel
 } from "./function.js";
 import {
   goToNextPage,
@@ -17,10 +24,21 @@ import {
   handleSearch,
   handleSelectAll, handleSort
 } from "../components/form.js";
-import {backupData, exportAllRecords, exportSelectedRecords, handleFileUpload} from "./io.js";
+import {
+  backupData, backupSubmitterData, exportAllRecords, exportSelectedRecords, fileUploadSubmitterData,
+  handleFileUpload
+} from "./io.js";
 import {closeModal} from "./modal.js";
 import {config} from "../../data/config/config.js";
-import {deleteSelectDataRecords, handleDataSearch, handleSelectAllData, renderData} from "../../data/catch/form.js";
+import {
+  closeEditDataPage,
+  deleteSelectDataRecords,
+  handleDataSearch,
+  handleSelectAllData,
+  renderData
+} from "../../data/catch/form.js";
+
+
 
 export function registerEvents() {
   // 点击切换
@@ -42,6 +60,10 @@ export function registerEvents() {
     config.autoCatchInfo = !config.autoCatchInfo;
     localStorage.setItem('autoCatchInfo', JSON.stringify(config.autoCatchInfo));
   });
+  constants.reverseUpload.addEventListener('click', () => {
+    config.reverseDateUpload = !config.reverseDateUpload;
+    localStorage.setItem('reverseDateUpload', JSON.stringify(config.reverseDateUpload));
+  })
 
   // 关闭模态框（点击遮罩或关闭按钮）
   constants.closeBtn.addEventListener('click', () => {
@@ -57,6 +79,16 @@ export function registerEvents() {
       constants.editTeacherDataModal.classList.add('hidden');
       enableBackgroundWheel();
     }
+  });
+  constants.editDataModal.addEventListener('click', (e) => {
+    if (e.target === constants.editDataModal) {
+      constants.editDataModal.classList.add('hidden');
+      constants.editTeacherDataModal.classList.remove('hidden');
+      disableBackgroundWheel();
+    }
+  })
+  constants.closeDataModalButton.addEventListener("click",()=>{
+    closeEditDataPage();
   });
 
   // 点击遮罩层关闭
@@ -115,6 +147,7 @@ export function initEvents() {
   constants.searchDataInput.addEventListener('input', handleDataSearch);
   constants.deleteSelectData.addEventListener('click', deleteSelectDataRecords);
   constants.selectTodayRecords.addEventListener('click', selectToday);
+  constants.backupSubmitterButton.addEventListener('click', backupSubmitterData);
 
   document.querySelectorAll('.sortable').forEach(header => {
     header.addEventListener('click', () => handleSort(header.dataset.sort));
@@ -126,11 +159,13 @@ export function initEvents() {
   });
 
   constants.importButton.addEventListener('click', () => constants.fileUploadInput.click());
+  constants.loadBackupSubmitterButton.addEventListener('click', () => constants.uploadSubmitterFile.click());
   constants.fileUploadInput.addEventListener('change', handleFileUpload);
-
+  constants.uploadSubmitterFile.addEventListener('change', fileUploadSubmitterData);
   constants.editTeacherDataToggle.addEventListener('click', () => {
     constants.settingsModal.classList.add('hidden');
     constants.editTeacherDataModal.classList.remove('hidden');
+    disableBackgroundWheel();
     renderData();
   });
 }

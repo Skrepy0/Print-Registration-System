@@ -387,3 +387,6 @@ body.modal-open {
     font-size: 0.75rem;
     color: #9ca3af;
 }
+body.modal-open {
+    overflow: hidden;
+}
