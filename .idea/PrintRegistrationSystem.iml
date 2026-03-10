@@ -8,6 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/py/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/py/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/py/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
