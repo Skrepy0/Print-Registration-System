@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="添加本地依赖，实现无网络也能运行。添加启动程序" />
+    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="排除项目" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,10 +70,10 @@
       <recent name="D:\Front-projects\PrintRegistrationSystem\data\css\libs\font-awesome@4.7.0\fonts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Front-projects\PrintRegistrationSystem\resources" />
       <recent name="D:\Front-projects\PrintRegistrationSystem\data\css\libs\font-awesome@4.7.0\css" />
       <recent name="D:\Front-projects\PrintRegistrationSystem\data\script\system\utils" />
       <recent name="D:\Front-projects\PrintRegistrationSystem\data\script\system\components" />
-      <recent name="D:\Front-projects\PrintRegistrationSystem\resources" />
       <recent name="D:\Front-projects\PrintRegistrationSystem\data" />
     </key>
   </component>
@@ -99,7 +99,7 @@
       <workItem from="1773066324150" duration="4185000" />
       <workItem from="1773116377661" duration="5601000" />
       <workItem from="1773124817142" duration="8049000" />
-      <workItem from="1773144961624" duration="8336000" />
+      <workItem from="1773144961624" duration="8652000" />
     </task>
     <task id="LOCAL-00001" summary="添加选择送印人功能，优化删除，修改按钮">
       <option name="closed" value="true" />
@@ -181,7 +181,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773153219899</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="排除项目">
+      <option name="closed" value="true" />
+      <created>1773153642987</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1773153642987</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +206,7 @@
     <MESSAGE value="添加自动补全年级的功能，优化数据结构" />
     <MESSAGE value="补全部分相应功能" />
     <MESSAGE value="添加本地依赖，实现无网络也能运行。添加启动程序" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加本地依赖，实现无网络也能运行。添加启动程序" />
+    <MESSAGE value="排除项目" />
+    <option name="LAST_COMMIT_MESSAGE" value="排除项目" />
   </component>
 </project>
