@@ -149,12 +149,19 @@ export function addData() {
   const addGradeDataSelect = document.getElementById('add-grade-data');
   let addSubjectDataSelect = document.getElementById('add-subject-data');
   const addSubmitterData = document.getElementById('add-submitter-data');
-  const initOption = (options, dom)=>{
+  const initOption = (options, dom) => {
+    // 获取现有选项的 value 和 text 集合
+    const existingValues = new Set(Array.from(dom.options).map(opt => opt.value));
+    const existingTexts = new Set(Array.from(dom.options).map(opt => opt.text));
+
     options.forEach((e) => {
-      const option = document.createElement('option');
-      option.value = e
-      option.text = e;
-      dom.add(option);
+      // 如果 value 或 text 已存在，则跳过
+      if (!existingValues.has(e) && !existingTexts.has(e)) {
+        const option = document.createElement('option');
+        option.value = e;
+        option.text = e;
+        dom.add(option);
+      }
     });
   }
   initOption(state.subjects_options,addSubjectDataSelect);

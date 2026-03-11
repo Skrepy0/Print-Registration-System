@@ -1,13 +1,5 @@
 import * as constants from "../../data/constants.js";
-import {
-  addDataButton,
-  backupSubmitterButton,
-  closeDataModalButton,
-  deleteSelectData, loadBackupSubmitterButton,
-  reload,
-  searchDataInput,
-  selectTodayRecords, uploadSubmitterFile
-} from "../../data/constants.js";
+import {reload} from "../../data/constants.js";
 import {delSelectedRecords, selectToday} from "../components/records.js";
 import {
   updateToggleUI,
