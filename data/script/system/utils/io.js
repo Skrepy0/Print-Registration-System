@@ -1,11 +1,12 @@
 import {showToast} from "./function.js";
 import * as constants from "../../data/constants.js";
-import {reload, state} from "../../data/constants.js";
+import {overwriteButton, reload, state} from "../../data/constants.js";
 import {renderRecords, saveRecords} from "../components/records.js";
 import {updateChart} from "../components/chart.js";
 import {data, saveData} from "../../data/catch/catch.js";
 import {renderData} from "../../data/catch/form.js";
 import {config} from "../../data/config/config.js";
+import {closeImportModeModal, openImportModeModal} from "./modal.js";
 
 export function exportSelectedRecords() {
   const ids = Array.from(document.querySelectorAll('.record-select:checked')).map(c => c.dataset.id);
@@ -18,6 +19,10 @@ export function exportAllRecords() {
 }
 
 export function exportRecordsToExcel(data, name) {
+  if (state.records.length === 0) {
+    showToast("暂无数据", "warning");
+    return;
+  }
   let newData = data;
   if (config.reverseDateUpload) {
     newData = [...data].sort((a, b) => {
@@ -91,24 +96,35 @@ export function handleFileUpload(e) {
         constants.fileUploadInput.value = '';
         return;
       }
-
-      const mode = confirm(`备份中有 ${cleanedIncoming.length} 条记录。\n确定=覆盖现有，取消=合并`);
-      if (mode) {
-        state.records = cleanedIncoming;
-      } else {
-        const existingIds = new Set(state.records.map(r => r.id));
-        const newRecords = cleanedIncoming.filter(r => !existingIds.has(r.id));
-        const updatedRecords = cleanedIncoming.filter(r => existingIds.has(r.id));
-        updatedRecords.forEach(backupRecord => {
-          const index = state.records.findIndex(r => r.id === backupRecord.id);
-          if (index !== -1) state.records[index] = backupRecord;
-        });
-        state.records = [...newRecords, ...state.records];
+      openImportModeModal();
+      function handleData(mode){
+        if (mode) {
+          state.records = cleanedIncoming;
+        } else {
+          const existingIds = new Set(state.records.map(r => r.id));
+          const newRecords = cleanedIncoming.filter(r => !existingIds.has(r.id));
+          const updatedRecords = cleanedIncoming.filter(r => existingIds.has(r.id));
+          updatedRecords.forEach(backupRecord => {
+            const index = state.records.findIndex(r => r.id === backupRecord.id);
+            if (index !== -1) state.records[index] = backupRecord;
+          });
+          state.records = [...newRecords, ...state.records];
+        }
+        saveRecords();
+        renderRecords();
+        updateChart();
+        closeImportModeModal();
+        constants.importModalMessage.textContent = ``;
+          showToast('导入成功', 'success');
       }
-      saveRecords();
-      renderRecords();
-      updateChart();
-      showToast('导入成功', 'success');
+      constants.importModalMessage.textContent = `备份中有 ${cleanedIncoming.length} 条记录。`
+      constants.mergeButton.addEventListener('click', () => {
+        handleData(false);
+      });
+      constants.overwriteButton.addEventListener('click', ()=>{
+        handleData(true);
+      });
+      constants.cancelButton.addEventListener('click', closeImportModeModal)
     } catch (err) {
       showToast('解析失败' + err, 'error');
       console.log(err);
@@ -155,29 +171,34 @@ export function fileUploadSubmitterData(e) {
         return;
       }
 
-      // 询问用户选择覆盖还是合并
-      const mode = confirm(`备份中有 ${importCount} 位教师数据。\n确定=覆盖现有数据，取消=合并（新增或更新）`);
-
-      if (mode) {
-        // 覆盖：直接替换
-        data.catchTeacherList = importedData;
-        showToast('已覆盖现有教师数据', 'info');
-      } else {
-        // 合并：新增或更新
-        const currentList = data.catchTeacherList || {};
-        // 合并对象：导入的教师条目将覆盖同名的现有条目，新增不存在条目
-        data.catchTeacherList = { ...currentList, ...importedData };
-        showToast('已合并教师数据', 'info');
+      constants.importModalMessage.textContent = `备份中有 ${importCount} 条记录。`
+      openImportModeModal();
+      constants.mergeButton.addEventListener('click', () => {
+        handleData(false);
+      });
+      constants.overwriteButton.addEventListener('click', ()=>{
+        handleData(true);
+      });
+      constants.cancelButton.addEventListener('click', closeImportModeModal)
+      function handleData(mode) {
+        if (mode) {
+          // 覆盖：直接替换
+          data.catchTeacherList = importedData;
+          showToast('已覆盖现有教师数据', 'info');
+        } else {
+          // 合并：新增或更新
+          const currentList = data.catchTeacherList || {};
+          // 合并对象：导入的教师条目将覆盖同名的现有条目，新增不存在条目
+          data.catchTeacherList = { ...currentList, ...importedData };
+          showToast('已合并教师数据', 'info');
+        }
+        constants.importModalMessage.textContent = ``;
+        closeImportModeModal();
+        saveData();
+        reload();
+        renderData();
+        showToast('导入成功', 'success');
       }
-
-      // 保存到 localStorage
-      saveData();
-
-      // 刷新相关界面（确保这些函数已导入）
-      reload();
-      renderData();
-
-      showToast('导入成功', 'success');
     } catch (error) {
       console.error('导入失败:', error);
       showToast('导入失败：' + error.message, 'error');

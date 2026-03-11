@@ -1,5 +1,6 @@
 import * as constants from "../../data/constants.js";
 import {
+  addDataButton,
   backupSubmitterButton,
   closeDataModalButton,
   deleteSelectData, loadBackupSubmitterButton,
@@ -28,16 +29,16 @@ import {
   backupData, backupSubmitterData, exportAllRecords, exportSelectedRecords, fileUploadSubmitterData,
   handleFileUpload
 } from "./io.js";
-import {closeModal} from "./modal.js";
+import {closeAddDataModal, closeModal, closePromptModal, showAddDataModal} from "./modal.js";
 import {config} from "../../data/config/config.js";
 import {
+  addData,
   closeEditDataPage,
   deleteSelectDataRecords,
   handleDataSearch,
   handleSelectAllData,
   renderData
 } from "../../data/catch/form.js";
-
 
 
 export function registerEvents() {
@@ -87,8 +88,13 @@ export function registerEvents() {
       disableBackgroundWheel();
     }
   })
-  constants.closeDataModalButton.addEventListener("click",()=>{
+  constants.closeDataModalButton.addEventListener("click", () => {
     closeEditDataPage();
+  });
+  constants.addDataModal.addEventListener('click', (e) => {
+    if (e.target === constants.editDataModal) {
+      closeAddDataModal();
+    }
   });
 
   // 点击遮罩层关闭
@@ -99,12 +105,25 @@ export function registerEvents() {
     }
   });
 
+  constants.promptModal.addEventListener('click', (e) => {
+    if (e.target === constants.editDataModal) {
+      closePromptModal();
+    }
+  })
+  constants.promptFalseBtn.addEventListener('click', closePromptModal);
+
   constants.delSelectedRecord.addEventListener('click', () => {
     delSelectedRecords()
   });
 }
 
 export function initEvents() {
+  document.getElementById('close-add-modal').addEventListener('click', closeAddDataModal);
+  document.getElementById('settings-complete-btn').addEventListener('click', () => {
+    constants.settingsModal.classList.add('hidden');
+    enableBackgroundWheel();
+  });
+
   constants.paperCountInput.addEventListener('input', calculateTotalPages);
   constants.copyCountInput.addEventListener('input', calculateTotalPages);
   constants.printTypeSelect.addEventListener('change', calculateTotalPages);
@@ -148,6 +167,7 @@ export function initEvents() {
   constants.deleteSelectData.addEventListener('click', deleteSelectDataRecords);
   constants.selectTodayRecords.addEventListener('click', selectToday);
   constants.backupSubmitterButton.addEventListener('click', backupSubmitterData);
+  constants.addDataButton.addEventListener('click', addData);
 
   document.querySelectorAll('.sortable').forEach(header => {
     header.addEventListener('click', () => handleSort(header.dataset.sort));
