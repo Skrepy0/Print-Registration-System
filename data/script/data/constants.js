@@ -43,6 +43,20 @@ export const closeBtn = document.getElementById('closeSettings');
 export const delSelectedRecord = document.getElementById('del-selected');
 export const totalPrintNum = document.getElementById('total-print');
 export const selectTodayRecords = document.getElementById('select-today');
+// 导入文件
+export const importModeModal = document.getElementById('import-mode-modal');
+export const importModeModalContent = document.getElementById('import-mode-modal-content');
+export const importModalMessage = document.getElementById('modal-message');
+export const mergeButton = document.getElementById('merge-btn');
+export const overwriteButton = document.getElementById('overwrite-btn');
+export const cancelButton = document.getElementById('cancel-btn');
+
+// 提示窗口
+export const promptModal = document.getElementById('prompt-modal');
+export const promptModalContent= document.getElementById('prompt-modal-content');
+export const promptTitle= document.getElementById('prompt-title');
+export const promptTrueBtn = document.getElementById('prompt-true');
+export const promptFalseBtn = document.getElementById('prompt-false');
 
 // 设置
 export const toggles = document.getElementsByClassName("settings-button");
@@ -60,6 +74,10 @@ export const editDataModal = document.getElementById('edit-data-modal');
 export const dataModalContent = document.getElementById('data-modal-content');
 export const editDataForm = document.getElementById('edit-data-form');
 export const closeDataModalButton = document.getElementById('close-data-modal');
+export const closeAddDataModalButton = document.getElementById('close-add-modal');
+export const addModalContent = document.getElementById('add-modal-content');
+export const addDataModal = document.getElementById('add-modal');
+export const addDataButton = document.getElementById('add-data');
 export const backupSubmitterButton = document.getElementById('backup-data-button');
 export const loadBackupSubmitterButton = document.getElementById('import-data-button');
 export const uploadSubmitterFile = document.getElementById('import-submitter-file');

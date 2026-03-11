@@ -9,7 +9,7 @@ import {
   showToast,
   updateSyncStatus
 } from "../utils/function.js";
-import {closeModal, openModal} from "../utils/modal.js";
+import {closeModal, closePromptModal, openModal, showPromptModal} from "../utils/modal.js";
 import {config} from "../../data/config/config.js";
 
 export function getFilteredRecords() {
@@ -76,8 +76,8 @@ export function renderRecords() {
           <td class="px-3 py-3">${r.printType}</td>
           <td class="px-3 py-3">${r.totalPages}</td>
           <td class="px-3 py-3">
-            <button class="edit-btn text-blue-500 p-1 hover:text-blue-700 transition-transform hover:scale-110"><i class="fa info-link" data-info="修改记录">📝</i></button>
-            <button class="delete-btn text-red-500 p-1 hover:text-red-700 transition-transform hover:scale-110"><i class="fa info-link" data-info="删除记录">🔥</i></button>
+            <button class="edit-btn text-blue-500 p-1 hover:text-blue-700 transition-transform hover:scale-110"><i class="fa info-link tooltip-left" data-info="修改记录">📝</i></button>
+            <button class="delete-btn text-red-500 p-1 hover:text-red-700 transition-transform hover:scale-110"><i class="fa info-link tooltip-right" data-info="删除记录">🔥</i></button>
           </td>
         `;
     constants.recordsTableBody.appendChild(tr);
@@ -289,21 +289,23 @@ function delRecord(id) {
   showToast('已删除', 'success');
 }
 export function deleteRecord(id) {
-  if (confirm('确定删除？')) {
+  showPromptModal(`确定要删除该记录吗？`,()=>{
     delRecord(id);
-  }
+    closePromptModal();
+  });
 }
 
 export function delSelectedRecords(){
   const ids = Array.from(document.querySelectorAll('.record-select:checked')).map(c => c.dataset.id);
   if (!ids.length) return showToast('请选择记录', 'warning');
-  if (confirm('确定删除？')) {
+  showPromptModal(`确定要删除这${ids.length}条记录吗？`,()=>{
     state.records.filter(r => {
       if (ids.includes(r.id)){
         delRecord(r.id);
       }
     });
-  }
+    closePromptModal();
+  });
 }
 
 export function updateSelectAllStatus() {

@@ -1,9 +1,15 @@
 import {data, saveData} from "./catch.js";
 import * as constants from "../constants.js";
-import {loadSubmitters, state} from "../constants.js";
+import {expenseTypeSelect, loadSubmitters, reload, state} from "../constants.js";
 import {disableBackgroundWheel, showToast} from "../../system/utils/function.js";
 import {config} from "../config/config.js";
-import {showEditDataModal} from "../../system/utils/modal.js";
+import {
+  closeAddDataModal,
+  closePromptModal,
+  showAddDataModal,
+  showEditDataModal,
+  showPromptModal
+} from "../../system/utils/modal.js";
 
 export function closeEditDataPage() {
   constants.editDataModal.classList.add('hidden');
@@ -129,24 +135,78 @@ function delData(key) {
 }
 
 function deleteData(key) {
-  if (!confirm("确认删除？")) return;
-  delData(key);
-  saveData();
-  loadSubmitters();
-  renderData();
+  showPromptModal(`确定要删除该记录吗？`,()=>{
+    delData(key);
+    saveData();
+    loadSubmitters();
+    renderData();
+    closePromptModal();
+  });
+}
+
+export function addData() {
+  showAddDataModal();
+  const addGradeDataSelect = document.getElementById('add-grade-data');
+  let addSubjectDataSelect = document.getElementById('add-subject-data');
+  const addSubmitterData = document.getElementById('add-submitter-data');
+  const initOption = (options, dom)=>{
+    options.forEach((e) => {
+      const option = document.createElement('option');
+      option.value = e
+      option.text = e;
+      dom.add(option);
+    });
+  }
+  initOption(state.subjects_options,addSubjectDataSelect);
+  initOption(constants.GRADE_OPTIONS,addGradeDataSelect);
+  function submitAdd (){
+    let finalSubmitter = addSubmitterData.value;
+    let finalGrade = addGradeDataSelect.value;
+    let finalSubject = addSubjectDataSelect.value;
+    if (!finalGrade) {
+      showToast("请选择有效的年级","warning");
+      return;
+    }
+    if (!finalSubject) {
+      showToast("请选择有效的学科", "warning");
+      return;
+    }
+    if (!finalSubmitter) {
+      showToast("请输入有效的送印人", "warning");
+      return;
+    }
+    for (let i = 0; i < Object.keys(data.catchTeacherList).length; i++) {
+      if (Object.keys(data.catchTeacherList)[i] === finalSubmitter) {
+        showToast(`送印人'${finalSubmitter}'的记录已存在`, "warning");
+        return;
+      }
+    }
+    data.catchTeacherList[addSubmitterData.value] = [addGradeDataSelect.value, addSubjectDataSelect.value];
+    reload();
+    renderData();
+    saveData();
+    closeAddDataModal();
+    showToast("添加成功",'success');
+    addGradeDataSelect.value = '';
+    addSubjectDataSelect.value = '';
+    addSubmitterData.value = '';
+  }
+  document.getElementById('submit-added-data').addEventListener('click', submitAdd);
+  document.getElementById('cancel-add-data').addEventListener('click', closeAddDataModal);
 }
 
 export function deleteSelectDataRecords() {
   const ids = Array.from(document.querySelectorAll('.record-teacher-select:checked')).map(c => c.dataset.id);
   if (!ids.length) return showToast('请选择记录', 'warning');
-  if (confirm("确定删除？")) {
+  showPromptModal(`确定要删除这${ids.length}条记录吗？`,()=>{
     ids.forEach(key => {
       delData(key);
     });
     saveData();
     loadSubmitters();
     renderData();
-  }
+    closePromptModal();
+  });
 }
 
 export function handleDataSearch() {
@@ -208,10 +268,10 @@ export function renderData() {
       <td class="px-3 py-3">${subject}</td>
       <td class="px-3 py-3">
         <button class="edit-teacher-btn text-blue-500 p-1 hover:text-blue-700 transition-transform hover:scale-110">
-          <i class="fa info-link" data-info="修改记录">📝</i>
+          <i class="fa info-link tooltip-left" data-info="修改记录">📝</i>
         </button>
         <button class="delete-teacher-btn text-red-500 p-1 hover:text-red-700 transition-transform hover:scale-110">
-          <i class="fa info-link" data-info="删除记录">🔥</i>
+          <i class="fa info-link tooltip-right" data-info="删除记录">🔥</i>
         </button>
       </td>
     `;
