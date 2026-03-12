@@ -10,6 +10,6 @@
 ### 方式一
 如果已经安装了python，并且设置了环境变量，双击[start.bat](./start.bat)即可启动
 ### 方式二
-直接双击[start_host.exe](./start_host.exe)，启动本地服务器即可
+直接双击[start.exe](./start.exe)，启动本地服务器即可
 
 二次修改自[这里](https://www.52pojie.cn/thread-2076303-1-1.html)

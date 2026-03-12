@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 import datetime
+import json
 import os
 import sys
 import webbrowser
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+
+try:
+    with open('./config/host_config.json', 'r') as file:
+        file = json.load(file)
+        config = file
+except Exception as e:
+    print(f"配置文件./config/host_config.json在加载时出现错误{e}")
+
 class LoggingHTTPRequestHandler(SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         # 生成时间戳和日志字符串
@@ -12,9 +21,9 @@ class LoggingHTTPRequestHandler(SimpleHTTPRequestHandler):
         log_line = f"{timestamp} - {self.address_string()} - {message}"
 
         # 输出到控制台（保留原有行为）
-        sys.stderr.write(log_line + "\n")
-        sys.stderr.flush()
-
+        if config["log_print"]:
+            sys.stderr.write(log_line + "\n")
+            sys.stderr.flush()
 
 def get_exe_dir():
     if getattr(sys, 'frozen', False):
@@ -30,11 +39,11 @@ def main():
     print(f"服务器根目录: {project_dir}")
     print("关闭此窗口即可关闭服务器")
 
-    webbrowser.open("http://localhost:8000/hub.html")
+    webbrowser.open(f"http://localhost:{config['local_host']}/hub.html")
 
-    server_address = ('', 8000)
+    server_address = ('', config["local_host"])
     httpd = HTTPServer(server_address, LoggingHTTPRequestHandler)
-    print("服务器运行在 http://localhost:8000/")
+    print(f"服务器运行在 http://localhost:{config['local_host']}/")
 
     try:
         httpd.serve_forever()
