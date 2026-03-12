@@ -305,6 +305,7 @@ export function delSelectedRecords(){
       }
     });
     closePromptModal();
+    constants.selectAllCheckbox.checked = false;
   });
 }
 
@@ -318,17 +319,19 @@ export function updateSelectAllStatus() {
  */
 export function selectToday() {
   const rows = document.querySelectorAll('#records-table-body tr'); // 需要确保表格体有合适的 ID 或类名
+  let count = 0;
   rows.forEach(row => {
     const dateCell = row.querySelector('td:nth-child(2)'); // 假设日期在第2列（根据表格结构）
     if (dateCell) {
       const dateText = dateCell.textContent.trim();
       const isTodayRecord = isToday(dateText);
+      if (isTodayRecord) count++;
       const checkbox = row.querySelector('.record-select');
       if (checkbox) {
         checkbox.checked = isTodayRecord;
       }
     }
   });
-  // 更新全选状态
+  if (count === 0) showToast("暂无今日记录","warning");
   updateSelectAllStatus();
 }

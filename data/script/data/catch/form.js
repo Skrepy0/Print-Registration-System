@@ -1,6 +1,6 @@
 import {data, saveData} from "./catch.js";
 import * as constants from "../constants.js";
-import {expenseTypeSelect, loadSubmitters, reload, state} from "../constants.js";
+import {expenseTypeSelect, loadSubmitters, reload, selectAllCheckbox, state} from "../constants.js";
 import {disableBackgroundWheel, showToast} from "../../system/utils/function.js";
 import {config} from "../config/config.js";
 import {
@@ -213,6 +213,7 @@ export function deleteSelectDataRecords() {
     loadSubmitters();
     renderData();
     closePromptModal();
+    constants.editCatchSelectAll.checked = false;
   });
 }
 
