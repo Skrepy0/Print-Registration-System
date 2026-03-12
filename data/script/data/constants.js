@@ -142,12 +142,17 @@ export function reload() {
   if (window.selectData) {
     const selectData = window.selectData;
     if (selectData.added_expense_type && Array.isArray(selectData.added_expense_type)) {
+      const existingTexts = new Set(Array.from(expenseTypeSelect.options).map(opt => opt.text));
+
       selectData.added_expense_type.forEach(expenseType => {
-        const option = document.createElement('option');
-        option.text = expenseType;
-        option.value = expenseType;
-        expenseTypeSelect.insertBefore(option, expenseTypeSelect[1]);
-        state.expense_type_options.push(expenseType);
+        if (!existingTexts.has(expenseType)) {
+          const option = document.createElement('option');
+          option.text = expenseType;
+          option.value = expenseType;
+          expenseTypeSelect.insertBefore(option, expenseTypeSelect[1]);
+          state.expense_type_options.push(expenseType);
+          existingTexts.add(expenseType);
+        }
       });
     }
 

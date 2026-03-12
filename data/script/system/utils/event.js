@@ -110,7 +110,6 @@ export function registerEvents() {
 }
 
 export function initEvents() {
-  document.getElementById('close-add-modal').addEventListener('click', closeAddDataModal);
   document.getElementById('settings-complete-btn').addEventListener('click', () => {
     constants.settingsModal.classList.add('hidden');
     enableBackgroundWheel();
@@ -126,6 +125,7 @@ export function initEvents() {
   constants.submitterSelect.addEventListener('change', toggleSubmitterOther)
   constants.submitterSelect.addEventListener('change', updateAutoData)
   constants.expenseTypeSelect.addEventListener('change', toggleExpenseTypeOther);
+  constants.closeAddDataModalButton.addEventListener('click', closeAddDataModal);
 
   constants.printForm.addEventListener('reset', function () {
     setTimeout(() => {

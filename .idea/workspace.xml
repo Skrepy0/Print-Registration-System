@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="优化界面，与启动程序">
+    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/data/catch/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/data/catch/form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/data/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/data/constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/components/records.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/components/records.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/event.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hub.html" beforeDir="false" afterPath="$PROJECT_DIR$/hub.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,33 +50,35 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Node.js.io.js.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.main.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Front-projects/PrintRegistrationSystem&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "JavaScript 调试.hub.html.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.io.js.executor": "Run",
+    "Node.js.main.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "D:/Front-projects/PrintRegistrationSystem/resources",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Front-projects\PrintRegistrationSystem\resources" />
       <recent name="D:\Front-projects\PrintRegistrationSystem" />
       <recent name="D:\Front-projects\PrintRegistrationSystem\data\css\libs" />
       <recent name="D:\Front-projects\PrintRegistrationSystem\data\css\libs\font-awesome@4.7.0\fonts" />
@@ -83,7 +91,7 @@
       <recent name="D:\Front-projects\PrintRegistrationSystem\data" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.main.js">
+  <component name="RunManager">
     <configuration name="io.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/data/script/system/utils/io.js" working-dir="$PROJECT_DIR$/data/script/system/utils">
       <method v="2" />
     </configuration>
@@ -123,7 +131,10 @@
       <workItem from="1773155549667" duration="1545000" />
       <workItem from="1773198106175" duration="6784000" />
       <workItem from="1773217229108" duration="3977000" />
-      <workItem from="1773239649507" duration="3474000" />
+      <workItem from="1773239649507" duration="4080000" />
+      <workItem from="1773316441938" duration="1181000" />
+      <workItem from="1773322779282" duration="215000" />
+      <workItem from="1773323066796" duration="1945000" />
     </task>
     <task id="LOCAL-00001" summary="添加选择送印人功能，优化删除，修改按钮">
       <option name="closed" value="true" />
@@ -237,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773242930835</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="修复参数bug">
+      <option name="closed" value="true" />
+      <created>1773243436170</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1773243436170</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,6 +276,7 @@
     <MESSAGE value="排除项目" />
     <MESSAGE value="更新文档" />
     <MESSAGE value="优化界面，与启动程序" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化界面，与启动程序" />
+    <MESSAGE value="修复参数bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复参数bug" />
   </component>
 </project>
