@@ -8,6 +8,18 @@ import {renderData} from "../../data/catch/form.js";
 import {config} from "../../data/config/config.js";
 import {closeImportModeModal, openImportModeModal} from "./modal.js";
 
+export function initWindowData() {
+  fetch("./config/submitter.json").then((response) => {
+    if (!response.ok) {
+      console.error(response.text);
+      showToast("加载config/submitter.json失败", "error");
+    }
+    return response.json();
+  }).then(json => {
+      window.teachersData = json;
+  })
+}
+
 export function exportSelectedRecords() {
   const ids = Array.from(document.querySelectorAll('.record-select:checked')).map(c => c.dataset.id);
   if (!ids.length) return showToast('请选择记录', 'warning');
@@ -55,17 +67,18 @@ export function backupData() {
   URL.revokeObjectURL(url);
   showToast('备份成功', 'success');
 }
+
 export function backupSubmitterData() {
   if (!data.catchTeacherList || Object.keys(data.catchTeacherList).length === 0) {
     return showToast('无数据可备份', 'warning');
   }
   try {
     const jsonStr = JSON.stringify(data.catchTeacherList, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const blob = new Blob([jsonStr], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `backup-submitters-${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`;
+    a.download = `backup-submitters-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -76,6 +89,7 @@ export function backupSubmitterData() {
     showToast('备份失败', 'error');
   }
 }
+
 // ========== 导入 ==========
 export function handleFileUpload(e) {
   const file = e.target.files[0];
@@ -97,7 +111,8 @@ export function handleFileUpload(e) {
         return;
       }
       openImportModeModal();
-      function handleData(mode){
+
+      function handleData(mode) {
         if (mode) {
           state.records = cleanedIncoming;
         } else {
@@ -115,13 +130,14 @@ export function handleFileUpload(e) {
         updateChart();
         closeImportModeModal();
         constants.importModalMessage.textContent = ``;
-          showToast('导入成功', 'success');
+        showToast('导入成功', 'success');
       }
+
       constants.importModalMessage.textContent = `备份中有 ${cleanedIncoming.length} 条记录。`
       constants.mergeButton.addEventListener('click', () => {
         handleData(false);
       });
-      constants.overwriteButton.addEventListener('click', ()=>{
+      constants.overwriteButton.addEventListener('click', () => {
         handleData(true);
       });
       constants.cancelButton.addEventListener('click', closeImportModeModal)
@@ -133,6 +149,7 @@ export function handleFileUpload(e) {
   };
   reader.readAsText(file);
 }
+
 export function fileUploadSubmitterData(e) {
   const file = e.target.files[0];
   // 文件类型检查
@@ -176,10 +193,11 @@ export function fileUploadSubmitterData(e) {
       constants.mergeButton.addEventListener('click', () => {
         handleData(false);
       });
-      constants.overwriteButton.addEventListener('click', ()=>{
+      constants.overwriteButton.addEventListener('click', () => {
         handleData(true);
       });
       constants.cancelButton.addEventListener('click', closeImportModeModal)
+
       function handleData(mode) {
         if (mode) {
           // 覆盖：直接替换
@@ -189,7 +207,7 @@ export function fileUploadSubmitterData(e) {
           // 合并：新增或更新
           const currentList = data.catchTeacherList || {};
           // 合并对象：导入的教师条目将覆盖同名的现有条目，新增不存在条目
-          data.catchTeacherList = { ...currentList, ...importedData };
+          data.catchTeacherList = {...currentList, ...importedData};
           showToast('已合并教师数据', 'info');
         }
         constants.importModalMessage.textContent = ``;
