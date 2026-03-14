@@ -1,4 +1,4 @@
 {
-  "log_print": false,
+  "log_print": true,
   "local_host": 8000
 }

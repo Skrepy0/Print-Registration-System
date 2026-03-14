@@ -1,7 +1,6 @@
 import {showToast} from "../system/utils/function.js";
 import {data} from "./catch/catch.js";
 import * as constants from "./constants.js";
-
 export const state = {
   currentPage: 1,
   pageSize: 10,
@@ -15,7 +14,6 @@ export const state = {
   submitterOptions: null,
   records: (JSON.parse(localStorage.getItem('printingRecords')) || []).map(({unitPrice, totalAmount, ...rest}) => rest)
 }
-
 // DOM 元素
 export const printForm = document.getElementById('print-form');
 export const recordsTableBody = document.getElementById('records-table-body');
