@@ -1,5 +1,5 @@
-import {state, totalPrintNum} from "../../data/constants.js";
 import * as constants from "../../data/constants.js";
+import {state} from "../../data/constants.js";
 
 export function initChart() {
   const ctx = document.getElementById('statistics-chart').getContext('2d');

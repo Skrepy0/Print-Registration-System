@@ -1,14 +1,6 @@
 import * as constants from "../../data/constants.js";
-import {
-  addDataModal,
-  addModalContent,
-  dataModalContent,
-  editDataModal,
-  editTeacherDataModal, importModeModal, importModeModalContent,
-  state
-} from "../../data/constants.js";
 import {disableBackgroundWheel, enableBackgroundWheel} from "./function.js";
-import {addData} from "../../data/catch/form.js";
+
 export function openModal() {
   constants.editModal.classList.remove('hidden');
   void constants.modalContent.offsetWidth;

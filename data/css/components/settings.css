@@ -1,0 +1,52 @@
+
+.setting {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: #f9fafb;
+    transition: all 0.8s ease;
+}
+
+.setting label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: #222C36;
+}
+
+.setting:hover {
+    transform: translateY(-1.2px);
+}
+
+.setting input,
+.setting select {
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.settings-button {
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 30px;
+    color: white;
+    background-color: #D9E7FF;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.settings-button:hover {
+    transform: translateY(-1px);
+}
+
+.settings-button:active {
+    transform: scale(0.9);
+}

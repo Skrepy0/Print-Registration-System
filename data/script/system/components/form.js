@@ -1,6 +1,6 @@
 import * as constants from "../../data/constants.js";
 import {reload, state} from "../../data/constants.js";
-import {showToast, calculateTotalPages, getFinalValue, getSubmitterFinalValue} from "../utils/function.js";
+import {calculateTotalPages, getFinalValue, getSubmitterFinalValue, showToast} from "../utils/function.js";
 import {getFilteredRecords, renderRecords, saveRecords} from "./records.js";
 import {updateChart} from "./chart.js";
 import {saveData} from "../../data/catch/catch.js";
