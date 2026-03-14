@@ -1,0 +1,203 @@
+.info-link {
+    /* CSS 变量，便于主题定制与统一维护 */
+    --tooltip-bg: #6D5478;           /* 深色背景，更显高级 */
+    --tooltip-text: #f8fafc;         /* 柔和白色文字 */
+    --tooltip-font-size: 0.875rem;   /* 14px，与 Tailwind 的 text-sm 一致 */
+    --tooltip-padding: 0.5rem 1rem;  /* 8px 16px，更舒适的点击区域 */
+    --tooltip-border-radius: 0.5rem; /* 8px 圆角，与项目圆角体系统一 */
+    --tooltip-offset: 8px;           /* 提示与链接的距离 */
+    --tooltip-max-width: 300px;       /* 防止过宽，更具实用性 */
+    --tooltip-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* 阴影层次 */
+
+    position: relative;
+    text-decoration: none;
+    color: inherit;                  /* 不强制改变链接颜色，由外部控制 */
+    cursor: help;                    /* 暗示有额外信息 */
+    /* 保证定位计算准确 */
+    line-height: 1.5;
+    display: inline-flex;            /* 与图标等元素对齐更好 */
+    align-items: center;
+}
+
+.info-link::after {
+    content: attr(data-info);
+    position: absolute;
+    /* 默认显示在链接上方 */
+    bottom: calc(100% + var(--tooltip-offset));
+    left: 50%;
+    z-index: 9999 !important;
+    transform: translateX(-50%);
+
+    background: var(--tooltip-bg);
+    color: var(--tooltip-text);
+    font-size: var(--tooltip-font-size);
+    padding: var(--tooltip-padding);
+    border-radius: var(--tooltip-border-radius);
+    box-shadow: var(--tooltip-shadow);
+
+    /* 文本处理：允许换行，限制最大宽度 */
+    white-space: normal;
+    word-wrap: break-word;
+    text-align: center;
+    width: max-content;
+    max-width: var(--tooltip-max-width);
+
+    /* 初始隐藏 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* 防止遮挡鼠标事件 */
+    pointer-events: none;
+    /* 添加轻微的进入动画效果 */
+    transform: translateX(-50%) translateY(4px);
+}
+
+/* 悬停和聚焦时显示 */
+.info-link:hover::after,
+.info-link:focus::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* 可选：增加小箭头，指向链接 */
+.info-link::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + var(--tooltip-offset) - 4px); /* 与提示框底部重叠形成箭头 */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--tooltip-bg) transparent transparent transparent; /* 箭头朝下 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 50;
+    transform: translateX(-50%) translateY(4px);
+}
+
+.info-link:hover::before,
+.info-link:focus::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ===== 位置变体 ===== */
+/* 显示在下方 */
+.info-link.tooltip-bottom::after {
+    bottom: auto;
+    top: calc(100% + var(--tooltip-offset));
+    transform: translateX(-50%) translateY(-4px);
+}
+
+.info-link.tooltip-bottom:hover::after,
+.info-link.tooltip-bottom:focus::after {
+    transform: translateX(-50%) translateY(0);
+}
+
+.info-link.tooltip-bottom::before {
+    bottom: auto;
+    top: calc(100% + var(--tooltip-offset) - 4px);
+    border-color: transparent transparent var(--tooltip-bg) transparent; /* 箭头朝上 */
+    transform: translateX(-50%) translateY(-4px);
+}
+
+.info-link.tooltip-bottom:hover::before,
+.info-link.tooltip-bottom:focus::before {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* 显示在右侧（可选） */
+.info-link.tooltip-right::after {
+    bottom: auto;
+    left: calc(100% + var(--tooltip-offset));
+    top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+}
+
+.info-link.tooltip-right:hover::after,
+.info-link.tooltip-right:focus::after {
+    transform: translateY(-50%) translateX(0);
+}
+
+.info-link.tooltip-right::before {
+    bottom: auto;
+    left: calc(100% + var(--tooltip-offset) - 4px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+    border-color: transparent var(--tooltip-bg) transparent transparent; /* 箭头朝左 */
+}
+
+.info-link.tooltip-right:hover::before,
+.info-link.tooltip-right:focus::before {
+    transform: translateY(-50%) translateX(0);
+}
+
+/* 显示在左侧（可选） */
+.info-link.tooltip-left::after {
+    bottom: auto;
+    right: calc(100% + var(--tooltip-offset));
+    top: 50%;
+    left: auto;
+    transform: translateY(-50%) translateX(4px);
+}
+
+.info-link.tooltip-left:hover::after,
+.info-link.tooltip-left:focus::after {
+    transform: translateY(-50%) translateX(0);
+}
+
+.info-link.tooltip-left::before {
+    bottom: auto;
+    right: calc(100% + var(--tooltip-offset) - 4px);
+    top: 50%;
+    left: auto;
+    transform: translateY(-50%) translateX(4px);
+    border-color: transparent transparent transparent var(--tooltip-bg); /* 箭头朝右 */
+}
+
+.info-link.tooltip-left:hover::before,
+.info-link.tooltip-left:focus::before {
+    transform: translateY(-50%) translateX(0);
+}
+
+/* ===== 特殊修饰 ===== */
+/* 长文本自动换行（已默认启用，此规则可保留用于覆盖） */
+.info-link.wrap-tooltip::after {
+    white-space: normal;
+    width: max-content;
+    max-width: var(--tooltip-max-width);
+}
+
+/* 暗色主题变体（可根据需要启用） */
+.info-link.tooltip-light {
+    --tooltip-bg: #ffffff;
+    --tooltip-text: #1e293b;
+    --tooltip-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 移除箭头的情况 */
+.info-link.no-arrow::before {
+    display: none;
+}
+
+/* 确保焦点样式可见，增强可访问性 */
+.info-link:focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .info-link::after,
+    .info-link::before {
+        transition: none;
+    }
+}

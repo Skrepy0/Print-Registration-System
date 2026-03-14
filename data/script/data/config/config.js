@@ -1,5 +1,6 @@
 import * as constants from "../constants.js";
 import {updateToggleUI} from "../../system/utils/function.js";
+
 export const config = {
   autoMatchEnabled : localStorage.getItem('autoMatchEnabled') !== null ? JSON.parse(localStorage.getItem('autoMatchEnabled')) : true,
   autoCatchInfo: localStorage.getItem('autoCatchInfo') !== null ? JSON.parse(localStorage.getItem('autoCatchInfo')) : false,

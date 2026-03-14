@@ -1,17 +1,56 @@
 @layer utilities {
-    .content-auto { content-visibility: auto; }
-    .card-shadow { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06); }
+    .content-auto {
+        content-visibility: auto;
+    }
+
+    .card-shadow {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    }
+
     .transition-custom {
         transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
         border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
         box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .input-focus { @apply focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none; }
-    .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
-    .btn-scale:active { transform: scale(0.97); }
-    .ripple-effect { position: relative; overflow: hidden; }
-    .ripple-effect::after { content: ''; position: absolute; top: 50%; left: 50%; width: 5px; height: 5px; background: rgba(255, 255, 255, 0.5); opacity: 0; border-radius: 100%; transform: translate(-50%, -50%) scale(1); transition: all 0.5s ease-out; }
-    .ripple-effect:active::after { width: 300px; height: 300px; opacity: 0.3; transition: 0s; }
+
+    .input-focus {
+        @apply focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-scale:active {
+        transform: scale(0.97);
+    }
+
+    .ripple-effect {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ripple-effect::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: translate(-50%, -50%) scale(1);
+        transition: all 0.5s ease-out;
+    }
+
+    .ripple-effect:active::after {
+        width: 300px;
+        height: 300px;
+        opacity: 0.3;
+        transition: 0s;
+    }
 }
 
 body {
@@ -19,472 +58,30 @@ body {
     min-height: 100vh;
 }
 
-tbody tr {
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-tbody tr:hover {
-    background-color: #f8fafc !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-}
-
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
-
 .inner-glow {
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
 }
-/* ========== 增强工具提示样式 ========== */
-.info-link {
-    /* CSS 变量，便于主题定制与统一维护 */
-    --tooltip-bg: #6D5478;           /* 深色背景，更显高级 */
-    --tooltip-text: #f8fafc;         /* 柔和白色文字 */
-    --tooltip-font-size: 0.875rem;   /* 14px，与 Tailwind 的 text-sm 一致 */
-    --tooltip-padding: 0.5rem 1rem;  /* 8px 16px，更舒适的点击区域 */
-    --tooltip-border-radius: 0.5rem; /* 8px 圆角，与项目圆角体系统一 */
-    --tooltip-offset: 8px;           /* 提示与链接的距离 */
-    --tooltip-max-width: 300px;       /* 防止过宽，更具实用性 */
-    --tooltip-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* 阴影层次 */
 
-    position: relative;
-    text-decoration: none;
-    color: inherit;                  /* 不强制改变链接颜色，由外部控制 */
-    cursor: help;                    /* 暗示有额外信息 */
-    /* 保证定位计算准确 */
-    line-height: 1.5;
-    display: inline-flex;            /* 与图标等元素对齐更好 */
-    align-items: center;
-}
-
-/* 提示框基础样式 - 使用伪元素，不占用额外 DOM */
-.info-link::after {
-    content: attr(data-info);
-    position: absolute;
-    /* 默认显示在链接上方 */
-    bottom: calc(100% + var(--tooltip-offset));
-    left: 50%;
-    z-index: 9999 !important;
-    transform: translateX(-50%);
-
-    background: var(--tooltip-bg);
-    color: var(--tooltip-text);
-    font-size: var(--tooltip-font-size);
-    padding: var(--tooltip-padding);
-    border-radius: var(--tooltip-border-radius);
-    box-shadow: var(--tooltip-shadow);
-
-    /* 文本处理：允许换行，限制最大宽度 */
-    white-space: normal;
-    word-wrap: break-word;
-    text-align: center;
-    width: max-content;
-    max-width: var(--tooltip-max-width);
-
-    /* 初始隐藏 */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* 防止遮挡鼠标事件 */
-    pointer-events: none;
-    /* 添加轻微的进入动画效果 */
-    transform: translateX(-50%) translateY(4px);
-}
-
-/* 悬停和聚焦时显示 */
-.info-link:hover::after,
-.info-link:focus::after {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* 可选：增加小箭头，指向链接 */
-.info-link::before {
-    content: '';
-    position: absolute;
-    bottom: calc(100% + var(--tooltip-offset) - 4px); /* 与提示框底部重叠形成箭头 */
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: var(--tooltip-bg) transparent transparent transparent; /* 箭头朝下 */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    z-index: 50;
-    transform: translateX(-50%) translateY(4px);
-}
-
-.info-link:hover::before,
-.info-link:focus::before {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* ===== 位置变体 ===== */
-/* 显示在下方 */
-.info-link.tooltip-bottom::after {
-    bottom: auto;
-    top: calc(100% + var(--tooltip-offset));
-    transform: translateX(-50%) translateY(-4px);
-}
-
-.info-link.tooltip-bottom:hover::after,
-.info-link.tooltip-bottom:focus::after {
-    transform: translateX(-50%) translateY(0);
-}
-
-.info-link.tooltip-bottom::before {
-    bottom: auto;
-    top: calc(100% + var(--tooltip-offset) - 4px);
-    border-color: transparent transparent var(--tooltip-bg) transparent; /* 箭头朝上 */
-    transform: translateX(-50%) translateY(-4px);
-}
-
-.info-link.tooltip-bottom:hover::before,
-.info-link.tooltip-bottom:focus::before {
-    transform: translateX(-50%) translateY(0);
-}
-
-/* 显示在右侧（可选） */
-.info-link.tooltip-right::after {
-    bottom: auto;
-    left: calc(100% + var(--tooltip-offset));
-    top: 50%;
-    transform: translateY(-50%) translateX(-4px);
-}
-
-.info-link.tooltip-right:hover::after,
-.info-link.tooltip-right:focus::after {
-    transform: translateY(-50%) translateX(0);
-}
-
-.info-link.tooltip-right::before {
-    bottom: auto;
-    left: calc(100% + var(--tooltip-offset) - 4px);
-    top: 50%;
-    transform: translateY(-50%) translateX(-4px);
-    border-color: transparent var(--tooltip-bg) transparent transparent; /* 箭头朝左 */
-}
-
-.info-link.tooltip-right:hover::before,
-.info-link.tooltip-right:focus::before {
-    transform: translateY(-50%) translateX(0);
-}
-
-/* 显示在左侧（可选） */
-.info-link.tooltip-left::after {
-    bottom: auto;
-    right: calc(100% + var(--tooltip-offset));
-    top: 50%;
-    left: auto;
-    transform: translateY(-50%) translateX(4px);
-}
-
-.info-link.tooltip-left:hover::after,
-.info-link.tooltip-left:focus::after {
-    transform: translateY(-50%) translateX(0);
-}
-
-.info-link.tooltip-left::before {
-    bottom: auto;
-    right: calc(100% + var(--tooltip-offset) - 4px);
-    top: 50%;
-    left: auto;
-    transform: translateY(-50%) translateX(4px);
-    border-color: transparent transparent transparent var(--tooltip-bg); /* 箭头朝右 */
-}
-
-.info-link.tooltip-left:hover::before,
-.info-link.tooltip-left:focus::before {
-    transform: translateY(-50%) translateX(0);
-}
-
-/* ===== 特殊修饰 ===== */
-/* 长文本自动换行（已默认启用，此规则可保留用于覆盖） */
-.info-link.wrap-tooltip::after {
-    white-space: normal;
-    width: max-content;
-    max-width: var(--tooltip-max-width);
-}
-
-/* 暗色主题变体（可根据需要启用） */
-.info-link.tooltip-light {
-    --tooltip-bg: #ffffff;
-    --tooltip-text: #1e293b;
-    --tooltip-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* 移除箭头的情况 */
-.info-link.no-arrow::before {
-    display: none;
-}
-
-/* 确保焦点样式可见，增强可访问性 */
-.info-link:focus-visible {
-    outline: 2px solid #4f46e5;
-    outline-offset: 2px;
-    border-radius: 2px;
-}
-@media (prefers-reduced-motion: reduce) {
-    .info-link::after,
-    .info-link::before {
-        transition: none;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-body.modal-open {
-    overflow: hidden;
-}
+
 .animate-fade-in-up {
     animation: fadeInUp 0.2s ease-out;
 }
-.modal-backdrop {
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    background-color: rgba(0, 0, 0, 0.3);
-}
-.settings-button{
-    padding: 6px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    border-radius: 30px;
-    color: white;
-    background-color: #D9E7FF;
-    border: 1px solid transparent;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-}
-.settings-button:hover{
-    transform: translateY(-1px);
-}
-.settings-button:active{
-    transform: scale(0.9);
-}
+
 .no-select {
     user-select: none;
     -webkit-user-select: none; /* Safari */
-    -moz-user-select: none;    /* Firefox */
-    -ms-user-select: none;     /* IE/Edge */
-}
-.del-selected {
-    float: left;
-    text-align: left;
-    padding: 8px 16px;
-    background-color: #ED3535;  /* 红色背景 */
-    color: white;
-    border: none;
-    border-radius: 16px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.del-selected:hover {
-    background-color: #dc2626;  /* 深红色 */
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.del-selected:active {
-    transform: translateY(1px);
-    box-shadow: none;
-}
-
-#del-selected:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
-    opacity: 0.5;
-    transform: none;
-    box-shadow: none;
-}
-#statistics-chart {
-    max-height: 100%;
-    width: 100% !important;  /* 确保canvas自适应 */
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
-}
-.chart-container {
-    position: relative;
-    border-radius: 0.75rem;
-    background: linear-gradient(145deg, #ffffff, #f8fafc);
-    box-shadow: inset 0 1px 3px rgba(255,255,255,0.9), 0 8px 20px rgba(0,0,0,0.04);
-}
-#total-print-box {
-    position: relative;
-    width: 800px;
-    border-radius: 30px;            /* 大圆角，类似胶囊 */
-    padding: 0.5rem 1.2rem;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #1e293b;
-    transition: all 0.2s ease;
-}
-
-#total-print {
-    font-weight: 700;
-    font-size: 1.3rem;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;             /* 渐变文字 */
-    margin-left: 0.25rem;
-    padding: 0 0.2rem;
-}
-
-.setting {
-    display: flex;
-    align-items: center;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    padding: 0.75rem 1rem;
-    background-color: #f9fafb;
-    transition: all 0.8s ease;
-}
-
-.setting label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-    color: #222C36;
-}
-.setting:hover{
-    transform: translateY(-1.2px);
-}
-.setting input,
-.setting select {
-    width: 100%;
-    padding: 0.5rem;
-}
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(4px);
-}
-
-.modal-container {
-    background-color: white;
-    border-radius: 1rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    width: 90%;
-    max-width: 1200px;
-    max-height: 90vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    padding: 1rem 1.5rem;
-    margin: 0;
-    border-bottom: 1px solid #e5e7eb;
-    color: #1f2937;
-}
-
-.modal-content {
-    padding: 1.5rem;
-    overflow-y: auto;
-    flex: 1;
-}
-
-.table-wrapper {
-    overflow-x: auto;
-    border-radius: 0.75rem;
-    border: 1px solid #f3f4f6;
-}
-
-.data-table {
-    min-width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-}
-
-.table-header {
-    background: linear-gradient(to right, rgba(79, 70, 229, 0.05), rgba(236, 72, 153, 0.05));
-}
-
-.table-header th {
-    padding: 0.75rem 0.75rem;
-    text-align: left;
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #6b7280;
-    white-space: nowrap;
-}
-
-.table-header th.sortable {
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.table-header th.sortable:hover {
-    color: #4f46e5;
-}
-
-.table-header th.checkbox-col {
-    width: 2.5rem;
-}
-
-.select-all-checkbox {
-    border-radius: 0.25rem;
-    border: 1px solid #d1d5db;
-    accent-color: #4f46e5;
-}
-
-.select-all-checkbox:focus {
-    ring: 2px solid rgba(79, 70, 229, 0.3);
-    outline: none;
-}
-
-.table-body {
-    background-color: white;
-}
-
-.table-body tr {
-    border-bottom: 1px solid #f3f4f6;
-}
-
-.table-body td {
-    padding: 0.75rem;
-    color: #374151;
-    font-size: 0.875rem;
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
 }
 
 .fa {
@@ -492,25 +89,7 @@ body.modal-open {
     font-size: 0.75rem;
     color: #9ca3af;
 }
-body.modal-open {
-    overflow: hidden;
-}
+
 .inner-glow {
     box-shadow: inset 0 2px 4px 0 rgba(255, 255, 255, 0.5);
-}
-/* 退出动画：淡出并缩小 */
-@keyframes modalFadeOut {
-    from {
-        opacity: 1;
-        transform: scale(1);
-    }
-    to {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-}
-
-/* 应用到模态框内容元素 */
-.prompt-modal-content.closing {
-    animation: modalFadeOut 0.5s forwards; /* forwards 保持动画结束状态 */
 }

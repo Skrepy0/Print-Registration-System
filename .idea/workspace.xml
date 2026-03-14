@@ -4,14 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="添加图标，修复“类型”复选框重复选项的bug">
-      <change afterPath="$PROJECT_DIR$/py/config/host_config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/hud.html" afterDir="false" />
+    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="为启动程序添加配置选项">
+      <change afterPath="$PROJECT_DIR$/data/css/components/chart.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/css/components/del-selected.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/css/components/info-link.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/css/components/modal.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/css/components/scrollbar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/css/components/select.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/css/components/settings.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/css/components/table.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/dist/start_host.exe" beforeDir="false" afterPath="$PROJECT_DIR$/py/dist/start_host.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/icon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/start_host.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/start_host.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start_host.exe" beforeDir="false" afterPath="$PROJECT_DIR$/start_host.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/host_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/host_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/data/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/data/catch/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/data/catch/form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/data/config/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/data/config/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/components/chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/components/chart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/components/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/components/form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/event.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/function.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/function.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/io.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/io.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/script/system/utils/modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hub.html" beforeDir="false" afterPath="$PROJECT_DIR$/hub.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +35,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="JavaScript File" />
         <option value="Python Script" />
+        <option value="package.json" />
+        <option value="CSS File" />
+        <option value="tsconfig.json" />
       </list>
     </option>
   </component>
@@ -50,32 +66,32 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "JavaScript 调试.hub.html.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Node.js.io.js.executor": "Run",
-    "Node.js.main.js.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "D:/Front-projects/PrintRegistrationSystem/resources",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;JavaScript 调试.hub.html.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Node.js.io.js.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.main.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Front-projects/PrintRegistrationSystem/resources&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Front-projects\PrintRegistrationSystem\resources" />
@@ -90,20 +106,6 @@
       <recent name="D:\Front-projects\PrintRegistrationSystem\data\script\system\components" />
       <recent name="D:\Front-projects\PrintRegistrationSystem\data" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="io.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/data/script/system/utils/io.js" working-dir="$PROJECT_DIR$/data/script/system/utils">
-      <method v="2" />
-    </configuration>
-    <configuration name="main.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/data/script/main.js" working-dir="$PROJECT_DIR$/data/script">
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Node.js.main.js" />
-        <item itemvalue="Node.js.io.js" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -134,7 +136,8 @@
       <workItem from="1773239649507" duration="4080000" />
       <workItem from="1773316441938" duration="1181000" />
       <workItem from="1773322779282" duration="215000" />
-      <workItem from="1773323066796" duration="3034000" />
+      <workItem from="1773323066796" duration="4081000" />
+      <workItem from="1773479623540" duration="1376000" />
     </task>
     <task id="LOCAL-00001" summary="添加选择送印人功能，优化删除，修改按钮">
       <option name="closed" value="true" />
@@ -264,7 +267,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773325328797</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="为启动程序添加配置选项">
+      <option name="closed" value="true" />
+      <created>1773326842180</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1773326842180</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,6 +297,7 @@
     <MESSAGE value="优化界面，与启动程序" />
     <MESSAGE value="修复参数bug" />
     <MESSAGE value="添加图标，修复“类型”复选框重复选项的bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加图标，修复“类型”复选框重复选项的bug" />
+    <MESSAGE value="为启动程序添加配置选项" />
+    <option name="LAST_COMMIT_MESSAGE" value="为启动程序添加配置选项" />
   </component>
 </project>

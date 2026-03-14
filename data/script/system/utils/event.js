@@ -2,12 +2,17 @@ import * as constants from "../../data/constants.js";
 import {reload} from "../../data/constants.js";
 import {delSelectedRecords, selectToday} from "../components/records.js";
 import {
-  updateToggleUI,
-  calculateTotalPages, settings,
+  calculateTotalPages,
+  disableBackgroundWheel,
+  enableBackgroundWheel,
+  settings,
   toggleExpenseTypeOther,
   toggleGradeOther,
   togglePaperSizeOther,
-  toggleSubjectOther, toggleSubmitterOther, updateAutoData, enableBackgroundWheel, disableBackgroundWheel
+  toggleSubjectOther,
+  toggleSubmitterOther,
+  updateAutoData,
+  updateToggleUI
 } from "./function.js";
 import {
   goToNextPage,
@@ -15,13 +20,18 @@ import {
   handleFormSubmit,
   handlePageSizeChange,
   handleSearch,
-  handleSelectAll, handleSort
+  handleSelectAll,
+  handleSort
 } from "../components/form.js";
 import {
-  backupData, backupSubmitterData, exportAllRecords, exportSelectedRecords, fileUploadSubmitterData,
+  backupData,
+  backupSubmitterData,
+  exportAllRecords,
+  exportSelectedRecords,
+  fileUploadSubmitterData,
   handleFileUpload
 } from "./io.js";
-import {closeAddDataModal, closeModal, closePromptModal, showAddDataModal} from "./modal.js";
+import {closeAddDataModal, closeModal, closePromptModal} from "./modal.js";
 import {config} from "../../data/config/config.js";
 import {
   addData,

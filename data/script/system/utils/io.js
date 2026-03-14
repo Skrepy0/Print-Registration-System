@@ -1,6 +1,6 @@
 import {showToast} from "./function.js";
 import * as constants from "../../data/constants.js";
-import {overwriteButton, reload, state} from "../../data/constants.js";
+import {reload, state} from "../../data/constants.js";
 import {renderRecords, saveRecords} from "../components/records.js";
 import {updateChart} from "../components/chart.js";
 import {data, saveData} from "../../data/catch/catch.js";

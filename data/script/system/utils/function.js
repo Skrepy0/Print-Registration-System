@@ -1,7 +1,7 @@
 import * as constants from "../../data/constants.js";
-import {state} from "../../data/constants.js";
 import {config} from "../../data/config/config.js";
 import {data, saveData} from "../../data/catch/catch.js";
+
 export function showToast(msg, type = 'info') {
   const toast = document.getElementById('toast');
   const icon = document.getElementById('toast-icon');
