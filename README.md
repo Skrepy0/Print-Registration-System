@@ -12,7 +12,8 @@
 如果已经安装了python，并且设置了环境变量，双击[start.bat](./start.bat)即可启动
 ### 方式二
 直接双击[start.exe](./start.exe)，启动本地服务器即可（注意：start.exe仅支持winxp以后的版本！）
-
+### 方式三
+在[Release](https://github.com/Skrepy0/Print-Registration-System/releases)界面下载安装包，安装使用
 ## **配置**
 
 ### **启动配置**
