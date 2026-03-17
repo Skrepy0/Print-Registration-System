@@ -4,39 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="优化css结构，格式化代码">
-      <change afterPath="$PROJECT_DIR$/config/select.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/submitter.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/script/system/utils/init_config/window.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/.idea/py.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/Analysis-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/COLLECT-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/EXE-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/PKG-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/PYZ-00.pyz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/PYZ-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/base_library.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/generated-11b887edde7f71ff02baebc9557d9cb2974655d30aebe0a14457e75ff99500e3.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/start_host.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/start_host.pkg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/warn-start_host.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/xref-start_host.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/启动本地服务器.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/build/start_host/启动本地服务器.pkg" afterDir="false" />
+    <list default="true" id="01fc4ddf-33e4-4681-b3ce-93db4e286396" name="更改" comment="优化存储结构">
+      <change afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/host_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/host_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/select.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/teachers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/script/data/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/data/constants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/script/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/script/system/init.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/init.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/script/system/utils/io.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/script/system/utils/io.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hub.html" beforeDir="false" afterPath="$PROJECT_DIR$/hub.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +22,7 @@
         <option value="CSS File" />
         <option value="tsconfig.json" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -101,6 +72,7 @@
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "D:\\Program Files\\WebStorm\\WebStorm 2025.2.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -151,7 +123,12 @@
       <workItem from="1773322779282" duration="215000" />
       <workItem from="1773323066796" duration="4081000" />
       <workItem from="1773479623540" duration="1376000" />
-      <workItem from="1773483582737" duration="3238000" />
+      <workItem from="1773483582737" duration="3425000" />
+      <workItem from="1773487624151" duration="4000" />
+      <workItem from="1773487867815" duration="606000" />
+      <workItem from="1773494745115" duration="2313000" />
+      <workItem from="1773501903567" duration="9000" />
+      <workItem from="1773758858683" duration="2046000" />
     </task>
     <task id="LOCAL-00001" summary="添加选择送印人功能，优化删除，修改按钮">
       <option name="closed" value="true" />
@@ -297,7 +274,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773483730641</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="优化存储结构">
+      <option name="closed" value="true" />
+      <created>1773486875721</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1773486875721</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -321,6 +306,7 @@
     <MESSAGE value="添加图标，修复“类型”复选框重复选项的bug" />
     <MESSAGE value="为启动程序添加配置选项" />
     <MESSAGE value="优化css结构，格式化代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化css结构，格式化代码" />
+    <MESSAGE value="优化存储结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化存储结构" />
   </component>
 </project>

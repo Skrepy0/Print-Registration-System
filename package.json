@@ -1,0 +1,35 @@
+{
+  "name": "print-registration-system",
+  "version": "1.0.0",
+  "description": "人民印刷有限公司印刷录入系统",
+  "main": "index.ts",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.skrepy.prs",
+    "win": {
+      "icon": "./resources/icon.png",
+      "target": [
+        {
+          "target":"nsis",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "keywords": [],
+  "author": "Skrepy2233",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.28.0",
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "latest"
+  }
+}
