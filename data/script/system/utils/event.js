@@ -1,6 +1,6 @@
-import * as constants from "../../data/constants.js";
-import {reload} from "../../data/constants.js";
-import {delSelectedRecords, selectToday} from "../components/records.js";
+import * as constants from '../../data/constants.js'
+import { reload } from '../../data/constants.js'
+import { delSelectedRecords, selectToday } from '../components/records.js'
 import {
   calculateTotalPages,
   disableBackgroundWheel,
@@ -12,8 +12,8 @@ import {
   toggleSubjectOther,
   toggleSubmitterOther,
   updateAutoData,
-  updateToggleUI
-} from "./function.js";
+  updateToggleUI,
+} from './function.js'
 import {
   goToNextPage,
   goToPrevPage,
@@ -21,173 +21,190 @@ import {
   handlePageSizeChange,
   handleSearch,
   handleSelectAll,
-  handleSort
-} from "../components/form.js";
+  handleSort,
+} from '../components/form.js'
 import {
   backupData,
   backupSubmitterData,
   exportAllRecords,
   exportSelectedRecords,
   fileUploadSubmitterData,
-  handleFileUpload
-} from "./io.js";
-import {closeAddDataModal, closeModal, closePromptModal} from "./modal.js";
-import {config} from "../../data/config/config.js";
+  handleFileUpload,
+} from './io.js'
+import { closeAddDataModal, closeModal, closePromptModal } from './modal.js'
+import { config } from '../../data/config/config.js'
 import {
   addData,
   closeEditDataPage,
   deleteSelectDataRecords,
   handleDataSearch,
   handleSelectAllData,
-  renderData
-} from "../../data/catch/form.js";
-
+  renderData,
+} from '../../data/catch/form.js'
 
 export function registerEvents() {
   // 点击切换
   for (let i = 0; i < constants.toggles.length; i++) {
-    let toggle = constants.toggles[i];
-    toggle.addEventListener("click", () => {
-      toggle.textContent = toggle.textContent === '关' ? '开' : '关';
-      updateToggleUI();
-    });
+    let toggle = constants.toggles[i]
+    toggle.addEventListener('click', () => {
+      toggle.textContent = toggle.textContent === '关' ? '开' : '关'
+      updateToggleUI()
+    })
   }
-  document.addEventListener('DOMContentLoaded', reload);
+  document.addEventListener('DOMContentLoaded', reload)
 
   constants.autoMatchToggle.addEventListener('click', () => {
-    config.autoMatchEnabled = !config.autoMatchEnabled;
-    localStorage.setItem('autoMatchEnabled', JSON.stringify(config.autoMatchEnabled));
-  });
+    config.autoMatchEnabled = !config.autoMatchEnabled
+    localStorage.setItem(
+      'autoMatchEnabled',
+      JSON.stringify(config.autoMatchEnabled)
+    )
+  })
 
   constants.autoCatchToggle.addEventListener('click', () => {
-    config.autoCatchInfo = !config.autoCatchInfo;
-    localStorage.setItem('autoCatchInfo', JSON.stringify(config.autoCatchInfo));
-  });
+    config.autoCatchInfo = !config.autoCatchInfo
+    localStorage.setItem('autoCatchInfo', JSON.stringify(config.autoCatchInfo))
+  })
   constants.reverseUpload.addEventListener('click', () => {
-    config.reverseDateUpload = !config.reverseDateUpload;
-    localStorage.setItem('reverseDateUpload', JSON.stringify(config.reverseDateUpload));
+    config.reverseDateUpload = !config.reverseDateUpload
+    localStorage.setItem(
+      'reverseDateUpload',
+      JSON.stringify(config.reverseDateUpload)
+    )
   })
 
   // 关闭模态框（点击遮罩或关闭按钮）
   constants.closeBtn.addEventListener('click', () => {
-    constants.settingsModal.classList.add('hidden');
-    enableBackgroundWheel();
-  });
+    constants.settingsModal.classList.add('hidden')
+    enableBackgroundWheel()
+  })
   constants.closeEditTeacherData.addEventListener('click', () => {
-    constants.editTeacherDataModal.classList.add('hidden');
-    enableBackgroundWheel();
+    constants.editTeacherDataModal.classList.add('hidden')
+    enableBackgroundWheel()
   })
   constants.editTeacherDataModal.addEventListener('click', (e) => {
     if (e.target === constants.editTeacherDataModal) {
-      constants.editTeacherDataModal.classList.add('hidden');
-      enableBackgroundWheel();
-    }
-  });
-  constants.editDataModal.addEventListener('click', (e) => {
-    if (e.target === constants.editDataModal) {
-      constants.editDataModal.classList.add('hidden');
-      constants.editTeacherDataModal.classList.remove('hidden');
-      disableBackgroundWheel();
+      constants.editTeacherDataModal.classList.add('hidden')
+      enableBackgroundWheel()
     }
   })
-  constants.closeDataModalButton.addEventListener("click", () => {
-    closeEditDataPage();
-  });
+  constants.editDataModal.addEventListener('click', (e) => {
+    if (e.target === constants.editDataModal) {
+      constants.editDataModal.classList.add('hidden')
+      constants.editTeacherDataModal.classList.remove('hidden')
+      disableBackgroundWheel()
+    }
+  })
+  constants.closeDataModalButton.addEventListener('click', () => {
+    closeEditDataPage()
+  })
   constants.addDataModal.addEventListener('click', (e) => {
     if (e.target === constants.editDataModal) {
-      closeAddDataModal();
+      closeAddDataModal()
     }
-  });
+  })
 
   // 点击遮罩层关闭
   constants.settingsModal.addEventListener('click', (e) => {
     if (e.target === constants.settingsModal) {
-      constants.settingsModal.classList.add('hidden');
-      enableBackgroundWheel();
+      constants.settingsModal.classList.add('hidden')
+      enableBackgroundWheel()
     }
-  });
+  })
 
   constants.promptModal.addEventListener('click', (e) => {
     if (e.target === constants.editDataModal) {
-      closePromptModal();
+      closePromptModal()
     }
   })
-  constants.promptFalseBtn.addEventListener('click', closePromptModal);
+  constants.promptFalseBtn.addEventListener('click', closePromptModal)
 
   constants.delSelectedRecord.addEventListener('click', () => {
     delSelectedRecords()
-  });
+  })
 }
 
 export function initEvents() {
-  document.getElementById('settings-complete-btn').addEventListener('click', () => {
-    constants.settingsModal.classList.add('hidden');
-    enableBackgroundWheel();
-  });
+  document
+    .getElementById('settings-complete-btn')
+    .addEventListener('click', () => {
+      constants.settingsModal.classList.add('hidden')
+      enableBackgroundWheel()
+    })
 
-  constants.paperCountInput.addEventListener('input', calculateTotalPages);
-  constants.copyCountInput.addEventListener('input', calculateTotalPages);
-  constants.printTypeSelect.addEventListener('change', calculateTotalPages);
+  constants.paperCountInput.addEventListener('input', calculateTotalPages)
+  constants.copyCountInput.addEventListener('input', calculateTotalPages)
+  constants.printTypeSelect.addEventListener('change', calculateTotalPages)
 
-  constants.paperSizeSelect.addEventListener('change', togglePaperSizeOther);
-  constants.gradeSelect.addEventListener('change', toggleGradeOther);
-  constants.subjectSelect.addEventListener('change', toggleSubjectOther);
+  constants.paperSizeSelect.addEventListener('change', togglePaperSizeOther)
+  constants.gradeSelect.addEventListener('change', toggleGradeOther)
+  constants.subjectSelect.addEventListener('change', toggleSubjectOther)
   constants.submitterSelect.addEventListener('change', toggleSubmitterOther)
   constants.submitterSelect.addEventListener('change', updateAutoData)
-  constants.expenseTypeSelect.addEventListener('change', toggleExpenseTypeOther);
-  constants.closeAddDataModalButton.addEventListener('click', closeAddDataModal);
+  constants.expenseTypeSelect.addEventListener('change', toggleExpenseTypeOther)
+  constants.closeAddDataModalButton.addEventListener('click', closeAddDataModal)
 
   constants.printForm.addEventListener('reset', function () {
     setTimeout(() => {
-      constants.paperSizeOtherInput.value = '';
-      constants.gradeOtherInput.value = '';
-      constants.subjectOtherInput.value = '';
-      constants.submitterOtherContainer.value = '';
-      constants.expenseTypeOtherInput.value = '';
-      togglePaperSizeOther();
-      toggleGradeOther();
-      toggleSubjectOther();
-      toggleExpenseTypeOther();
-      toggleSubmitterOther();
-      calculateTotalPages();
-    }, 10);
-  });
+      constants.paperSizeOtherInput.value = ''
+      constants.gradeOtherInput.value = ''
+      constants.subjectOtherInput.value = ''
+      constants.submitterOtherContainer.value = ''
+      constants.expenseTypeOtherInput.value = ''
+      togglePaperSizeOther()
+      toggleGradeOther()
+      toggleSubjectOther()
+      toggleExpenseTypeOther()
+      toggleSubmitterOther()
+      calculateTotalPages()
+    }, 10)
+  })
 
-  constants.printForm.addEventListener('submit', handleFormSubmit);
+  constants.printForm.addEventListener('submit', handleFormSubmit)
 
-  constants.prevPageButton.addEventListener('click', goToPrevPage);
-  constants.nextPageButton.addEventListener('click', goToNextPage);
-  constants.pageSizeSelect.addEventListener('change', handlePageSizeChange);
-  constants.searchInput.addEventListener('input', handleSearch);
-  constants.selectAllCheckbox.addEventListener('change', handleSelectAll);
-  constants.editCatchSelectAll.addEventListener('change', handleSelectAllData);
-  constants.exportSelectedButton.addEventListener('click', exportSelectedRecords);
-  constants.exportAllButton.addEventListener('click', exportAllRecords);
+  constants.prevPageButton.addEventListener('click', goToPrevPage)
+  constants.nextPageButton.addEventListener('click', goToNextPage)
+  constants.pageSizeSelect.addEventListener('change', handlePageSizeChange)
+  constants.searchInput.addEventListener('input', handleSearch)
+  constants.selectAllCheckbox.addEventListener('change', handleSelectAll)
+  constants.editCatchSelectAll.addEventListener('change', handleSelectAllData)
+  constants.exportSelectedButton.addEventListener(
+    'click',
+    exportSelectedRecords
+  )
+  constants.exportAllButton.addEventListener('click', exportAllRecords)
   constants.settingsButton.addEventListener('click', settings)
-  constants.backupButton.addEventListener('click', backupData);
-  constants.searchDataInput.addEventListener('input', handleDataSearch);
-  constants.deleteSelectData.addEventListener('click', deleteSelectDataRecords);
-  constants.selectTodayRecords.addEventListener('click', selectToday);
-  constants.backupSubmitterButton.addEventListener('click', backupSubmitterData);
-  constants.addDataButton.addEventListener('click', addData);
+  constants.backupButton.addEventListener('click', backupData)
+  constants.searchDataInput.addEventListener('input', handleDataSearch)
+  constants.deleteSelectData.addEventListener('click', deleteSelectDataRecords)
+  constants.selectTodayRecords.addEventListener('click', selectToday)
+  constants.backupSubmitterButton.addEventListener('click', backupSubmitterData)
+  constants.addDataButton.addEventListener('click', addData)
 
-  document.querySelectorAll('.sortable').forEach(header => {
-    header.addEventListener('click', () => handleSort(header.dataset.sort));
-  });
+  document.querySelectorAll('.sortable').forEach((header) => {
+    header.addEventListener('click', () => handleSort(header.dataset.sort))
+  })
 
-  constants.closeModalButton.addEventListener('click', closeModal);
+  constants.closeModalButton.addEventListener('click', closeModal)
   constants.editModal.addEventListener('click', (e) => {
-    if (e.target === constants.editModal) closeModal();
-  });
+    if (e.target === constants.editModal) closeModal()
+  })
 
-  constants.importButton.addEventListener('click', () => constants.fileUploadInput.click());
-  constants.loadBackupSubmitterButton.addEventListener('click', () => constants.uploadSubmitterFile.click());
-  constants.fileUploadInput.addEventListener('change', handleFileUpload);
-  constants.uploadSubmitterFile.addEventListener('change', fileUploadSubmitterData);
+  constants.importButton.addEventListener('click', () =>
+    constants.fileUploadInput.click()
+  )
+  constants.loadBackupSubmitterButton.addEventListener('click', () =>
+    constants.uploadSubmitterFile.click()
+  )
+  constants.fileUploadInput.addEventListener('change', handleFileUpload)
+  constants.uploadSubmitterFile.addEventListener(
+    'change',
+    fileUploadSubmitterData
+  )
   constants.editTeacherDataToggle.addEventListener('click', () => {
-    constants.settingsModal.classList.add('hidden');
-    constants.editTeacherDataModal.classList.remove('hidden');
-    disableBackgroundWheel();
-    renderData();
-  });
+    constants.settingsModal.classList.add('hidden')
+    constants.editTeacherDataModal.classList.remove('hidden')
+    disableBackgroundWheel()
+    renderData()
+  })
 }

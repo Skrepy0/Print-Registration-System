@@ -4,8 +4,10 @@
   "description": "人民印刷有限公司印刷录入系统",
   "main": "index.ts",
   "scripts": {
+    "dev": "start.bat",
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "format": "prettier --write ."
   },
   "build": {
     "appId": "com.skrepy.prs",
@@ -13,8 +15,10 @@
       "icon": "./resources/icon.png",
       "target": [
         {
-          "target":"nsis",
-          "arch": ["x64"]
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
         }
       ]
     },
@@ -27,9 +31,17 @@
   "keywords": [],
   "author": "Skrepy2233",
   "license": "Apache-2.0",
-  "packageManager": "pnpm@10.28.0",
   "devDependencies": {
-    "electron": "latest",
-    "electron-builder": "latest"
+    "@electron/get": "^4.0.3",
+    "boolean": "3.2.0",
+    "dependencies": "^0.0.1",
+    "electron-builder": "latest",
+    "glob": "7.2.3",
+    "inflight": "1.0.6",
+    "rimraf": "2.6.3"
+  },
+  "dependencies": {
+    "electron": "^41.1.0",
+    "prettier": "^3.8.1"
   }
 }

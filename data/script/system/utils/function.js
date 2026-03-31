@@ -1,120 +1,147 @@
-import * as constants from "../../data/constants.js";
-import {config} from "../../data/config/config.js";
-import {data, saveData} from "../../data/catch/catch.js";
+import * as constants from '../../data/constants.js'
+import { config } from '../../data/config/config.js'
+import { data, saveData } from '../../data/catch/catch.js'
 
 export function showToast(msg, type = 'info') {
-  const toast = document.getElementById('toast');
-  const icon = document.getElementById('toast-icon');
-  const msgEl = document.getElementById('toast-message');
-  const colors = {success: 'green', warning: 'yellow', error: 'red', info: 'blue'};
+  const toast = document.getElementById('toast')
+  const icon = document.getElementById('toast-icon')
+  const msgEl = document.getElementById('toast-message')
+  const colors = {
+    success: 'green',
+    warning: 'yellow',
+    error: 'red',
+    info: 'blue',
+  }
   const icons = {
     success: 'fa-check-circle',
     warning: 'fa-exclamation-triangle',
     error: 'fa-times-circle',
-    info: 'fa-info-circle'
-  };
-  toast.className = `fixed bottom-5 right-5 px-4 py-3 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center z-50 backdrop-blur-md bg-white/90 border border-${colors[type]}-200`;
-  icon.className = `fa ${icons[type]} mr-2 text-${colors[type]}-600`;
-  msgEl.textContent = msg;
+    info: 'fa-info-circle',
+  }
+  toast.className = `fixed bottom-5 right-5 px-4 py-3 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center z-50 backdrop-blur-md bg-white/90 border border-${colors[type]}-200`
+  icon.className = `fa ${icons[type]} mr-2 text-${colors[type]}-600`
+  msgEl.textContent = msg
   setTimeout(() => {
-    toast.classList.remove('translate-y-20', 'opacity-0');
-    toast.classList.add('translate-y-0', 'opacity-100');
-  }, 10);
+    toast.classList.remove('translate-y-20', 'opacity-0')
+    toast.classList.add('translate-y-0', 'opacity-100')
+  }, 10)
   setTimeout(() => {
-    toast.classList.remove('translate-y-0', 'opacity-100');
-    toast.classList.add('translate-y-20', 'opacity-0');
-  }, 3000);
+    toast.classList.remove('translate-y-0', 'opacity-100')
+    toast.classList.add('translate-y-20', 'opacity-0')
+  }, 3000)
 }
 
 // 计算印刷总数
 export function calculateTotalPages() {
-  const paperCount = parseInt(constants.paperCountInput.value) || 0;
-  const copyCount = parseInt(constants.copyCountInput.value) || 0;
-  constants.totalPagesInput.value = paperCount * copyCount;
+  const paperCount = parseInt(constants.paperCountInput.value) || 0
+  const copyCount = parseInt(constants.copyCountInput.value) || 0
+  constants.totalPagesInput.value = paperCount * copyCount
 }
 
 export function updateSyncStatus(s) {
-  document.getElementById('sync-status').innerHTML = s ? '<i class="fa fa-check-circle text-green-500 mr-1 animate-pulse"></i><span>数据已同步</span>' : '<i class="fa fa-exclamation-triangle text-yellow-500 mr-1"></i><span>数据未同步</span>';
+  document.getElementById('sync-status').innerHTML = s
+    ? '<i class="fa fa-check-circle text-green-500 mr-1 animate-pulse"></i><span>数据已同步</span>'
+    : '<i class="fa fa-exclamation-triangle text-yellow-500 mr-1"></i><span>数据未同步</span>'
 }
 
 export function updateAutoData() {
-  if (!config.autoMatchEnabled) return;
-  const submitter = document.getElementById('submitter');
+  if (!config.autoMatchEnabled) return
+  const submitter = document.getElementById('submitter')
   if (submitter && submitter.value !== '其他') {
     if (getAutoDataBySubmitter[submitter.value]) {
-      constants.subjectSelect.value = getAutoDataBySubmitter[submitter.value][1];
-      constants.gradeSelect.value = getAutoDataBySubmitter[submitter.value][0];
+      constants.subjectSelect.value = getAutoDataBySubmitter[submitter.value][1]
+      constants.gradeSelect.value = getAutoDataBySubmitter[submitter.value][0]
     }
   }
 }
 
 export function togglePaperSizeOther() {
-  constants.paperSizeSelect.value === '其他' ? constants.paperSizeOtherContainer.classList.remove('hidden') : (constants.paperSizeOtherContainer.classList.add('hidden'), constants.paperSizeOtherInput.value = '');
+  constants.paperSizeSelect.value === '其他'
+    ? constants.paperSizeOtherContainer.classList.remove('hidden')
+    : (constants.paperSizeOtherContainer.classList.add('hidden'),
+      (constants.paperSizeOtherInput.value = ''))
 }
 
 export function toggleGradeOther() {
-  constants.gradeSelect.value === '其他' ? constants.gradeOtherContainer.classList.remove('hidden') : (constants.gradeOtherContainer.classList.add('hidden'), constants.gradeOtherInput.value = '');
+  constants.gradeSelect.value === '其他'
+    ? constants.gradeOtherContainer.classList.remove('hidden')
+    : (constants.gradeOtherContainer.classList.add('hidden'),
+      (constants.gradeOtherInput.value = ''))
 }
 
 export function toggleSubjectOther() {
-  constants.subjectSelect.value === '其他' ? constants.subjectOtherContainer.classList.remove('hidden') : (constants.subjectOtherContainer.classList.add('hidden'), constants.subjectOtherInput.value = '');
+  constants.subjectSelect.value === '其他'
+    ? constants.subjectOtherContainer.classList.remove('hidden')
+    : (constants.subjectOtherContainer.classList.add('hidden'),
+      (constants.subjectOtherInput.value = ''))
 }
 
 export function toggleSubmitterOther() {
-  constants.submitterSelect.value === '其他' ? constants.submitterOtherContainer.classList.remove('hidden') : (constants.submitterOtherContainer.classList.add('hidden'), constants.submitterOtherInput.value = '');
+  constants.submitterSelect.value === '其他'
+    ? constants.submitterOtherContainer.classList.remove('hidden')
+    : (constants.submitterOtherContainer.classList.add('hidden'),
+      (constants.submitterOtherInput.value = ''))
 }
 
 export function toggleExpenseTypeOther() {
-  constants.expenseTypeSelect.value === '其他' ? constants.expenseTypeOtherContainer.classList.remove('hidden') : (constants.expenseTypeOtherContainer.classList.add('hidden'), constants.expenseTypeOtherInput.value = '');
+  constants.expenseTypeSelect.value === '其他'
+    ? constants.expenseTypeOtherContainer.classList.remove('hidden')
+    : (constants.expenseTypeOtherContainer.classList.add('hidden'),
+      (constants.expenseTypeOtherInput.value = ''))
 }
 
 export function getFinalValue(sel, other) {
   if (sel.value === '其他') {
-    return other.value.trim() || '其他';
+    return other.value.trim() || '其他'
   }
-  return sel.value || '';
+  return sel.value || ''
 }
 
 export function getSubmitterFinalValue(sel, other) {
   if (sel.value === '其他') {
-    if(other.value.trim()){
-      if (config.autoCatchInfo){
-        data.catchTeacherList[other.value.trim()]=[getFinalValue(constants.gradeSelect, constants.gradeOtherInput),getFinalValue(constants.subjectSelect, constants.subjectOtherInput)];
-        saveData();
+    if (other.value.trim()) {
+      if (config.autoCatchInfo) {
+        data.catchTeacherList[other.value.trim()] = [
+          getFinalValue(constants.gradeSelect, constants.gradeOtherInput),
+          getFinalValue(constants.subjectSelect, constants.subjectOtherInput),
+        ]
+        saveData()
       }
-      return other.value.trim();
+      return other.value.trim()
     }
-    return '其他';
+    return '其他'
   }
-  return sel.value || '';
+  return sel.value || ''
 }
 
 export function updateToggleUI() {
   for (let i = 0; i < constants.toggles.length; i++) {
-    let toggle = constants.toggles[i];
-    toggle.style.color = toggle.textContent === '开' ? 'green':'red';
+    let toggle = constants.toggles[i]
+    toggle.style.color = toggle.textContent === '开' ? 'green' : 'red'
   }
 }
 
 export function settings() {
-  constants.settingsModal.classList.remove('hidden');
-  disableBackgroundWheel();
+  constants.settingsModal.classList.remove('hidden')
+  disableBackgroundWheel()
 }
 // 禁用背景滚轮
 export function disableBackgroundWheel() {
-  document.body.classList.add('modal-open');
+  document.body.classList.add('modal-open')
 }
 
 // 启用背景滚轮
 export function enableBackgroundWheel() {
-  document.body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open')
 }
 
 export function isToday(dateStr) {
-  const today = new Date();
+  const today = new Date()
   // 假设日期格式为 YYYY-MM-DD 或 YYYY/MM/DD
-  const [year, month, day] = dateStr.split(/[-/]/).map(Number);
-  return today.getFullYear() === year &&
+  const [year, month, day] = dateStr.split(/[-/]/).map(Number)
+  return (
+    today.getFullYear() === year &&
     today.getMonth() + 1 === month && // getMonth() 返回 0-11
-    today.getDate() === day;
+    today.getDate() === day
+  )
 }

@@ -1,651 +1,1101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>人民印刷有限公司印刷录入系统</title>
-    <link rel="icon" type="image/png" sizes="500x500" href="./resources/icon.png">
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="500x500"
+      href="./resources/icon.png"
+    />
 
-    <link rel="stylesheet" href="./data/css/style.css">
-    <link rel="stylesheet" href="./data/css/components/info-link.css">
-    <link rel="stylesheet" href="./data/css/components/modal.css">
-    <link rel="stylesheet" href="./data/css/components/table.css">
-    <link rel="stylesheet" href="./data/css/components/select.css">
-    <link rel="stylesheet" href="./data/css/components/settings.css">
-    <link rel="stylesheet" href="./data/css/components/chart.css">
-    <link rel="stylesheet" href="./data/css/components/del-selected.css">
-    <link rel="stylesheet" href="./data/css/components/scrollbar.css">
+    <link rel="stylesheet" href="./data/css/style.css" />
+    <link rel="stylesheet" href="./data/css/components/info-link.css" />
+    <link rel="stylesheet" href="./data/css/components/modal.css" />
+    <link rel="stylesheet" href="./data/css/components/table.css" />
+    <link rel="stylesheet" href="./data/css/components/select.css" />
+    <link rel="stylesheet" href="./data/css/components/settings.css" />
+    <link rel="stylesheet" href="./data/css/components/chart.css" />
+    <link rel="stylesheet" href="./data/css/components/del-selected.css" />
+    <link rel="stylesheet" href="./data/css/components/scrollbar.css" />
 
     <script src="./data/script/libs/tailwindcss.js"></script>
-    <link href="./data/css/libs/font-awesome-4.7.0/package/css/font-awesome.min.css" rel="stylesheet">
+    <link
+      href="./data/css/libs/font-awesome-4.7.0/package/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
     <script src="./data/script/libs/xlsx.js"></script>
     <script src="./data/script/libs/chart.js"></script>
     <script src="./data/script/init.js"></script>
     <script src="./data/script/system/utils/init_config/window.js"></script>
-
-</head>
-<body class="font-sans text-dark antialiased">
-
-<!-- 顶部导航栏 -->
-<header class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50 transition-custom border-b border-white/20">
-    <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
-        <a class="flex items-center mb-2 md:mb-0 group" href="https://github.com/Skrepy0/Print-Registration-System"
-           >
-            <i class="fa fa-print text-primary text-3xl mr-3 transition-transform group-hover:rotate-6 group-hover:scale-110 duration-300"></i>
-            <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-pulse-slow no-select">
-                商丘市人民印刷有限公司印刷登记快速录入系统</h1>
+  </head>
+  <body class="font-sans text-dark antialiased">
+    <!-- 顶部导航栏 -->
+    <header
+      class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50 transition-custom border-b border-white/20"
+    >
+      <div
+        class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center"
+      >
+        <a
+          class="flex items-center mb-2 md:mb-0 group"
+          href="https://github.com/Skrepy0/Print-Registration-System"
+        >
+          <i
+            class="fa fa-print text-primary text-3xl mr-3 transition-transform group-hover:rotate-6 group-hover:scale-110 duration-300"
+          ></i>
+          <h1
+            class="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-pulse-slow no-select"
+          >
+            商丘市人民印刷有限公司印刷登记快速录入系统
+          </h1>
         </a>
 
-        <div class="flex items-center space-x-1 md:space-x-4 w-full md:w-auto justify-between">
-            <div class="flex items-center text-sm text-neutral mr-2 bg-light/60 px-3 py-1.5 rounded-full">
-                    <span id="sync-status" class="flex items-center">
-                        <i class="fa fa-check-circle text-green-500 mr-1 animate-pulse"></i>
-                        <span>数据已同步</span>
-                    </span>
-            </div>
+        <div
+          class="flex items-center space-x-1 md:space-x-4 w-full md:w-auto justify-between"
+        >
+          <div
+            class="flex items-center text-sm text-neutral mr-2 bg-light/60 px-3 py-1.5 rounded-full"
+          >
+            <span id="sync-status" class="flex items-center">
+              <i
+                class="fa fa-check-circle text-green-500 mr-1 animate-pulse"
+              ></i>
+              <span>数据已同步</span>
+            </span>
+          </div>
 
-            <div class="flex space-x-2 w-full md:w-auto">
-                <button id="import-btn"
-                        class="flex-1 md:flex-none px-3 py-1.5 bg-accent hover:bg-accent/90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect">
-                    <i class="fa fa-upload mr-1"></i> 导入备份
-                </button>
-                <button id="backup-btn"
-                        class="flex-1 md:flex-none px-3 py-1.5 bg-white hover:bg-gray-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale">
-                    <i class="fa fa-database mr-1 text-primary"></i> 备份数据
-                </button>
-                <button id="export-all-btn"
-                        class="flex-1 md:flex-none px-3 py-1.5 bg-primary hover:bg-primary/90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect">
-                    <i class="fa fa-download mr-1"></i> 导出全部
-                </button>
-                <button id="settings-btn"
-                        class="flex-1 md:flex-none px-3 py-1.5 bg-white hover:bg-gray-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale">
-                    <!-- 修正图标：fa-settings 不存在，改为 fa-cog -->
-                    <i class="fa fa-cog mr-1"></i> 设置
-                </button>
-                <input type="file" id="file-upload" accept=".json" class="hidden"/>
-            </div>
+          <div class="flex space-x-2 w-full md:w-auto">
+            <button
+              id="import-btn"
+              class="flex-1 md:flex-none px-3 py-1.5 bg-accent hover:bg-accent/90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect"
+            >
+              <i class="fa fa-upload mr-1"></i> 导入备份
+            </button>
+            <button
+              id="backup-btn"
+              class="flex-1 md:flex-none px-3 py-1.5 bg-white hover:bg-gray-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale"
+            >
+              <i class="fa fa-database mr-1 text-primary"></i> 备份数据
+            </button>
+            <button
+              id="export-all-btn"
+              class="flex-1 md:flex-none px-3 py-1.5 bg-primary hover:bg-primary/90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect"
+            >
+              <i class="fa fa-download mr-1"></i> 导出全部
+            </button>
+            <button
+              id="settings-btn"
+              class="flex-1 md:flex-none px-3 py-1.5 bg-white hover:bg-gray-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale"
+            >
+              <!-- 修正图标：fa-settings 不存在，改为 fa-cog -->
+              <i class="fa fa-cog mr-1"></i> 设置
+            </button>
+            <input type="file" id="file-upload" accept=".json" class="hidden" />
+          </div>
         </div>
-    </div>
-</header>
+      </div>
+    </header>
 
-<!-- 主内容区 -->
-<main class="container mx-auto px-4 py-6 animate-fade-in-up">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6 animate-fade-in-up">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- 左侧：数据录入表单 -->
         <div class="lg:col-span-1">
-            <div class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 duration-300 hover:shadow-2xl border border-white/50 inner-glow">
-                <h2 class="text-lg font-semibold mb-4 pb-2 border-b border-gray-100 flex items-center">
-                    <i class="fa fa-pencil-square-o text-primary mr-2 animate-pulse-slow"></i>印刷信息录入
-                </h2>
+          <div
+            class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 duration-300 hover:shadow-2xl border border-white/50 inner-glow"
+          >
+            <h2
+              class="text-lg font-semibold mb-4 pb-2 border-b border-gray-100 flex items-center"
+            >
+              <i
+                class="fa fa-pencil-square-o text-primary mr-2 animate-pulse-slow"
+              ></i
+              >印刷信息录入
+            </h2>
 
-                <form id="print-form" class="space-y-4">
-                    <!-- 基本信息 -->
-                    <div class="space-y-3">
-                        <h3 class="text-sm font-medium text-neutral/80 uppercase tracking-wider">基本信息</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                                <label for="date" class="block text-sm font-medium mb-1">日期 <span
-                                        class="text-red-500">*</span></label>
-                                <input type="date" id="date" required
-                                       class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                            </div>
-                            <div>
-                                <label for="grade" class="block text-sm font-medium mb-1">年级</label>
-                                <select id="grade"
-                                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                    <option value="">请选择</option>
-                                    <option value="高一">高一</option>
-                                    <option value="高二">高二</option>
-                                    <option value="高三">高三</option>
-                                    <option value="其他">其他</option>
-                                </select>
-                                <div id="grade-other-container" class="mt-2 hidden">
-                                    <label for="grade-other"
-                                           class="block text-sm font-medium mb-1 text-gray-600">其他年级：</label>
-                                    <input type="text" id="grade-other" placeholder="输入年级..."
-                                           class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                                <label for="subject" class="block text-sm font-medium mb-1">学科 <span
-                                        class="text-red-500">*</span></label>
-                                <select id="subject" required
-                                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                    <option value="">请选择学科</option>
-                                    <option value="其他">其他</option>
-                                </select>
-                                <div id="subject-other-container" class="mt-2 hidden">
-                                    <label for="subject-other" class="block text-sm font-medium mb-1 text-gray-600">自定义学科</label>
-                                    <input type="text" id="subject-other" placeholder="输入学科名称..."
-                                           class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom">
-                                </div>
-                            </div>
-                            <div>
-                                <label for="submitter" class="block text-sm font-medium mb-1">送印人 <span
-                                        class="text-red-500">*</span></label>
-                                <select id="submitter" required
-                                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                    <option value="">请选择送印人</option>
-                                    <option value="其他">其他</option>
-                                </select>
-                                <div id="submitter-other-container" class="mt-2 hidden">
-                                    <label for="submitter-other" class="block text-sm font-medium mb-1 text-gray-600">送印人</label>
-                                    <input type="text" id="submitter-other" placeholder="送印人..."
-                                           class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom">
-                                </div>
-                            </div>
-                        </div>
+            <form id="print-form" class="space-y-4">
+              <!-- 基本信息 -->
+              <div class="space-y-3">
+                <h3
+                  class="text-sm font-medium text-neutral/80 uppercase tracking-wider"
+                >
+                  基本信息
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <label for="date" class="block text-sm font-medium mb-1"
+                      >日期 <span class="text-red-500">*</span></label
+                    >
+                    <input
+                      type="date"
+                      id="date"
+                      required
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                    />
+                  </div>
+                  <div>
+                    <label for="grade" class="block text-sm font-medium mb-1"
+                      >年级</label
+                    >
+                    <select
+                      id="grade"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                    >
+                      <option value="">请选择</option>
+                      <option value="高一">高一</option>
+                      <option value="高二">高二</option>
+                      <option value="高三">高三</option>
+                      <option value="其他">其他</option>
+                    </select>
+                    <div id="grade-other-container" class="mt-2 hidden">
+                      <label
+                        for="grade-other"
+                        class="block text-sm font-medium mb-1 text-gray-600"
+                        >其他年级：</label
+                      >
+                      <input
+                        type="text"
+                        id="grade-other"
+                        placeholder="输入年级..."
+                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"
+                      />
                     </div>
+                  </div>
+                </div>
 
-                    <!-- 印刷信息 (不变) -->
-                    <div class="space-y-3">
-                        <h3 class="text-sm font-medium text-neutral/80 uppercase tracking-wider">印刷信息</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                                <label for="paper-size" class="block text-sm font-medium mb-1">纸张规格</label>
-                                <select id="paper-size"
-                                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                    <option value="A3" selected>A3</option>
-                                    <option value="A4">A4</option>
-                                    <option value="A5">A5</option>
-                                    <option value="B4">B4</option>
-                                    <option value="B5">B5</option>
-                                    <option value="其他">其他</option>
-                                </select>
-                                <div id="paper-size-other-container" class="mt-2 hidden">
-                                    <label for="paper-size-other" class="block text-sm font-medium mb-1 text-gray-600">自定义规格</label>
-                                    <input type="text" id="paper-size-other" placeholder="例如：8开"
-                                           class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom">
-                                </div>
-                            </div>
-                            <div>
-                                <label for="print-type" class="block text-sm font-medium mb-1">单双 <span
-                                        class="text-red-500">*</span></label>
-                                <select id="print-type" required
-                                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                    <option value="单面">单面</option>
-                                    <option value="双面" selected>双面</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                                <label for="paper-count" class="block text-sm font-medium mb-1">印刷纸张 <span
-                                        class="text-red-500">*</span></label>
-                                <input type="number" id="paper-count" required min="1" value="1"
-                                       class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                            </div>
-                            <div>
-                                <label for="copy-count" class="block text-sm font-medium mb-1">印刷份数 <span
-                                        class="text-red-500">*</span></label>
-                                <input type="number" id="copy-count" required min="1" value="50"
-                                       class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="plate-count" class="block text-sm font-medium mb-1">制版数量</label>
-                            <input type="number" id="plate-count" min="0" value="0"
-                                   class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <label for="subject" class="block text-sm font-medium mb-1"
+                      >学科 <span class="text-red-500">*</span></label
+                    >
+                    <select
+                      id="subject"
+                      required
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                    >
+                      <option value="">请选择学科</option>
+                      <option value="其他">其他</option>
+                    </select>
+                    <div id="subject-other-container" class="mt-2 hidden">
+                      <label
+                        for="subject-other"
+                        class="block text-sm font-medium mb-1 text-gray-600"
+                        >自定义学科</label
+                      >
+                      <input
+                        type="text"
+                        id="subject-other"
+                        placeholder="输入学科名称..."
+                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"
+                      />
                     </div>
-
-                    <!-- ========= 费用分类区块 ========= -->
-                    <div class="space-y-3">
-                        <h3 class="text-sm font-medium text-neutral/80 uppercase tracking-wider">📁 费用分类</h3>
-
-                        <!-- 印刷总数 (只读) -->
-                        <div>
-                            <label for="total-pages" class="block text-sm font-medium mb-1">印刷总数</label>
-                            <input type="number" id="total-pages" readonly
-                                   class="w-full px-3 py-2 bg-gray-100/50 border border-gray-200 rounded-xl text-gray-600">
-                        </div>
-
-                        <!-- 类型 (下拉+其他) -->
-                        <div>
-                            <label for="expense-type" class="block text-sm font-medium mb-1">类型</label>
-                            <select id="expense-type"
-                                    class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                <option value="试卷" selected>试卷</option>
-                                <option value="答题卡">答题卡</option>
-                                <option value="其他">其他</option>
-                            </select>
-                            <div id="expense-type-other-container" class="mt-2 hidden">
-                                <label for="expense-type-other" class="block text-sm font-medium mb-1 text-gray-600">自定义类型</label>
-                                <input type="text" id="expense-type-other" placeholder="输入费用类型..."
-                                       class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom">
-                            </div>
-                        </div>
-
-                        <!-- 负责人 (从之前单独位置移回) -->
-                        <div>
-                            <label for="responsible-person" class="block text-sm font-medium mb-1">负责人</label>
-                            <input type="text" id="responsible-person"
-                                   class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                        </div>
+                  </div>
+                  <div>
+                    <label
+                      for="submitter"
+                      class="block text-sm font-medium mb-1"
+                      >送印人 <span class="text-red-500">*</span></label
+                    >
+                    <select
+                      id="submitter"
+                      required
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                    >
+                      <option value="">请选择送印人</option>
+                      <option value="其他">其他</option>
+                    </select>
+                    <div id="submitter-other-container" class="mt-2 hidden">
+                      <label
+                        for="submitter-other"
+                        class="block text-sm font-medium mb-1 text-gray-600"
+                        >送印人</label
+                      >
+                      <input
+                        type="text"
+                        id="submitter-other"
+                        placeholder="送印人..."
+                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"
+                      />
                     </div>
+                  </div>
+                </div>
+              </div>
 
-                    <!-- 备注信息 (不变) -->
-                    <div>
-                        <label for="notes" class="block text-sm font-medium mb-1">备注</label>
-                        <textarea id="notes" rows="3" placeholder="请输入备注信息..."
-                                  class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white resize-none"></textarea>
+              <!-- 印刷信息 (不变) -->
+              <div class="space-y-3">
+                <h3
+                  class="text-sm font-medium text-neutral/80 uppercase tracking-wider"
+                >
+                  印刷信息
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <label
+                      for="paper-size"
+                      class="block text-sm font-medium mb-1"
+                      >纸张规格</label
+                    >
+                    <select
+                      id="paper-size"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                    >
+                      <option value="A3" selected>A3</option>
+                      <option value="A4">A4</option>
+                      <option value="A5">A5</option>
+                      <option value="B4">B4</option>
+                      <option value="B5">B5</option>
+                      <option value="其他">其他</option>
+                    </select>
+                    <div id="paper-size-other-container" class="mt-2 hidden">
+                      <label
+                        for="paper-size-other"
+                        class="block text-sm font-medium mb-1 text-gray-600"
+                        >自定义规格</label
+                      >
+                      <input
+                        type="text"
+                        id="paper-size-other"
+                        placeholder="例如：8开"
+                        class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"
+                      />
                     </div>
+                  </div>
+                  <div>
+                    <label
+                      for="print-type"
+                      class="block text-sm font-medium mb-1"
+                      >单双 <span class="text-red-500">*</span></label
+                    >
+                    <select
+                      id="print-type"
+                      required
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                    >
+                      <option value="单面">单面</option>
+                      <option value="双面" selected>双面</option>
+                    </select>
+                  </div>
+                </div>
 
-                    <!-- 操作按钮 -->
-                    <div class="flex space-x-3 pt-2">
-                        <button type="reset" id="reset-btn"
-                                class="flex-1 px-4 py-2 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all duration-200 text-neutral flex items-center justify-center btn-scale bg-white/80">
-                            <i class="fa fa-refresh mr-1"></i> 重置
-                        </button>
-                        <button type="submit" id="save-btn"
-                                class="flex-1 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl btn-scale ripple-effect">
-                            <i class="fa fa-save mr-1"></i> 保存记录
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <label
+                      for="paper-count"
+                      class="block text-sm font-medium mb-1"
+                      >印刷纸张 <span class="text-red-500">*</span></label
+                    >
+                    <input
+                      type="number"
+                      id="paper-count"
+                      required
+                      min="1"
+                      value="1"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="copy-count"
+                      class="block text-sm font-medium mb-1"
+                      >印刷份数 <span class="text-red-500">*</span></label
+                    >
+                    <input
+                      type="number"
+                      id="copy-count"
+                      required
+                      min="1"
+                      value="50"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    for="plate-count"
+                    class="block text-sm font-medium mb-1"
+                    >制版数量</label
+                  >
+                  <input
+                    type="number"
+                    id="plate-count"
+                    min="0"
+                    value="0"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                  />
+                </div>
+              </div>
+
+              <!-- ========= 费用分类区块 ========= -->
+              <div class="space-y-3">
+                <h3
+                  class="text-sm font-medium text-neutral/80 uppercase tracking-wider"
+                >
+                  📁 费用分类
+                </h3>
+
+                <!-- 印刷总数 (只读) -->
+                <div>
+                  <label
+                    for="total-pages"
+                    class="block text-sm font-medium mb-1"
+                    >印刷总数</label
+                  >
+                  <input
+                    type="number"
+                    id="total-pages"
+                    readonly
+                    class="w-full px-3 py-2 bg-gray-100/50 border border-gray-200 rounded-xl text-gray-600"
+                  />
+                </div>
+
+                <!-- 类型 (下拉+其他) -->
+                <div>
+                  <label
+                    for="expense-type"
+                    class="block text-sm font-medium mb-1"
+                    >类型</label
+                  >
+                  <select
+                    id="expense-type"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                  >
+                    <option value="试卷" selected>试卷</option>
+                    <option value="答题卡">答题卡</option>
+                    <option value="其他">其他</option>
+                  </select>
+                  <div id="expense-type-other-container" class="mt-2 hidden">
+                    <label
+                      for="expense-type-other"
+                      class="block text-sm font-medium mb-1 text-gray-600"
+                      >自定义类型</label
+                    >
+                    <input
+                      type="text"
+                      id="expense-type-other"
+                      placeholder="输入费用类型..."
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"
+                    />
+                  </div>
+                </div>
+
+                <!-- 负责人 (从之前单独位置移回) -->
+                <div>
+                  <label
+                    for="responsible-person"
+                    class="block text-sm font-medium mb-1"
+                    >负责人</label
+                  >
+                  <input
+                    type="text"
+                    id="responsible-person"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                  />
+                </div>
+              </div>
+
+              <!-- 备注信息 (不变) -->
+              <div>
+                <label for="notes" class="block text-sm font-medium mb-1"
+                  >备注</label
+                >
+                <textarea
+                  id="notes"
+                  rows="3"
+                  placeholder="请输入备注信息..."
+                  class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white resize-none"
+                ></textarea>
+              </div>
+
+              <!-- 操作按钮 -->
+              <div class="flex space-x-3 pt-2">
+                <button
+                  type="reset"
+                  id="reset-btn"
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all duration-200 text-neutral flex items-center justify-center btn-scale bg-white/80"
+                >
+                  <i class="fa fa-refresh mr-1"></i> 重置
+                </button>
+                <button
+                  type="submit"
+                  id="save-btn"
+                  class="flex-1 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl btn-scale ripple-effect"
+                >
+                  <i class="fa fa-save mr-1"></i> 保存记录
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
 
         <!-- 右侧：数据列表 -->
         <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 transition-all duration-300 hover:shadow-2xl border border-white/50 inner-glow">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 pb-2 border-b border-gray-100">
-                    <h2 class="text-lg font-semibold mb-2 md:mb-0 flex items-center">
-                        <i class="fa fa-list-alt text-primary mr-2 animate-pulse-slow"></i>印刷记录列表
-                    </h2>
-                    <button id="select-today"
-                            class="px-3 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-xl transition-all duration-200 flex items-center shadow-md hover:shadow-lg btn-scale ripple-effect">
-                        选择今日记录
-                    </button>
-                    <button id="del-selected" class="del-selected no-select">删除选中</button>
-                    <div class="w-full md:w-auto flex space-x-2">
-                        <div class="relative flex-1 md:flex-none md:w-64">
-                            <input type="text" id="search-input" placeholder="搜索记录..."
-                                   class="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                            <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-neutral/60"></i>
-                        </div>
-                        <button id="export-selected-btn"
-                                class="px-3 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-xl transition-all duration-200 flex items-center shadow-md hover:shadow-lg btn-scale ripple-effect">
-                            <i class="fa fa-file-excel-o mr-1"></i> 导出选中
-                        </button>
-                    </div>
+          <div
+            class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 transition-all duration-300 hover:shadow-2xl border border-white/50 inner-glow"
+          >
+            <div
+              class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 pb-2 border-b border-gray-100"
+            >
+              <h2 class="text-lg font-semibold mb-2 md:mb-0 flex items-center">
+                <i
+                  class="fa fa-list-alt text-primary mr-2 animate-pulse-slow"
+                ></i
+                >印刷记录列表
+              </h2>
+              <button
+                id="select-today"
+                class="px-3 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-xl transition-all duration-200 flex items-center shadow-md hover:shadow-lg btn-scale ripple-effect"
+              >
+                选择今日记录
+              </button>
+              <button id="del-selected" class="del-selected no-select">
+                删除选中
+              </button>
+              <div class="w-full md:w-auto flex space-x-2">
+                <div class="relative flex-1 md:flex-none md:w-64">
+                  <input
+                    type="text"
+                    id="search-input"
+                    placeholder="搜索记录..."
+                    class="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                  />
+                  <i
+                    class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-neutral/60"
+                  ></i>
                 </div>
-
-                <!-- 数据表格 -->
-                <div class="overflow-x-auto rounded-xl border border-gray-100">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gradient-to-r from-primary/5 to-secondary/5">
-                        <tr>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider w-10">
-                                <input type="checkbox" id="select-all"
-                                       class="rounded border-gray-300 text-primary focus:ring-primary/30">
-                            </th>
-                            <th class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
-                                data-sort="date">日期 <i class="fa fa-sort ml-1"></i></th>
-                            <th class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
-                                data-sort="grade">年级 <i class="fa fa-sort ml-1"></i></th>
-                            <th class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
-                                data-sort="subject">学科 <i class="fa fa-sort ml-1"></i></th>
-                            <th class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
-                                data-sort="submitter">送印人 <i class="fa fa-sort ml-1"></i></th>
-                            <th class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
-                                data-sort="printType">单双 <i class="fa fa-sort ml-1"></i></th>
-                            <th class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
-                                data-sort="totalPages">印刷总数 <i class="fa fa-sort ml-1"></i></th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider">
-                                操作
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody id="records-table-body" class="bg-white divide-y divide-gray-100">
-                        <!-- 动态插入 -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- 分页控制 -->
-                <div class="flex flex-col sm:flex-row justify-between items-center mt-4 pt-3 border-t border-gray-100">
-                    <div class="text-sm text-neutral/70 mb-3 sm:mb-0">显示 <span id="start-record">0</span>-<span
-                            id="end-record">0</span> 条，共 <span id="total-records">0</span> 条
-                    </div>
-                    <div class="flex items-center space-x-1">
-                        <select id="page-size"
-                                class="px-2 py-1 border border-gray-200 rounded-lg text-sm input-focus bg-white/80">
-                            <option value="10">10条/页</option>
-                            <option value="20">20条/页</option>
-                            <option value="50">50条/页</option>
-                            <option value="100">100条/页</option>
-                        </select>
-                        <div class="flex items-center space-x-1">
-                            <button id="prev-page"
-                                    class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-neutral hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:shadow btn-scale"
-                                    disabled><i class="fa fa-chevron-left text-xs"></i></button>
-                            <span id="current-page" class="mx-2 text-sm font-medium">第 1 页</span>
-                            <button id="next-page"
-                                    class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-neutral hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:shadow btn-scale"
-                                    disabled><i class="fa fa-chevron-right text-xs"></i></button>
-                        </div>
-                    </div>
-                </div>
+                <button
+                  id="export-selected-btn"
+                  class="px-3 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-xl transition-all duration-200 flex items-center shadow-md hover:shadow-lg btn-scale ripple-effect"
+                >
+                  <i class="fa fa-file-excel-o mr-1"></i> 导出选中
+                </button>
+              </div>
             </div>
 
-            <!-- 数据统计图表 -->
-            <div class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 transition-all duration-300 hover:shadow-2xl border border-white/50 inner-glow">
-                <h2 class="text-lg font-semibold mb-4 pb-2 border-b border-gray-100 flex items-center">
-                    <i class="fa fa-bar-chart text-primary mr-2 animate-pulse-slow"></i>近7日印刷总数趋势
-                </h2>
-                <div class="h-64 p-2 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl">
-                    <canvas id="statistics-chart"></canvas>
-                </div>
-                <div id="total-print-box" class="flex items-center space-x-2">印刷总数：
-                    <span id="total-print" class="info-link tooltip-bottom" data-info="当前记录的印刷总数"></span>
-                </div>
+            <!-- 数据表格 -->
+            <div class="overflow-x-auto rounded-xl border border-gray-100">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gradient-to-r from-primary/5 to-secondary/5">
+                  <tr>
+                    <th
+                      class="px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider w-10"
+                    >
+                      <input
+                        type="checkbox"
+                        id="select-all"
+                        class="rounded border-gray-300 text-primary focus:ring-primary/30"
+                      />
+                    </th>
+                    <th
+                      class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
+                      data-sort="date"
+                    >
+                      日期 <i class="fa fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
+                      data-sort="grade"
+                    >
+                      年级 <i class="fa fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
+                      data-sort="subject"
+                    >
+                      学科 <i class="fa fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
+                      data-sort="submitter"
+                    >
+                      送印人 <i class="fa fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
+                      data-sort="printType"
+                    >
+                      单双 <i class="fa fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      class="sortable px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider cursor-pointer hover:text-primary transition-colors no-select"
+                      data-sort="totalPages"
+                    >
+                      印刷总数 <i class="fa fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      class="px-3 py-3 text-left text-xs font-medium text-neutral uppercase tracking-wider"
+                    >
+                      操作
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="records-table-body"
+                  class="bg-white divide-y divide-gray-100"
+                >
+                  <!-- 动态插入 -->
+                </tbody>
+              </table>
             </div>
+
+            <!-- 分页控制 -->
+            <div
+              class="flex flex-col sm:flex-row justify-between items-center mt-4 pt-3 border-t border-gray-100"
+            >
+              <div class="text-sm text-neutral/70 mb-3 sm:mb-0">
+                显示 <span id="start-record">0</span>-<span id="end-record"
+                  >0</span
+                >
+                条，共 <span id="total-records">0</span> 条
+              </div>
+              <div class="flex items-center space-x-1">
+                <select
+                  id="page-size"
+                  class="px-2 py-1 border border-gray-200 rounded-lg text-sm input-focus bg-white/80"
+                >
+                  <option value="10">10条/页</option>
+                  <option value="20">20条/页</option>
+                  <option value="50">50条/页</option>
+                  <option value="100">100条/页</option>
+                </select>
+                <div class="flex items-center space-x-1">
+                  <button
+                    id="prev-page"
+                    class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-neutral hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:shadow btn-scale"
+                    disabled
+                  >
+                    <i class="fa fa-chevron-left text-xs"></i>
+                  </button>
+                  <span id="current-page" class="mx-2 text-sm font-medium"
+                    >第 1 页</span
+                  >
+                  <button
+                    id="next-page"
+                    class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-neutral hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:shadow btn-scale"
+                    disabled
+                  >
+                    <i class="fa fa-chevron-right text-xs"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 数据统计图表 -->
+          <div
+            class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow p-5 transition-all duration-300 hover:shadow-2xl border border-white/50 inner-glow"
+          >
+            <h2
+              class="text-lg font-semibold mb-4 pb-2 border-b border-gray-100 flex items-center"
+            >
+              <i
+                class="fa fa-bar-chart text-primary mr-2 animate-pulse-slow"
+              ></i
+              >近7日印刷总数趋势
+            </h2>
+            <div
+              class="h-64 p-2 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl"
+            >
+              <canvas id="statistics-chart"></canvas>
+            </div>
+            <div id="total-print-box" class="flex items-center space-x-2">
+              印刷总数：
+              <span
+                id="total-print"
+                class="info-link tooltip-bottom"
+                data-info="当前记录的印刷总数"
+              ></span>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </main>
 
-</main>
-
-<!-- 页脚 (不变) -->
-<footer class="bg-white/70 backdrop-blur-sm border-t border-gray-200/70 mt-8">
-    <div class="container mx-auto px-4 py-4 text-center text-sm text-neutral/70">
+    <!-- 页脚 (不变) -->
+    <footer
+      class="bg-white/70 backdrop-blur-sm border-t border-gray-200/70 mt-8"
+    >
+      <div
+        class="container mx-auto px-4 py-4 text-center text-sm text-neutral/70"
+      >
         <!-- 使用 &copy; 或数字实体均可，原数字实体已兼容 -->
         <p>&#169; 2026 印刷登记快速录入系统 | 商丘市人民印刷有限公司</p>
-        <br>
-        <p>由<a href="https://github.com/Skrepy0" style="color:#34ca6c" >Skrepy</a>二次修改，点击 <a href="https://www.52pojie.cn/thread-2076303-1-1.html" style="color:#6edbd9" >此处</a>查看原项目
+        <br />
+        <p>
+          由<a href="https://github.com/Skrepy0" style="color: #34ca6c"
+            >Skrepy</a
+          >二次修改，点击
+          <a
+            href="https://www.52pojie.cn/thread-2076303-1-1.html"
+            style="color: #6edbd9"
+            >此处</a
+          >查看原项目
         </p>
-    </div>
-</footer>
+      </div>
+    </footer>
 
-<!-- 编辑模态框 (内部费用分类区块已同步修改，无单价/金额) -->
-<div id="edit-modal"
-     class="fixed inset-0 flex items-center justify-center z-50 hidden modal-backdrop transition-all duration-300">
-    <div class="bg-white/95 backdrop-blur-md rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4 transition-all duration-500 scale-95 opacity-0 shadow-2xl border border-white/50"
-         id="modal-content">
-        <div class="p-5 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm z-10 rounded-t-2xl">
-            <h3 class="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                编辑印刷记录</h3>
-            <button id="close-modal"
-                    class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
-                <i class="fa fa-times text-xl">
-                </i>
-            </button>
+    <!-- 编辑模态框 (内部费用分类区块已同步修改，无单价/金额) -->
+    <div
+      id="edit-modal"
+      class="fixed inset-0 flex items-center justify-center z-50 hidden modal-backdrop transition-all duration-300"
+    >
+      <div
+        class="bg-white/95 backdrop-blur-md rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4 transition-all duration-500 scale-95 opacity-0 shadow-2xl border border-white/50"
+        id="modal-content"
+      >
+        <div
+          class="p-5 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm z-10 rounded-t-2xl"
+        >
+          <h3
+            class="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+          >
+            编辑印刷记录
+          </h3>
+          <button
+            id="close-modal"
+            class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+          >
+            <i class="fa fa-times text-xl"> </i>
+          </button>
         </div>
         <div class="p-5">
-            <form id="edit-form" class="space-y-4">
-                <!-- 动态生成，由JS填充 -->
-            </form>
+          <form id="edit-form" class="space-y-4">
+            <!-- 动态生成，由JS填充 -->
+          </form>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- 设置模态框 -->
-<div id="settingsModal" class="fixed inset-0 z-50 hidden flex items-center justify-center"
-     style="backdrop-filter: blur(4px); background-color: rgba(0, 0, 0, 0.3);">
-    <div class="bg-white rounded-xl card-shadow w-96 max-w-md p-6 relative animate-fade-in-up">
+    <!-- 设置模态框 -->
+    <div
+      id="settingsModal"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center"
+      style="backdrop-filter: blur(4px); background-color: rgba(0, 0, 0, 0.3)"
+    >
+      <div
+        class="bg-white rounded-xl card-shadow w-96 max-w-md p-6 relative animate-fade-in-up"
+      >
         <div class="flex justify-between items-center mb-5">
-            <h3 class="text-lg font-semibold text-gray-800">⚙️ 设置</h3>
-            <button id="closeSettings"
-                    class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
-                <i class="fa fa-times text-xl"></i>
-            </button>
+          <h3 class="text-lg font-semibold text-gray-800">⚙️ 设置</h3>
+          <button
+            id="closeSettings"
+            class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+          >
+            <i class="fa fa-times text-xl"></i>
+          </button>
         </div>
         <div class="flex items-center justify-between border-gray-100 py-2">
-            <span class="info-link setting text-sm"
-                  data-info="开启后，系统将根据教师姓名自动填充学科,年级字段。">根据教师名称自动匹配信息</span>
-            <span id="auto-match-button" class="settings-button no-select"></span>
+          <span
+            class="info-link setting text-sm"
+            data-info="开启后，系统将根据教师姓名自动填充学科,年级字段。"
+            >根据教师名称自动匹配信息</span
+          >
+          <span id="auto-match-button" class="settings-button no-select"></span>
         </div>
         <div class="flex items-center justify-between border-gray-100 py-2">
-            <button type="button" class="info-link setting text-sm text-left"
-                    data-info="开启后，导出印刷记录时将按时间从远到近导出"
-                    aria-describedby="info-desc">
-                倒序导出
-            </button>
-            <span id="reverse-upload-button" class="settings-button no-select" role="status"
-                  aria-label="倒序导出"></span>
+          <button
+            type="button"
+            class="info-link setting text-sm text-left"
+            data-info="开启后，导出印刷记录时将按时间从远到近导出"
+            aria-describedby="info-desc"
+          >
+            倒序导出
+          </button>
+          <span
+            id="reverse-upload-button"
+            class="settings-button no-select"
+            role="status"
+            aria-label="倒序导出"
+          ></span>
         </div>
         <div class="flex items-center justify-between border-gray-100 py-2">
-            <button type="button" class="info-link setting text-sm text-left"
-                    data-info="开启后，系统将每次提交自动记录与教师匹配的信息"
-                    aria-describedby="info-desc">
-                记录提交信息
+          <button
+            type="button"
+            class="info-link setting text-sm text-left"
+            data-info="开启后，系统将每次提交自动记录与教师匹配的信息"
+            aria-describedby="info-desc"
+          >
+            记录提交信息
+          </button>
+          <div class="flex items-center gap-2">
+            <button
+              id="edit-catch-teacher-data-button"
+              type="button"
+              class="px-3 py-1.5 bg-[#8DE0D9] hover:brightness-90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect whitespace-nowrap"
+            >
+              编辑教师信息
             </button>
-            <div class="flex items-center gap-2">
-                <button id="edit-catch-teacher-data-button" type="button"
-                        class="px-3 py-1.5 bg-[#8DE0D9] hover:brightness-90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect whitespace-nowrap">
-                    编辑教师信息
-                </button>
-                <span id="auto-catch-button" class="settings-button no-select" role="status"
-                      aria-label="自动捕获状态"></span>
-            </div>
+            <span
+              id="auto-catch-button"
+              class="settings-button no-select"
+              role="status"
+              aria-label="自动捕获状态"
+            ></span>
+          </div>
         </div>
-        <span id="info-desc" class="sr-only">开启后，系统将每次提交自动记录与教师匹配的信息</span>
+        <span id="info-desc" class="sr-only"
+          >开启后，系统将每次提交自动记录与教师匹配的信息</span
+        >
         <div class="flex justify-end border-t border-gray-100 mt-4 pt-4">
-            <button type="button" id="settings-complete-btn"
-                    class="px-5 py-2 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale flex items-center justify-center gap-2"
-            style="background-color: #FFD38D">
-                <i class="fa fa-check text-gray-600"></i> 完成
-            </button>
+          <button
+            type="button"
+            id="settings-complete-btn"
+            class="px-5 py-2 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale flex items-center justify-center gap-2"
+            style="background-color: #ffd38d"
+          >
+            <i class="fa fa-check text-gray-600"></i> 完成
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- 编辑已捕获教师信息模态框 -->
-<div id="edit-catch-modal" class="modal-overlay hidden" role="dialog" aria-modal="true"
-     aria-labelledby="edit-catch-title">
-    <div class="modal-container animate-fade-in-up">
+    <!-- 编辑已捕获教师信息模态框 -->
+    <div
+      id="edit-catch-modal"
+      class="modal-overlay hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-catch-title"
+    >
+      <div class="modal-container animate-fade-in-up">
         <div class="flex justify-between items-center mb-5 px-2">
-            <h2 id="edit-catch-title" class="modal-title text-lg font-semibold text-gray-800">系统已经存储的数据</h2>
-            <button id="delect-selected-data-button" class="del-selected no-select">删除选中</button>
-            <button id="add-data"
-                    class="md:flex-none px-3 py-1.5 bg-blue hover:bg-blue-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale"
-            ><i class="fa fa-plus mr-1 text-primary">添加记录</i></button>
-            <div class="relative flex-1 md:flex-none md:w-64 mx-2">
-                <input type="text" id="data-search-input" placeholder="搜索..."
-                       class="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-neutral/60"></i>
-            </div>
-            <button id="close-edit-teacher-catch"
-                    class="text-neutral mr-4 hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-                    aria-label="关闭">
-                <i class="fa fa-times text-lg"></i>
-            </button>
+          <h2
+            id="edit-catch-title"
+            class="modal-title text-lg font-semibold text-gray-800"
+          >
+            系统已经存储的数据
+          </h2>
+          <button
+            id="delect-selected-data-button"
+            class="del-selected no-select"
+          >
+            删除选中
+          </button>
+          <button
+            id="add-data"
+            class="md:flex-none px-3 py-1.5 bg-blue hover:bg-blue-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale"
+          >
+            <i class="fa fa-plus mr-1 text-primary">添加记录</i>
+          </button>
+          <div class="relative flex-1 md:flex-none md:w-64 mx-2">
+            <input
+              type="text"
+              id="data-search-input"
+              placeholder="搜索..."
+              class="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+            />
+            <i
+              class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-neutral/60"
+            ></i>
+          </div>
+          <button
+            id="close-edit-teacher-catch"
+            class="text-neutral mr-4 hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+            aria-label="关闭"
+          >
+            <i class="fa fa-times text-lg"></i>
+          </button>
         </div>
 
         <div class="modal-content max-h-[60vh] overflow-y-auto">
-            <div class="table-wrapper">
-                <table class="data-table min-w-full">
-                    <thead class="table-header sticky top-0 bg-white z-10">
-                    <tr>
-                        <th scope="col" class="checkbox-col">
-                            <input type="checkbox" id="edit-catch-select-all" class="select-all-checkbox"
-                                   aria-label="全选">
-                        </th>
-                        <th scope="col" class="no-select" data-sort="teacher">教师</th>
-                        <th scope="col" class="no-select" data-sort="subject">学科</th>
-                        <th scope="col" class="no-select" data-sort="grade">年级</th>
-                        <th scope="col">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody id="edit-catch-records-table-body" class="table-body">
-                    <!-- 动态插入数据 -->
-                    </tbody>
-                </table>
-            </div>
+          <div class="table-wrapper">
+            <table class="data-table min-w-full">
+              <thead class="table-header sticky top-0 bg-white z-10">
+                <tr>
+                  <th scope="col" class="checkbox-col">
+                    <input
+                      type="checkbox"
+                      id="edit-catch-select-all"
+                      class="select-all-checkbox"
+                      aria-label="全选"
+                    />
+                  </th>
+                  <th scope="col" class="no-select" data-sort="teacher">
+                    教师
+                  </th>
+                  <th scope="col" class="no-select" data-sort="subject">
+                    学科
+                  </th>
+                  <th scope="col" class="no-select" data-sort="grade">年级</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="edit-catch-records-table-body" class="table-body">
+                <!-- 动态插入数据 -->
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="flex items-center justify-center mb-5 px-2 space-x-4">
-            <input type="file" id="import-submitter-file" accept=".json,application/json" style="display: none;">
-            <button id="import-data-button"
-                    class="flex-1 md:flex-none px-3 py-1.5 bg-green hover:bg-blue-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale info-link tooltip-left"
-                    data-info="导入外部数据">
-                <i class="fa mr-1 text-primary fa-upload"></i>导入备份
-            </button>
-            <button id="backup-data-button"
-                    class="flex-1 md:flex-none px-3 py-1.5 bg-green hover:bg-blue-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale info-link tooltip-right"
-                    data-info="备份此表格中的所有送印人数据">
-                <i class="fa fa-download mr-1 text-primary"></i>备份数据
-            </button>
+          <input
+            type="file"
+            id="import-submitter-file"
+            accept=".json,application/json"
+            style="display: none"
+          />
+          <button
+            id="import-data-button"
+            class="flex-1 md:flex-none px-3 py-1.5 bg-green hover:bg-blue-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale info-link tooltip-left"
+            data-info="导入外部数据"
+          >
+            <i class="fa mr-1 text-primary fa-upload"></i>导入备份
+          </button>
+          <button
+            id="backup-data-button"
+            class="flex-1 md:flex-none px-3 py-1.5 bg-green hover:bg-blue-100 text-sm rounded-lg transition-all duration-200 flex items-center justify-center border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale info-link tooltip-right"
+            data-info="备份此表格中的所有送印人数据"
+          >
+            <i class="fa fa-download mr-1 text-primary"></i>备份数据
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<div id="edit-data-modal"
-     class="fixed inset-0 flex items-center hidden justify-center z-50 modal-backdrop transition-all duration-300">
-    <div class="bg-white/95 backdrop-blur-md rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4 transition-all duration-500 scale-95 opacity-0 shadow-2xl border border-white/50 animate-fade-in-up"
-         id="data-modal-content">
-        <div class="p-5 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm z-10 rounded-t-2xl">
-            <h3 class="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                编辑数据</h3>
-            <button id="close-data-modal"
-                    class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
-                <i class="fa fa-times text-xl">
-                </i>
-            </button>
+    <div
+      id="edit-data-modal"
+      class="fixed inset-0 flex items-center hidden justify-center z-50 modal-backdrop transition-all duration-300"
+    >
+      <div
+        class="bg-white/95 backdrop-blur-md rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4 transition-all duration-500 scale-95 opacity-0 shadow-2xl border border-white/50 animate-fade-in-up"
+        id="data-modal-content"
+      >
+        <div
+          class="p-5 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm z-10 rounded-t-2xl"
+        >
+          <h3
+            class="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+          >
+            编辑数据
+          </h3>
+          <button
+            id="close-data-modal"
+            class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+          >
+            <i class="fa fa-times text-xl"> </i>
+          </button>
         </div>
         <div class="p-5">
-            <form id="edit-data-form" class="space-y-4">
-                <!-- 动态生成，由JS填充 -->
-            </form>
+          <form id="edit-data-form" class="space-y-4">
+            <!-- 动态生成，由JS填充 -->
+          </form>
         </div>
+      </div>
     </div>
-</div>
 
-<div id="add-modal"
-     class="fixed inset-0 flex items-center hidden justify-center z-50 modal-backdrop transition-all duration-300">
-    <div class="bg-white/95 backdrop-blur-md rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4 transition-all duration-500 scale-95 opacity-0 shadow-2xl border border-white/50 animate-fade-in-up"
-         id="add-modal-content">
-        <div class="p-5 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm z-10 rounded-t-2xl">
-            <h3 class="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                添加数据</h3>
-            <button id="close-add-modal"
-                    class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
-                <i class="fa fa-times text-xl">
-                </i>
-            </button>
+    <div
+      id="add-modal"
+      class="fixed inset-0 flex items-center hidden justify-center z-50 modal-backdrop transition-all duration-300"
+    >
+      <div
+        class="bg-white/95 backdrop-blur-md rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4 transition-all duration-500 scale-95 opacity-0 shadow-2xl border border-white/50 animate-fade-in-up"
+        id="add-modal-content"
+      >
+        <div
+          class="p-5 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-sm z-10 rounded-t-2xl"
+        >
+          <h3
+            class="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+          >
+            添加数据
+          </h3>
+          <button
+            id="close-add-modal"
+            class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+          >
+            <i class="fa fa-times text-xl"> </i>
+          </button>
         </div>
         <div class="p-5">
-            <form id="add-data-form" class="space-y-4">
-                <input type="hidden" id="edit-data-id" value="${key}">
+          <form id="add-data-form" class="space-y-4">
+            <input type="hidden" id="edit-data-id" value="${key}" />
 
-                <!-- 基本信息 (不变) -->
-                <div class="space-y-3">
-                    <h3 class="text-sm font-medium text-neutral/80 uppercase tracking-wider">基本信息</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div><label class="block text-sm font-medium mb-1">年级</label>
-                            <select id="add-grade-data"
-                                    class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                <option value="">请选择年级</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div><label class="block text-sm font-medium mb-1">学科 <span
-                                class="text-red-500">*</span></label>
-                            <select id="add-subject-data" required
-                                    class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white">
-                                <option value="">请选择</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium mb-1">送印人 <span
-                                class="text-red-500">*</span></label>
-                            <div id="add-submitter-data-box" class="mt-2"><input type="text" id="add-submitter-data"
-                                                                                 class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 操作按钮 -->
-                    <div class="flex space-x-3 pt-2">
-                        <button type="button" id="cancel-add-data"
-                                class="flex-1 px-4 py-2 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all duration-200 text-neutral flex items-center justify-center btn-scale bg-white/80">
-                            <i class="fa fa-times mr-1"></i> 取消
-                        </button>
-                        <button type="button" id="submit-added-data"
-                                class="flex-1 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl btn-scale ripple-effect">
-                            <i class="fa fa-save mr-1"></i> 保存
-                        </button>
-                    </div>
+            <!-- 基本信息 (不变) -->
+            <div class="space-y-3">
+              <h3
+                class="text-sm font-medium text-neutral/80 uppercase tracking-wider"
+              >
+                基本信息
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-sm font-medium mb-1">年级</label>
+                  <select
+                    id="add-grade-data"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                  >
+                    <option value="">请选择年级</option>
+                  </select>
                 </div>
-            </form>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-sm font-medium mb-1"
+                    >学科 <span class="text-red-500">*</span></label
+                  >
+                  <select
+                    id="add-subject-data"
+                    required
+                    class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
+                  >
+                    <option value="">请选择</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1"
+                    >送印人 <span class="text-red-500">*</span></label
+                  >
+                  <div id="add-submitter-data-box" class="mt-2">
+                    <input
+                      type="text"
+                      id="add-submitter-data"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom"
+                    />
+                  </div>
+                </div>
+              </div>
+              <!-- 操作按钮 -->
+              <div class="flex space-x-3 pt-2">
+                <button
+                  type="button"
+                  id="cancel-add-data"
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all duration-200 text-neutral flex items-center justify-center btn-scale bg-white/80"
+                >
+                  <i class="fa fa-times mr-1"></i> 取消
+                </button>
+                <button
+                  type="button"
+                  id="submit-added-data"
+                  class="flex-1 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl btn-scale ripple-effect"
+                >
+                  <i class="fa fa-save mr-1"></i> 保存
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- 美化后的导入模式选择模态框 -->
-<div id="import-mode-modal"
-     class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center bg-black/40 backdrop-blur-sm">
-    <div id="import-mode-modal-content" class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl w-96 p-6 border border-white/20 inner-glow transform transition-all duration-300 scale-100">
+    <!-- 美化后的导入模式选择模态框 -->
+    <div
+      id="import-mode-modal"
+      class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center bg-black/40 backdrop-blur-sm"
+    >
+      <div
+        id="import-mode-modal-content"
+        class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl w-96 p-6 border border-white/20 inner-glow transform transition-all duration-300 scale-100"
+      >
         <!-- 图标与标题（可自定义） -->
         <div class="flex items-center justify-center mb-3">
-            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                <i class="fa fa-cloud-upload text-2xl text-primary"></i>
-            </div>
+          <div
+            class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center"
+          >
+            <i class="fa fa-cloud-upload text-2xl text-primary"></i>
+          </div>
         </div>
-        <h3 class="text-center text-lg font-semibold text-gray-800 mb-1">选择导入方式</h3>
+        <h3 class="text-center text-lg font-semibold text-gray-800 mb-1">
+          选择导入方式
+        </h3>
         <!-- 文本区域（动态消息） -->
-        <div id="modal-message" class="text-center text-sm text-gray-600 mb-5 px-2"></div>
+        <div
+          id="modal-message"
+          class="text-center text-sm text-gray-600 mb-5 px-2"
+        ></div>
         <!-- 按钮区域（增强交互） -->
         <div class="flex flex-col sm:flex-row justify-center gap-3">
-            <button id="merge-btn"
-                    class="flex-1 px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
-                <i class="fa fa-compress"></i> 合并
-            </button>
-            <button id="overwrite-btn"
-                    class="flex-1 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
-                <i class="fa fa-refresh"></i> 覆盖
-            </button>
-            <button id="cancel-btn"
-                    class="flex-1 px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-xl shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center gap-2">
-                <i class="fa fa-times"></i> 取消
-            </button>
+          <button
+            id="merge-btn"
+            class="flex-1 px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <i class="fa fa-compress"></i> 合并
+          </button>
+          <button
+            id="overwrite-btn"
+            class="flex-1 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <i class="fa fa-refresh"></i> 覆盖
+          </button>
+          <button
+            id="cancel-btn"
+            class="flex-1 px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-xl shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <i class="fa fa-times"></i> 取消
+          </button>
         </div>
+      </div>
     </div>
-</div>
-<!--提示框-->
-<div id="prompt-modal" class="fixed modal modal-backdrop hidden inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-    <div id="prompt-modal-content" class="transition-all duration-500 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl w-96 max-w-[90%] p-6 border border-white/20 transform scale-100">
+    <!--提示框-->
+    <div
+      id="prompt-modal"
+      class="fixed modal modal-backdrop hidden inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+    >
+      <div
+        id="prompt-modal-content"
+        class="transition-all duration-500 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl w-96 max-w-[90%] p-6 border border-white/20 transform scale-100"
+      >
         <div class="flex items-center justify-center mb-6 gap-3">
-            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
-                <i class="fa fa-info-circle text-2xl text-primary"></i>
-            </div>
-            <h3 id="prompt-title" class="flex-1 min-w-0 text-lg font-semibold text-gray-800 break-words">
-                <!--JS动态生成-->
-            </h3>
+          <div
+            class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0"
+          >
+            <i class="fa fa-info-circle text-2xl text-primary"></i>
+          </div>
+          <h3
+            id="prompt-title"
+            class="flex-1 min-w-0 text-lg font-semibold text-gray-800 break-words"
+          >
+            <!--JS动态生成-->
+          </h3>
         </div>
         <div class="flex justify-center space-x-3">
-            <button id="prompt-true" class="flex-1 px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
-                <i class="fa fa-check"></i> 确定
-            </button>
-            <button id="prompt-false" class="flex-1 px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-xl shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center gap-2">
-                <i class="fa fa-times"></i> 取消
-            </button>
+          <button
+            id="prompt-true"
+            class="flex-1 px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <i class="fa fa-check"></i> 确定
+          </button>
+          <button
+            id="prompt-false"
+            class="flex-1 px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-xl shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <i class="fa fa-times"></i> 取消
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- 提示框 -->
-<div id="toast"
-     class="fixed bottom-5 right-5 px-4 py-3 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-500 ease-elastic flex items-center z-100 backdrop-blur-md bg-white/90 border border-white/20">
-    <i id="toast-icon" class="mr-2 text-lg"></i>
-    <span id="toast-message" class="font-medium"></span>
-</div>
-<!-- 脚本引入（使用 type="module"，现代浏览器均支持） -->
-<script src="./data/script/main.js" type="module"></script>
-<script src="./data/script/system/init.js" type="module"></script>
-<script src="./data/script/data/catch/catch.js" type="module"></script>
-<script src="./data/script/data/catch/form.js" type="module"></script>
-<script src="./data/script/data/constants.js" type="module"></script>
-<script src="./data/script/data/config/config.js" type="module"></script>
-<script src="./data/script/system/components/chart.js" type="module"></script>
-<script src="./data/script/system/components/records.js" type="module"></script>
-<script src="./data/script/system/components/form.js" type="module"></script>
-<script src="./data/script/system/utils/event.js" type="module"></script>
-<script src="./data/script/system/utils/function.js" type="module"></script>
-<script src="./data/script/system/utils/io.js" type="module"></script>
-<script src="./data/script/system/utils/modal.js" type="module"></script>
-</body>
+    <!-- 提示框 -->
+    <div
+      id="toast"
+      class="fixed bottom-5 right-5 px-4 py-3 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-500 ease-elastic flex items-center z-100 backdrop-blur-md bg-white/90 border border-white/20"
+    >
+      <i id="toast-icon" class="mr-2 text-lg"></i>
+      <span id="toast-message" class="font-medium"></span>
+    </div>
+    <!-- 脚本引入（使用 type="module"，现代浏览器均支持） -->
+    <script src="./data/script/main.js" type="module"></script>
+    <script src="./data/script/system/init.js" type="module"></script>
+    <script src="./data/script/data/catch/catch.js" type="module"></script>
+    <script src="./data/script/data/catch/form.js" type="module"></script>
+    <script src="./data/script/data/constants.js" type="module"></script>
+    <script src="./data/script/data/config/config.js" type="module"></script>
+    <script
+      src="./data/script/system/components/chart.js"
+      type="module"
+    ></script>
+    <script
+      src="./data/script/system/components/records.js"
+      type="module"
+    ></script>
+    <script
+      src="./data/script/system/components/form.js"
+      type="module"
+    ></script>
+    <script src="./data/script/system/utils/event.js" type="module"></script>
+    <script src="./data/script/system/utils/function.js" type="module"></script>
+    <script src="./data/script/system/utils/io.js" type="module"></script>
+    <script src="./data/script/system/utils/modal.js" type="module"></script>
+  </body>
 </html>

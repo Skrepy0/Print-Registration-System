@@ -1,0 +1,10 @@
+.venv
+dist
+.idea
+node_modules
+data/css/libs
+data/script/libs
+py/.venv
+py/.idea
+py/build
+py/dist

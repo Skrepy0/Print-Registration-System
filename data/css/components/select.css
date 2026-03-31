@@ -1,10 +1,10 @@
 .select-all-checkbox {
-    border-radius: 0.25rem;
-    border: 1px solid #d1d5db;
-    accent-color: #4f46e5;
+  border-radius: 0.25rem;
+  border: 1px solid #d1d5db;
+  accent-color: #4f46e5;
 }
 
 .select-all-checkbox:focus {
-    ring: 2px solid rgba(79, 70, 229, 0.3);
-    outline: none;
+  ring: 2px solid rgba(79, 70, 229, 0.3);
+  outline: none;
 }

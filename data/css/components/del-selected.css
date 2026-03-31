@@ -1,32 +1,32 @@
 .del-selected {
-    float: left;
-    text-align: left;
-    padding: 8px 16px;
-    background-color: #ED3535; /* 红色背景 */
-    color: white;
-    border: none;
-    border-radius: 16px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  float: left;
+  text-align: left;
+  padding: 8px 16px;
+  background-color: #ed3535; /* 红色背景 */
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .del-selected:hover {
-    background-color: #dc2626; /* 深红色 */
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-color: #dc2626; /* 深红色 */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .del-selected:active {
-    transform: translateY(1px);
-    box-shadow: none;
+  transform: translateY(1px);
+  box-shadow: none;
 }
 
 #del-selected:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
-    opacity: 0.5;
-    transform: none;
-    box-shadow: none;
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
 }
