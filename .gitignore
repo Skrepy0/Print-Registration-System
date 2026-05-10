@@ -2,3 +2,4 @@ node_modules
 dist
 py/build
 py/.venv
+release

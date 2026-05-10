@@ -1,20 +1,27 @@
 {
   "name": "print-registration-system",
-  "version": "1.0.1",
-  "description": "人民印刷有限公司印刷录入系统",
+  "version": "1.0.2",
+  "description": "人民印刷有限公司印刷录入系统 ${version}",
   "main": "index.ts",
   "scripts": {
     "dev": "start.bat",
     "start": "electron .",
     "build": "electron-builder",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "dist": "electron-builder",
+    "update:test": "npx http-server ./update -p 3000"
   },
   "build": {
+    "publish": {
+      "provider": "generic",
+      "url": "http://prs.skrepy.dpdns.org/updates"
+    },
     "electronDownload": {
       "mirror": "https://npmmirror.com/mirrors/electron/"
     },
-    "appId": "com.skrepy.prs",
+    "appId": "org.dpdns.skrepy.prs",
     "win": {
+      "artifactName": "${productName}-Setup-${version}.${ext}",
       "icon": "./resources/icon.png",
       "target": [
         {
@@ -28,8 +35,20 @@
     "nsis": {
       "oneClick": false,
       "perMachine": true,
-      "allowToChangeInstallationDirectory": true
-    }
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "license": "./LICENSE"
+    },
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "index.ts",
+      "hub.html",
+      "config/**/*",
+      "data/**/*",
+      "resources/**/*"
+    ]
   },
   "keywords": [],
   "author": "Skrepy2233",
@@ -38,13 +57,15 @@
     "@electron/get": "^4.0.3",
     "boolean": "3.2.0",
     "dependencies": "^0.0.1",
+    "electron": "^41.1.0",
     "electron-builder": "latest",
     "glob": "7.2.3",
     "inflight": "1.0.6",
-    "rimraf": "2.6.3",
-    "electron": "^41.1.0"
+    "rimraf": "2.6.3"
   },
   "dependencies": {
+    "electron-log": "^4.4.8",
+    "electron-updater": "^6.8.3",
     "prettier": "^3.8.1"
   }
 }
