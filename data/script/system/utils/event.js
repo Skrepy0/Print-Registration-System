@@ -2,6 +2,7 @@ import * as constants from '../../data/constants.js'
 import { reload } from '../../data/constants.js'
 import { delSelectedRecords, selectToday } from '../components/records.js'
 import {
+  calculateExpense,
   calculateTotalPages,
   disableBackgroundWheel,
   enableBackgroundWheel,
@@ -135,6 +136,7 @@ export function initEvents() {
   constants.paperCountInput.addEventListener('input', calculateTotalPages)
   constants.copyCountInput.addEventListener('input', calculateTotalPages)
   constants.printTypeSelect.addEventListener('change', calculateTotalPages)
+  constants.priceInput.addEventListener('input', calculateExpense)
 
   constants.paperSizeSelect.addEventListener('change', togglePaperSizeOther)
   constants.gradeSelect.addEventListener('change', toggleGradeOther)

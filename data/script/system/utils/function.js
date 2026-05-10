@@ -36,6 +36,12 @@ export function calculateTotalPages() {
   const paperCount = parseInt(constants.paperCountInput.value) || 0
   const copyCount = parseInt(constants.copyCountInput.value) || 0
   constants.totalPagesInput.value = paperCount * copyCount
+  calculateExpense()
+}
+export function calculateExpense() {
+  const totalPages = parseInt(constants.totalPagesInput.value) || 0
+  const price = parseFloat(constants.priceInput.value) || 0.0
+  constants.expenseInput.value = (totalPages * price).toFixed(2)
 }
 
 export function updateSyncStatus(s) {

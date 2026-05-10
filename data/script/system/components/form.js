@@ -1,6 +1,7 @@
 import * as constants from '../../data/constants.js'
 import { reload, state } from '../../data/constants.js'
 import {
+  calculateExpense,
   calculateTotalPages,
   getFinalValue,
   getSubmitterFinalValue,
@@ -51,6 +52,8 @@ export function handleFormSubmit(e) {
     plateCount: parseInt(document.getElementById('plate-count').value) || 0,
     totalPages: parseInt(constants.totalPagesInput.value) || 0,
     responsiblePerson: constants.responsiblePersonInput.value.trim(),
+    expense: parseInt(constants.expenseInput.value) || 0,
+    price: parseFloat(constants.priceInput.value).toFixed(2) || 0,
     notes: document.getElementById('notes').value.trim(),
     createdAt: new Date().toISOString(),
   }
@@ -61,6 +64,7 @@ export function handleFormSubmit(e) {
   constants.printForm.reset()
   document.getElementById('date').valueAsDate = new Date()
   calculateTotalPages()
+  calculateExpense()
   showToast('记录保存成功', 'success')
   reload()
 }

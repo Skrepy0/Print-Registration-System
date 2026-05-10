@@ -107,6 +107,8 @@ export const paperCountInput = document.getElementById('paper-count')
 export const copyCountInput = document.getElementById('copy-count')
 export const printTypeSelect = document.getElementById('print-type')
 export const totalPagesInput = document.getElementById('total-pages') // 只读，位于费用分类区块
+export const expenseInput = document.getElementById('expense')
+export const priceInput = document.getElementById('price')
 // 下拉框"其他"相关 (包含恢复的费用分类字段)
 export const paperSizeSelect = document.getElementById('paper-size')
 export const paperSizeOtherContainer = document.getElementById(

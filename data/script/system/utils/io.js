@@ -56,11 +56,12 @@ export function exportRecordsToExcel(data, name) {
     送印人: r.submitter,
     纸张: r.paperSize,
     单双: r.printType,
-    纸张数: r.paperCount,
+    张数: r.paperCount,
     份数: r.copyCount,
     印刷总数: r.totalPages,
     类型: r.expenseType,
     负责人: r.responsiblePerson || '',
+    金额: r.expense,
     备注: r.notes || '',
   }))
   const ws = XLSX.utils.json_to_sheet(out)
@@ -145,8 +146,6 @@ export function handleFileUpload(e) {
         constants.fileUploadInput.value = ''
         return
       }
-      openImportModeModal()
-
       function handleData(mode) {
         if (mode) {
           state.records = cleanedIncoming
@@ -173,15 +172,19 @@ export function handleFileUpload(e) {
         constants.importModalMessage.textContent = ``
         showToast('导入成功', 'success')
       }
-
-      constants.importModalMessage.textContent = `备份中有 ${cleanedIncoming.length} 条记录。`
-      constants.mergeButton.addEventListener('click', () => {
-        handleData(false)
-      })
-      constants.overwriteButton.addEventListener('click', () => {
+      if (state.records.length > 0) {
+        openImportModeModal()
+        constants.importModalMessage.textContent = `备份中有 ${cleanedIncoming.length} 条记录。`
+        constants.mergeButton.addEventListener('click', () => {
+          handleData(false)
+        })
+        constants.overwriteButton.addEventListener('click', () => {
+          handleData(true)
+        })
+        constants.cancelButton.addEventListener('click', closeImportModeModal)
+      } else {
         handleData(true)
-      })
-      constants.cancelButton.addEventListener('click', closeImportModeModal)
+      }
     } catch (err) {
       showToast('解析失败' + err, 'error')
       console.log(err)
@@ -236,16 +239,6 @@ export function fileUploadSubmitterData(e) {
         return
       }
 
-      constants.importModalMessage.textContent = `备份中有 ${importCount} 条记录。`
-      openImportModeModal()
-      constants.mergeButton.addEventListener('click', () => {
-        handleData(false)
-      })
-      constants.overwriteButton.addEventListener('click', () => {
-        handleData(true)
-      })
-      constants.cancelButton.addEventListener('click', closeImportModeModal)
-
       function handleData(mode) {
         if (mode) {
           // 覆盖：直接替换
@@ -264,6 +257,19 @@ export function fileUploadSubmitterData(e) {
         reload()
         renderData()
         showToast('导入成功', 'success')
+      }
+      if (data.catchTeacherList.length > 0) {
+        constants.importModalMessage.textContent = `备份中有 ${importCount} 条记录。`
+        openImportModeModal()
+        constants.mergeButton.addEventListener('click', () => {
+          handleData(false)
+        })
+        constants.overwriteButton.addEventListener('click', () => {
+          handleData(true)
+        })
+        constants.cancelButton.addEventListener('click', closeImportModeModal)
+      } else {
+        handleData(true)
       }
     } catch (error) {
       console.error('导入失败:', error)

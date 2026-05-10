@@ -84,6 +84,7 @@ export function renderRecords() {
           <td class="px-3 py-3">${r.submitter}</td>
           <td class="px-3 py-3">${r.printType}</td>
           <td class="px-3 py-3">${r.totalPages}</td>
+          <td class="px-3 py-3">${r.expense}</td>
           <td class="px-3 py-3">
             <button class="edit-btn text-blue-500 p-1 hover:text-blue-700 transition-transform hover:scale-110"><i class="fa info-link tooltip-left" data-info="修改记录">📝</i></button>
             <button class="delete-btn text-red-500 p-1 hover:text-red-700 transition-transform hover:scale-110"><i class="fa info-link tooltip-right" data-info="删除记录">🔥</i></button>
@@ -169,12 +170,20 @@ export function editRecord(id) {
             <div><label class="block text-sm font-medium mb-1">制版数量</label><input type="number" id="edit-plate-count" min="0" value="${record.plateCount}" class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"></div>
         </div>
 
-        <!-- ===== 费用分类区块（恢复，无单价/金额） ===== -->
+        <!-- ===== 费用分类区块 ===== -->
         <div class="space-y-3">
             <h3 class="text-sm font-medium text-neutral/80 uppercase tracking-wider">📁 费用分类</h3>
             <div>
                 <label class="block text-sm font-medium mb-1">印刷总数</label>
                 <input type="number" id="edit-total-pages" readonly value="${record.totalPages}" class="w-full px-3 py-2 bg-gray-100/50 border border-gray-200 rounded-xl text-gray-600">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">单价</label>
+                <input type="number" id="edit-price" min="0" step="0.01" value="${record.price}" class="w-full px-3 py-2 bg-gray-100/50 border border-gray-200 rounded-xl text-gray-600">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">金额</label>
+                <input type="number" id="edit-expense" readonly value="${record.expense}" class="w-full px-3 py-2 bg-gray-100/50 border border-gray-200 rounded-xl text-gray-600">
             </div>
             <div>
                 <label class="block text-sm font-medium mb-1">类型</label>
@@ -208,16 +217,25 @@ export function editRecord(id) {
   const editCopyCount = document.getElementById('edit-copy-count')
   const editPrintType = document.getElementById('edit-print-type')
   const editTotalPages = document.getElementById('edit-total-pages')
+  const editPrice = document.getElementById('edit-price')
+  const editExpense = document.getElementById('edit-expense')
 
   function calcEditTotal() {
     const pc = parseInt(editPaperCount.value) || 0
     const cc = parseInt(editCopyCount.value) || 0
     editTotalPages.value = pc * cc
+    calcEditExpense()
+  }
+  function calcEditExpense() {
+    const price = parseFloat(editPrice.value) || 0.0
+    const totalPages = parseInt(editTotalPages.value) || 0
+    editExpense.value = (price * totalPages).toFixed(2)
   }
 
   editPaperCount.addEventListener('input', calcEditTotal)
   editCopyCount.addEventListener('input', calcEditTotal)
   editPrintType.addEventListener('change', calcEditTotal)
+  editPrice.addEventListener('input', calcEditExpense)
 
   // 其他字段切换
   document.getElementById('edit-grade').addEventListener('change', function () {
@@ -317,10 +335,13 @@ export function editRecord(id) {
       plateCount:
         parseInt(document.getElementById('edit-plate-count').value) || 0,
       totalPages: parseInt(editTotalPages.value) || 0,
+      price: parseFloat(editPrice.value) || 0,
+      expense: editExpense.value || 0,
       expenseType: finalExpenseType,
       responsiblePerson: document
         .getElementById('edit-responsible')
         .value.trim(),
+
       notes: document.getElementById('edit-notes').value.trim(),
     }
     saveRecords()

@@ -1,6 +1,6 @@
 {
   "name": "print-registration-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "人民印刷有限公司印刷录入系统",
   "main": "index.ts",
   "scripts": {
@@ -10,6 +10,9 @@
     "format": "prettier --write ."
   },
   "build": {
+    "electronDownload": {
+      "mirror": "https://npmmirror.com/mirrors/electron/"
+    },
     "appId": "com.skrepy.prs",
     "win": {
       "icon": "./resources/icon.png",
@@ -38,10 +41,10 @@
     "electron-builder": "latest",
     "glob": "7.2.3",
     "inflight": "1.0.6",
-    "rimraf": "2.6.3"
+    "rimraf": "2.6.3",
+    "electron": "^41.1.0"
   },
   "dependencies": {
-    "electron": "^41.1.0",
     "prettier": "^3.8.1"
   }
 }
