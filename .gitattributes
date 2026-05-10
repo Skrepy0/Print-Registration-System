@@ -1,2 +1,2 @@
-/data/css/libs/* linguist-vendored
-/data/script/libs/* linguist-vendored
+data/css/libs/** linguist-vendored
+data/script/libs/** linguist-vendored
