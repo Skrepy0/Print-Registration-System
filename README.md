@@ -1,5 +1,7 @@
 # 印刷登记快速录入系统
 
+![License](https://img.shields.io/badge/License-Apache%202.0-pink.svg)
+
 ## 项目简介
 
 **商丘市人民印刷有限公司**印刷登记快速录入系统是一个专为**商丘市第一高级中学**设计的印刷数据统计与管理工具。该系统提供了便捷的印刷登记、数据统计和可视化分析功能，帮助学校高效管理印刷资源，追踪印刷费用，并生成详细的统计报告。
@@ -30,32 +32,34 @@
 
 ### 前提条件
 
-- Windows XP 或更高版本
-- 已安装 Node.js 和 npm（如需自行构建）
-- 已安装 Python 3.x（如需使用Python启动脚本）
+桌面应用:
+
+- `Windows XP` 或更高版本
+
+如需自行构建:
+
+- 已安装 `Node.js` 和 `npm`
+
+如需使用Python启动脚本
+
+- 已安装 `Python 3.x`
 
 ### 安装方式
 
 #### 方式一：使用安装包（推荐）
 
-在[Release](https://github.com/Skrepy0/Print-Registration-System/releases)页面下载最新版本的安装包，按照安装向导完成安装即可。
+在[Release](https://github.com/Skrepy0/Print-Registration-System/releases)页面下载最新版本的安装包，按照安装向导完成安装即可。(目前只有x64的安装包)
 
-#### 方式二：使用批处理文件启动
+#### 方式二：使用启动程序启动
+
+`Windows XP`及以上可使用此方法启动
+双击项目根目录的[start.exe](./start.exe)即可启动系统。
+
+> start.exe的源代码在`./py/`中
+
+#### 方式三：使用批处理文件启动
 
 如果已安装Python并配置了环境变量，双击[start.bat](./start.bat)即可启动系统。
-
-#### 方式三：使用Python启动脚本
-
-1. 确保已安装Python 3.x
-2. 运行`py/start_host.py`启动本地服务器
-3. 系统将自动在默认浏览器中打开
-
-#### 方式四：使用Electron应用
-
-1. 克隆或下载项目代码
-2. 安装依赖：`npm install`
-3. 启动应用：`npm start`
-4. 构建应用：`npm run build`
 
 ## 系统配置
 
@@ -70,8 +74,8 @@
 }
 ```
 
-- **log_print**：启动时是否在终端打印日志（布尔值）
-- **local_host**：服务器启动的端口号（整数）
+- `log_print`：启动时是否在终端打印日志（布尔值）
+- `local_host`：服务器启动的端口号（整数）
 
 ### 默认信息配置
 
@@ -96,12 +100,22 @@
 }
 ```
 
-- **subject**：学科列表
-- **added_expense_type**：费用类型列表
+- `subject`：学科列表
+- `added_expense_type`：费用类型列表
 
 #### 送印人信息
 
-[config/submitter.json](./config/submitter.json)存储送印人的默认信息。您也可以在系统界面的"设置/编辑教师信息"中添加和管理送印人信息。
+[config/submitter.json](./config/submitter.json)存储送印人的默认信息。
+你可以按下面的格式进行默认信息的配置
+
+```json
+{
+  "张三": ["高一", "政治"],
+  "李四": ["高二", "物理"]
+}
+```
+
+您也可以在系统界面的`设置/编辑教师信息`中添加和管理送印人信息。
 
 ## 项目结构
 
@@ -133,11 +147,14 @@ PrintRegistrationSystem/
 1. 克隆项目仓库：`git clone https://github.com/Skrepy0/Print-Registration-System.git`
 2. 进入项目目录：`cd PrintRegistrationSystem`
 3. 安装依赖：`npm install`
-4. 启动开发服务器：`npm run dev`
+4. 启动开发服务器：
+
+- `npm run dev`(在默认浏览器打开)
+- `npm run start`(启动桌面应用)
 
 ### 代码格式化
 
-项目使用Prettier进行代码格式化，运行以下命令格式化代码：
+项目使用`Prettier`进行代码格式化，运行以下命令格式化代码：
 
 ```bash
 npm run format
@@ -162,14 +179,16 @@ A: 编辑`config/host_config.json`文件，修改`local_host`字段的值。
 **Q: 如何添加新的学科或费用类型？**
 
 A: 编辑`config/select.json`文件，在相应的数组中添加新项。
+**Q: 如何设置默认的送印人信息,以方便使用？**
 
+A: 编辑`config/submmit.json`文件。具体见[这里](#送印人信息)
 **Q: 数据存储在哪里？**
 
-A: 当前版本数据存储在浏览器的本地存储中，清除浏览器数据将导致数据丢失。
+A: 当前版本数据存储在浏览器的本地存储中(如果使用的是桌面软件则保存在软件的缓存里)，清除浏览器数据将**导致数据丢失**(桌面软件则不会)。
 
 **Q: 如何备份数据？**
 
-A: 使用系统提供的数据导出功能，将数据导出为JSON文件进行备份。
+A: 使用系统提供的数据导出功能，将数据导出为`JSON`文件进行备份。
 
 ## 致谢
 
