@@ -63,7 +63,7 @@
               <i
                 class="fa fa-check-circle text-green-500 mr-1 animate-pulse"
               ></i>
-              <span>数据已同步</span>
+              <span id="version-text"></span>
             </span>
           </div>
 
@@ -716,6 +716,17 @@
         <div class="flex items-center justify-between border-gray-100 py-2">
           <span
             class="info-link setting text-sm"
+            id="check-update-info"
+            data-info=""
+            >检测更新</span
+          >
+          <button id="checkUpdateBtn" class="no-select common-btn">
+            检查更新
+          </button>
+        </div>
+        <div class="flex items-center justify-between border-gray-100 py-2">
+          <span
+            class="info-link setting text-sm"
             data-info="开启后，系统将根据教师姓名自动填充学科,年级字段。"
             >根据教师名称自动匹配信息</span
           >
@@ -1123,5 +1134,6 @@
     <script src="./data/script/system/utils/function.js" type="module"></script>
     <script src="./data/script/system/utils/io.js" type="module"></script>
     <script src="./data/script/system/utils/modal.js" type="module"></script>
+    <script src="./data/script/system/check-update.js" type="module"></script>
   </body>
 </html>

@@ -4,6 +4,7 @@ import { initEvents } from './utils/event.js'
 import { calculateTotalPages } from './utils/function.js'
 import { registerConfig } from '../data/config/config.js'
 import { initWindowData } from './utils/io.js'
+import { updateVersionText } from './version.js'
 
 export function init() {
   initWindowData()
@@ -12,4 +13,5 @@ export function init() {
   renderRecords()
   initChart()
   registerConfig()
+  updateVersionText()
 }

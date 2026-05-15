@@ -2,7 +2,7 @@
   "name": "print-registration-system",
   "version": "1.0.2",
   "description": "人民印刷有限公司印刷录入系统 ${version}",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "dev": "start.bat",
     "start": "electron .",

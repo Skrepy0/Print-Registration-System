@@ -1,18 +1,15 @@
-import { app, BrowserWindow, dialog } from 'electron'
-import log from 'electron-log'
-import pkg from 'electron-updater'
+const electron = require('electron')
+const path = require('path')
+const log = require('electron-log')
 
-const { autoUpdater } = pkg
+const { app, BrowserWindow, dialog, ipcMain } = electron
 
-autoUpdater.logger = log
-log.transports.file.level = 'info'
-
-let win: BrowserWindow
+let win = null
+let autoUpdater = null
 
 const UPDATE_SERVER_URL = 'http://prs.skrepy.dpdns.org/updates'
-const DEV_UPDATE_SERVER_URL = 'http://localhost:3000/updates'
 
-const createWindow = () => {
+function createWindow() {
   win = new BrowserWindow({
     width: 1400,
     height: 1000,
@@ -21,12 +18,19 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
     },
   })
   win.loadFile('hub.html')
 }
 
 function setupAutoUpdater() {
+  const { autoUpdater: updater } = require('electron-updater')
+  autoUpdater = updater
+
+  autoUpdater.logger = log
+  log.transports.file.level = 'info'
+
   autoUpdater.autoDownload = false
 
   if (!app.isPackaged) {
@@ -36,6 +40,11 @@ function setupAutoUpdater() {
   }
 
   autoUpdater.on('update-available', (info) => {
+    win?.webContents.send('update-status', {
+      type: 'available',
+      version: info.version,
+    })
+
     dialog
       .showMessageBox(win, {
         type: 'info',
@@ -45,25 +54,47 @@ function setupAutoUpdater() {
         defaultId: 1,
         cancelId: 0,
       })
-      .then(({ response }) => {
-        if (response === 1) {
+      .then((result) => {
+        if (result.response === 1) {
           autoUpdater.downloadUpdate()
           log.info('开始下载更新...')
         }
       })
   })
+
+  autoUpdater.on('update-not-available', () => {
+    win?.webContents.send('update-status', { type: 'not-available' })
+  })
+
   autoUpdater.on('download-progress', (progressObj) => {
     log.info(`下载进度: ${progressObj.percent}%`)
+    win?.webContents.send('update-status', {
+      type: 'download-progress',
+      percent: progressObj.percent,
+    })
   })
 
   autoUpdater.on('update-downloaded', (info) => {
     log.info(`新版本 ${info.version} 下载完成，即将安装...`)
+    win?.webContents.send('update-status', {
+      type: 'downloaded',
+      version: info.version,
+    })
     autoUpdater.quitAndInstall()
   })
 
   autoUpdater.on('error', (err) => {
     log.error('更新失败', err)
+    win?.webContents.send('update-status', {
+      type: 'error',
+      error: err.message,
+    })
     dialog.showErrorBox('更新失败', `检查更新时发生错误：${err.message}`)
+  })
+
+  ipcMain.on('check-for-updates', () => {
+    win?.webContents.send('update-status', { type: 'checking' })
+    autoUpdater.checkForUpdates()
   })
 
   autoUpdater.checkForUpdatesAndNotify()

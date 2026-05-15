@@ -17,6 +17,8 @@ export const state = {
   ),
 }
 // DOM 元素
+export const versionSpan = document.getElementById('version-text')
+export const checkUpdateInfo = document.getElementById('check-update-info')
 export const printForm = document.getElementById('print-form')
 export const recordsTableBody = document.getElementById('records-table-body')
 export const totalRecordsElement = document.getElementById('total-records')
