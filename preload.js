@@ -17,5 +17,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   writeFile: (filePath, buffer) =>
     ipcRenderer.invoke('fs:writeFile', filePath, buffer),
   getDefaultPriceRule: () => ipcRenderer.invoke('get-default-price-rule'),
-  beep: () => shell.beep(),
+  backupLocalStorage: (data) => ipcRenderer.send('backup-local-storage', data),
+  openBackupFolder: () => ipcRenderer.invoke('open-backup-folder'),
 })

@@ -3,11 +3,19 @@ const path = require('path')
 const log = require('electron-log')
 const fs = require('fs')
 
-const { app, BrowserWindow, dialog, ipcMain } = electron
+const { app, BrowserWindow, dialog, ipcMain, shell } = electron
 
 let win = null
 let autoUpdater = null
-
+const backupPath = path.join(
+  app.getPath('userData'),
+  './backup/localStorage_backup.json'
+)
+const backupDir = path.dirname(backupPath)
+const rulePath = './data/assets/default_price.json'
+if (!fs.existsSync(backupDir)) {
+  fs.mkdirSync(backupDir, { recursive: true })
+}
 const UPDATE_SERVER_URL = 'http://prs.skrepy.dpdns.org/updates'
 
 function createWindow() {
@@ -97,7 +105,6 @@ function setupAutoUpdater() {
     win?.webContents.send('update-status', { type: 'checking' })
     autoUpdater.checkForUpdates()
   })
-
   autoUpdater.checkForUpdatesAndNotify()
 }
 ipcMain.handle('dialog:selectDirectory', async () => {
@@ -117,8 +124,20 @@ ipcMain.handle('fs:writeFile', async (event, filePath, buffer) => {
     return { success: false, error: error.message }
   }
 })
-
-const rulePath = './data/assets/default_price.json'
+ipcMain.on('backup-local-storage', (event, data) => {
+  try {
+    fs.writeFileSync(backupPath, JSON.stringify(data, null, 2), 'utf-8')
+    console.log(`LocalStorage 已备份至 ${backupPath}`)
+  } catch (err) {
+    console.error('备份 LocalStorage 失败:', err)
+  }
+})
+ipcMain.handle('open-backup-folder', async (event) => {
+  if (!fs.existsSync(backupDir)) {
+    fs.mkdirSync(backupDir, { recursive: true })
+  }
+  await shell.openPath(backupDir)
+})
 
 function readConfigFile() {
   try {

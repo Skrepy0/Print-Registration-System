@@ -213,6 +213,47 @@ export function initEvents() {
     constants.uploadSubmitterFile.click()
   )
   constants.fileUploadInput.addEventListener('change', handleFileUpload)
+  constants.openBackupFolderBtn.addEventListener('click', () => {
+    window.electronAPI.openBackupFolder()
+    showToast('已打卡开备份文件夹', 'success')
+  })
+  constants.uploadLsBackupInput.addEventListener('change', (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const backupData = JSON.parse(e.target.result)
+        if (typeof backupData !== 'object' || backupData === null) {
+          throw new Error('备份文件格式错误：不是有效的对象')
+        }
+        for (const [key, value] of Object.entries(backupData)) {
+          if (typeof value === 'string') {
+            localStorage.setItem(key, value)
+          } else {
+            console.warn(`键 "${key}" 的值不是字符串，已跳过`)
+          }
+        }
+        showToast('备份导入成功，Ctrl+R 刷新页面后生效', 'success')
+      } catch (err) {
+        console.error('导入备份失败:', err)
+        showToast('导入失败：文件格式错误或损坏', 'error')
+      } finally {
+        constants.uploadLsBackupInput.value = ''
+      }
+    }
+
+    reader.onerror = () => {
+      showToast('文件读取失败', 'error')
+      constants.uploadLsBackupInput.value = ''
+    }
+
+    reader.readAsText(file, 'UTF-8')
+  })
+  constants.uploadLsBackupBtn.addEventListener('click', () => {
+    constants.uploadLsBackupInput.click()
+  })
   constants.uploadSubmitterFile.addEventListener(
     'change',
     fileUploadSubmitterData
@@ -229,10 +270,10 @@ export function initEvents() {
       try {
         const jsonData = JSON.parse(e.target.result)
         const res = uploadRule(jsonData)
-        if (res.status) showToast('导入价格规则成功!', 'info')
+        if (res.status) showToast(`导入价格规则'${file.name}'成功!`, 'info')
         else {
-          showToast(`此文件不是有效的价格规则设置:${res.err}`, 'error')
-          console.error(`此文件不是有效的价格规则设置:${res.err}`)
+          showToast(`此文件不是有效的价格规则设置:[${res.error}]`, 'error')
+          console.error(`此文件不是有效的价格规则设置:[${res.error}]`)
         }
       } catch (err) {
         console.error('JSON 解析失败', err)

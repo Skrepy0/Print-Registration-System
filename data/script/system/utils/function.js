@@ -1,4 +1,8 @@
 import * as constants from '../../data/constants.js'
+import {
+  PAPER_SIZE_OPTIONS,
+  DEFAULT_PAPER_SIZE_OPTIONS,
+} from '../../data/constants.js'
 import { config } from '../../data/config/config.js'
 import { data, saveData } from '../../data/catch/catch.js'
 function playSound(type) {
@@ -101,7 +105,7 @@ export function getPrice(totalPages, paperType) {
   const priceRule = config.autoPriceRule.prices.find(
     (item) => item.spec === paperType
   )
-  if (!priceRule) {
+  if (!priceRule && paperType !== '其他') {
     showToast(`未找到纸张类型 "${paperType}" 的价格规则,请手动输入`, 'warning')
     return 0.01
   }
@@ -126,7 +130,17 @@ export function fillPrice() {
   constants.priceInput.value = price
   calculateExpense()
 }
-
+export function updatePaperTypeByPriceRule() {
+  PAPER_SIZE_OPTIONS.length = 0
+  PAPER_SIZE_OPTIONS.push(...DEFAULT_PAPER_SIZE_OPTIONS)
+  config.autoPriceRule['prices']
+    .map((r) => r['spec'])
+    .forEach((item) => {
+      if (!PAPER_SIZE_OPTIONS.includes(item)) PAPER_SIZE_OPTIONS.push(item)
+    })
+  constants.paperSizeSelect.innerHTML = `${PAPER_SIZE_OPTIONS.map((p) => `<option value="${p}" ${PAPER_SIZE_OPTIONS[0] === p ? 'selected' : ''}>${p}</option>`).join('')}<option value="其他"}>其他</option>`
+}
+updatePaperTypeByPriceRule()
 export function updateSyncStatus(s) {
   document.getElementById('sync-status').innerHTML = s
     ? '<i class="fa fa-check-circle text-green-500 mr-1 animate-pulse"></i><span>数据已同步</span>'

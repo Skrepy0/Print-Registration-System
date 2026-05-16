@@ -14,6 +14,8 @@
 - **教师信息管理**：维护送印人信息库，便于快速选择常用送印人
 - **数据导出**：支持将印刷数据导出为JSON格式，便于备份和恢复
 - **自定义配置**：可自定义学科类别、费用类型等系统配置
+- **自动备份数据**：每次关闭时自动备份 LocalStorage,并删除前一次的备份, 支持导入数据
+- **自动价格表**：可根据纸张类型与印刷数量自动补充单价,自定义价格表
 
 ## 界面展示
 
@@ -50,20 +52,20 @@
 
 在[Release](https://github.com/Skrepy0/Print-Registration-System/releases)页面下载最新版本的安装包，按照安装向导完成安装即可。(目前只有x64的安装包)
 
-#### 方式二：使用启动程序启动
+#### ~~方式二：使用启动程序启动~~ (1.0.3版本开始已经废弃,会导致功能不全)
 
 `Windows XP`及以上可使用此方法启动
 双击项目根目录的[start.exe](./start.exe)即可启动系统。
 
 > start.exe的源代码在`./py/`中
 
-#### 方式三：使用批处理文件启动
+#### ~~方式三：使用批处理文件启动~~ (1.0.3版本开始已经废弃,会导致功能不全)
 
 如果已安装Python并配置了环境变量，双击[start.bat](./start.bat)即可启动系统。
 
 ## 系统配置
 
-### 启动配置
+### ~~启动配置~~ (1.0.3版本开始已经废弃)
 
 打开[config/host_config.json](./config/host_config.json)文件，可配置以下选项：
 
@@ -117,6 +119,74 @@
 
 您也可以在系统界面的`设置/编辑教师信息`中添加和管理送印人信息。
 
+#### 价格规则示例
+
+以下为系统默认的价格表
+其中`spec`代表纸张类型,`region`代表价格区间
+
+```json
+{
+  "prices": [
+    {
+      "spec": "8K",
+      "data": [
+        {
+          "price": 0.18,
+          "region": [0, 500]
+        },
+        {
+          "price": 0.15,
+          "region": [501, 1000]
+        },
+        {
+          "price": 0.13,
+          "region": [1001, 1500]
+        },
+        {
+          "price": 0.11,
+          "region": [1501, 2000]
+        },
+        {
+          "price": 0.07,
+          "region": [2001, "infinity"]
+        }
+      ]
+    },
+    {
+      "spec": "A4",
+      "data": [
+        {
+          "price": 0.14,
+          "region": [0, 500]
+        },
+        {
+          "price": 0.13,
+          "region": [501, 1000]
+        },
+        {
+          "price": 0.13,
+          "region": [1001, 1500]
+        },
+        {
+          "price": 0.11,
+          "region": [1501, 2000]
+        },
+        {
+          "price": 0.08,
+          "region": [2001, "infinity"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+若`spec`中的类型在原来的纸张类型下拉框中没有,则会在下拉框中自动添加这个纸张类型
+这种格式的json文件可以被系统识别,用户可以自定义价格表,但是要注意:
+
+- `spec`的值不能为 `其他`
+- 价格区间不能重叠
+
 ## 项目结构
 
 ```
@@ -126,17 +196,20 @@ PrintRegistrationSystem/
 │   ├── select.json      # 学科和费用类型配置
 │   └── submitter.json   # 送印人信息配置
 ├── data/                # 前端资源目录
+│   ├── assets           # 一些默认配置文件
 │   ├── css/             # 样式文件
 │   └── script/          # JavaScript文件
 ├── py/                  # Python启动脚本目录
 │   ├── start_host.py    # 服务器启动脚本
-│   └── hud.html         # 启动界面
+│   └── hud.html         # 启动测试界面
 ├── resources/           # 资源文件
 │   ├── icon.png         # 应用图标
 │   └── 1.png            # 界面截图
 ├── hub.html             # 主界面
-├── index.ts             # Electron主进程
+├── index.js             # Electron主进程
+├── preload.js           # Electron预加载进程
 ├── package.json         # 项目配置
+├── dev-app-update.yml   # dev端的更新地址配置
 └── start.bat            # Windows批处理启动脚本
 ```
 

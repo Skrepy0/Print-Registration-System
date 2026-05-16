@@ -1,5 +1,8 @@
 import { config } from './config.js'
-import { showToast } from '../../system/utils/function.js'
+import {
+  showToast,
+  updatePaperTypeByPriceRule,
+} from '../../system/utils/function.js'
 
 export function validatePriceConfig(obj) {
   const errors = []
@@ -38,6 +41,9 @@ export function validatePriceConfig(obj) {
 
       if (specSet.has(spec)) {
         errors.push(`重复的 spec: "${spec}"`)
+      }
+      if (spec === '其他') {
+        errors.push(`非法的spec值: "${spec}"`)
       }
 
       specSet.add(spec)
@@ -146,13 +152,7 @@ export function uploadRule(jsonData) {
   if (res.status) {
     config.autoPriceRule = jsonData
     localStorage.setItem('autoPriceRule', JSON.stringify(config.autoPriceRule))
-    return {
-      status: true,
-    }
-  } else {
-    return {
-      status: false,
-      err: res.errors,
-    }
+    updatePaperTypeByPriceRule()
   }
+  return res
 }

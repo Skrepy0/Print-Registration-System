@@ -1,6 +1,10 @@
 import * as constants from '../constants.js'
+import { PAPER_SIZE_OPTIONS, DEFAULT_PAPER_SIZE_OPTIONS } from '../constants.js'
 import { updateToggleUI } from '../../system/utils/function.js'
-import { showToast } from '../../system/utils/function.js'
+import {
+  showToast,
+  updatePaperTypeByPriceRule,
+} from '../../system/utils/function.js'
 export const getDefaultPriceRule = async () => {
   const rule = await window.electronAPI.getDefaultPriceRule()
   return rule
@@ -36,10 +40,12 @@ export const config = {
       ? JSON.parse(localStorage.getItem('autoPriceRule'))
       : await getDefaultPriceRule(),
 }
+updatePaperTypeByPriceRule()
 export async function resetPriceRule() {
   config.autoPriceRule = await getDefaultPriceRule()
   localStorage.setItem('autoPriceRule', JSON.stringify(config.autoPriceRule))
   showToast('已重置价格规则')
+  updatePaperTypeByPriceRule()
 }
 export function registerConfig() {
   constants.soundPromptToggle.textContent = init(config.soundPrompt)

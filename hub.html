@@ -820,7 +820,7 @@
                 type="file"
                 class="hidden"
                 id="upload-price-rule"
-                accept=".json,application/json"
+                accept=".json"
               />
               <div data-info="导出当前的价格规则" class="info-link tooltip">
                 <button
@@ -831,7 +831,10 @@
                   导出规则
                 </button>
               </div>
-              <div data-info="导入价格规则json文件" class="info-link tooltip">
+              <div
+                data-info="导入价格规则文件,用于自定义价格规则"
+                class="info-link tooltip"
+              >
                 <button
                   id="upload-price-button"
                   type="button"
@@ -892,8 +895,31 @@
         <span id="info-desc" class="sr-only">
           开启后，系统将每次提交自动记录与教师匹配的信息
         </span>
-
-        <div class="flex justify-end border-t border-gray-100 mt-4 pt-4">
+        <div class="flex justify-end border-t border-gray-100 mt-4 pt-4 gap-2">
+          <button
+            type="button"
+            id="open-backup-folder-btn"
+            class="px-5 py-2 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale flex items-center justify-center gap-2"
+            style="background-color: #ffd38d"
+          >
+            <i class="fa fa-folder-open text-gray-600"></i>
+            打开 LocalStorage 备份文件夹
+          </button>
+          <input
+            type="file"
+            class="hidden"
+            id="upload-ls-backup"
+            accept=".json"
+          />
+          <button
+            type="button"
+            id="upload-ls-backup-btn"
+            class="px-5 py-2 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale flex items-center justify-center gap-2"
+            style="background-color: #ffd38d"
+          >
+            <i class="fa fa-upload text-gray-600"></i>
+            导入 LocalStorage 备份
+          </button>
           <button
             type="button"
             id="settings-complete-btn"
@@ -906,7 +932,6 @@
         </div>
       </div>
     </div>
-
     <!-- 编辑已捕获教师信息模态框 -->
     <div
       id="edit-catch-modal"
@@ -988,7 +1013,7 @@
           <input
             type="file"
             id="import-submitter-file"
-            accept=".json,application/json"
+            accept=".json"
             style="display: none"
           />
           <button
@@ -1008,7 +1033,6 @@
         </div>
       </div>
     </div>
-
     <div
       id="edit-data-modal"
       class="fixed inset-0 flex items-center hidden justify-center z-50 modal-backdrop transition-all duration-300"
@@ -1253,5 +1277,22 @@
     <script src="./data/script/system/utils/io.js" type="module"></script>
     <script src="./data/script/system/utils/modal.js" type="module"></script>
     <script src="./data/script/system/check-update.js" type="module"></script>
+    <script>
+      window.addEventListener('beforeunload', () => {
+        const localStorageData = {}
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i)
+          if (key) {
+            localStorageData[key] = localStorage.getItem(key)
+          }
+        }
+
+        if (window.electronAPI && window.electronAPI.backupLocalStorage) {
+          window.electronAPI.backupLocalStorage(localStorageData)
+        } else {
+          console.warn('electronAPI.backupLocalStorage 不可用，无法备份')
+        }
+      })
+    </script>
   </body>
 </html>

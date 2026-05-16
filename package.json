@@ -43,7 +43,8 @@
       "output": "release"
     },
     "files": [
-      "index.ts",
+      "index.js",
+      "preload.js",
       "hub.html",
       "config/**/*",
       "data/**/*",

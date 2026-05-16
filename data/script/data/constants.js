@@ -75,6 +75,11 @@ export const autoCatchToggle = document.getElementById('auto-catch-button')
 export const soundPromptToggle = document.getElementById('sound-prompt-button')
 export const gradeUpload = document.getElementById('grade-upload-button')
 export const uploadPriceBtn = document.getElementById('upload-price-button')
+export const uploadLsBackupInput = document.getElementById('upload-ls-backup')
+export const uploadLsBackupBtn = document.getElementById('upload-ls-backup-btn')
+export const openBackupFolderBtn = document.getElementById(
+  'open-backup-folder-btn'
+)
 export const downloadPriceRuleBtn = document.getElementById(
   'download-price-rule-button'
 )
@@ -155,8 +160,8 @@ export const responsiblePersonInput =
   document.getElementById('responsible-person') // 已移入费用分类
 reload()
 export const GRADE_OPTIONS = ['高一', '高二', '高三']
+export const DEFAULT_PAPER_SIZE_OPTIONS = ['8K', 'A4', 'A3', 'A5', 'B4', 'B5']
 export const PAPER_SIZE_OPTIONS = ['8K', 'A4', 'A3', 'A5', 'B4', 'B5']
-constants.paperSizeSelect.innerHTML = `${PAPER_SIZE_OPTIONS.map((p) => `<option value="${p}" ${PAPER_SIZE_OPTIONS[0] === p ? 'selected' : ''}>${p}</option>`).join('')}<option value="其他"}>其他</option>`
 document.getElementById('date').valueAsDate = new Date()
 export function loadSubmitters() {
   constants.submitterSelect.innerHTML = `<option value="">请选择送印人</option>
