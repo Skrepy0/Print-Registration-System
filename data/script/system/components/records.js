@@ -8,6 +8,7 @@ import {
   isToday,
   showToast,
   updateSyncStatus,
+  getPrice,
 } from '../utils/function.js'
 import {
   closeModal,
@@ -219,11 +220,12 @@ export function editRecord(id) {
   const editTotalPages = document.getElementById('edit-total-pages')
   const editPrice = document.getElementById('edit-price')
   const editExpense = document.getElementById('edit-expense')
-
+  const editPaperSize = document.getElementById('edit-paper-size')
   function calcEditTotal() {
     const pc = parseInt(editPaperCount.value) || 0
     const cc = parseInt(editCopyCount.value) || 0
     editTotalPages.value = pc * cc
+    fillEditPrice()
     calcEditExpense()
   }
   function calcEditExpense() {
@@ -231,7 +233,14 @@ export function editRecord(id) {
     const totalPages = parseInt(editTotalPages.value) || 0
     editExpense.value = (price * totalPages).toFixed(2)
   }
-
+  function fillEditPrice() {
+    if (!config.autoFillPrice) return
+    const paperType = editPaperSize.value
+    const copyCount = parseInt(editCopyCount.value) || 0
+    const price = getPrice(copyCount, paperType)
+    editPrice.value = price
+    calcEditExpense()
+  }
   editPaperCount.addEventListener('input', calcEditTotal)
   editCopyCount.addEventListener('input', calcEditTotal)
   editPrintType.addEventListener('change', calcEditTotal)
@@ -271,13 +280,12 @@ export function editRecord(id) {
         }
       }
     })
-  document
-    .getElementById('edit-paper-size')
-    .addEventListener('change', function () {
-      document
-        .getElementById('edit-paper-other-box')
-        .classList.toggle('hidden', this.value !== '其他')
-    })
+  editPaperSize.addEventListener('change', function () {
+    document
+      .getElementById('edit-paper-other-box')
+      .classList.toggle('hidden', this.value !== '其他')
+    fillEditPrice()
+  })
   document
     .getElementById('edit-expense-type')
     .addEventListener('change', function () {
@@ -303,7 +311,7 @@ export function editRecord(id) {
       document.getElementById('edit-submitter-other')
     )
     const finalPaperSize = getFinalValue(
-      document.getElementById('edit-paper-size'),
+      editPaperSize,
       document.getElementById('edit-paper-other')
     )
     const finalExpenseType = getFinalValue(

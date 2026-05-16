@@ -48,6 +48,7 @@ export const delSelectedRecord = document.getElementById('del-selected')
 export const totalPrintNum = document.getElementById('total-print')
 export const selectTodayRecords = document.getElementById('select-today')
 // 导入文件
+export const uploadPriceRuleInput = document.getElementById('upload-price-rule')
 export const importModeModal = document.getElementById('import-mode-modal')
 export const importModeModalContent = document.getElementById(
   'import-mode-modal-content'
@@ -71,6 +72,16 @@ export const toggles = document.getElementsByClassName('settings-button')
 export const autoMatchToggle = document.getElementById('auto-match-button')
 export const reverseUpload = document.getElementById('reverse-upload-button')
 export const autoCatchToggle = document.getElementById('auto-catch-button')
+export const soundPromptToggle = document.getElementById('sound-prompt-button')
+export const gradeUpload = document.getElementById('grade-upload-button')
+export const uploadPriceBtn = document.getElementById('upload-price-button')
+export const downloadPriceRuleBtn = document.getElementById(
+  'download-price-rule-button'
+)
+export const autoFillPrice = document.getElementById('auto-price-button')
+export const resetPriceRuleBtn = document.getElementById(
+  'reset-price-rule-button'
+)
 export const editTeacherDataToggle = document.getElementById(
   'edit-catch-teacher-data-button'
 )
@@ -144,9 +155,9 @@ export const responsiblePersonInput =
   document.getElementById('responsible-person') // 已移入费用分类
 reload()
 export const GRADE_OPTIONS = ['高一', '高二', '高三']
-export const PAPER_SIZE_OPTIONS = ['A3', 'A4', 'A5', 'B4', 'B5']
+export const PAPER_SIZE_OPTIONS = ['8K', 'A4', 'A3', 'A5', 'B4', 'B5']
+constants.paperSizeSelect.innerHTML = `${PAPER_SIZE_OPTIONS.map((p) => `<option value="${p}" ${PAPER_SIZE_OPTIONS[0] === p ? 'selected' : ''}>${p}</option>`).join('')}<option value="其他"}>其他</option>`
 document.getElementById('date').valueAsDate = new Date()
-
 export function loadSubmitters() {
   constants.submitterSelect.innerHTML = `<option value="">请选择送印人</option>
                                         <option value="其他">其他</option>`

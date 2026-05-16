@@ -241,14 +241,7 @@
                     <select
                       id="paper-size"
                       class="w-full px-3 py-2 border border-gray-200 rounded-xl input-focus transition-custom bg-gray-50/50 focus:bg-white"
-                    >
-                      <option value="A3" selected>A3</option>
-                      <option value="A4">A4</option>
-                      <option value="A5">A5</option>
-                      <option value="B4">B4</option>
-                      <option value="B5">B5</option>
-                      <option value="其他">其他</option>
-                    </select>
+                    ></select>
                     <div id="paper-size-other-container" class="mt-2 hidden">
                       <label
                         for="paper-size-other"
@@ -702,10 +695,11 @@
       style="backdrop-filter: blur(4px); background-color: rgba(0, 0, 0, 0.3)"
     >
       <div
-        class="bg-white rounded-xl card-shadow w-96 max-w-md p-6 relative animate-fade-in-up"
+        class="bg-white rounded-xl card-shadow w-[900px] max-w-[95vw] p-6 relative animate-fade-in-up"
       >
         <div class="flex justify-between items-center mb-5">
           <h3 class="text-lg font-semibold text-gray-800">⚙️ 设置</h3>
+
           <button
             id="closeSettings"
             class="text-neutral hover:text-dark transition-all hover:rotate-90 duration-300 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
@@ -713,69 +707,192 @@
             <i class="fa fa-times text-xl"></i>
           </button>
         </div>
-        <div class="flex items-center justify-between border-gray-100 py-2">
-          <span
-            class="info-link setting text-sm"
-            id="check-update-info"
-            data-info=""
-            >检测更新</span
+
+        <!-- 两列布局 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+          <div
+            class="flex items-center justify-between border-gray-100 py-2 gap-3"
           >
-          <button id="checkUpdateBtn" class="no-select common-btn">
-            检查更新
-          </button>
-        </div>
-        <div class="flex items-center justify-between border-gray-100 py-2">
-          <span
-            class="info-link setting text-sm"
-            data-info="开启后，系统将根据教师姓名自动填充学科,年级字段。"
-            >根据教师名称自动匹配信息</span
-          >
-          <span id="auto-match-button" class="settings-button no-select"></span>
-        </div>
-        <div class="flex items-center justify-between border-gray-100 py-2">
-          <button
-            type="button"
-            class="info-link setting text-sm text-left"
-            data-info="开启后，导出印刷记录时将按时间从远到近导出"
-            aria-describedby="info-desc"
-          >
-            倒序导出
-          </button>
-          <span
-            id="reverse-upload-button"
-            class="settings-button no-select"
-            role="status"
-            aria-label="倒序导出"
-          ></span>
-        </div>
-        <div class="flex items-center justify-between border-gray-100 py-2">
-          <button
-            type="button"
-            class="info-link setting text-sm text-left"
-            data-info="开启后，系统将每次提交自动记录与教师匹配的信息"
-            aria-describedby="info-desc"
-          >
-            记录提交信息
-          </button>
-          <div class="flex items-center gap-2">
-            <button
-              id="edit-catch-teacher-data-button"
-              type="button"
-              class="px-3 py-1.5 bg-[#8DE0D9] hover:brightness-90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect whitespace-nowrap"
-            >
-              编辑教师信息
-            </button>
             <span
-              id="auto-catch-button"
+              class="info-link setting text-sm"
+              id="check-update-info"
+              data-info=""
+            >
+              检测更新
+            </span>
+
+            <button
+              id="checkUpdateBtn"
+              class="no-select common-btn whitespace-nowrap"
+            >
+              检查更新
+            </button>
+          </div>
+
+          <div
+            class="flex items-center justify-between border-gray-100 py-2 gap-3"
+          >
+            <span
+              class="info-link setting text-sm"
+              data-info="开启后，系统将根据教师姓名自动填充学科,年级字段。"
+            >
+              根据教师名称自动匹配信息
+            </span>
+
+            <span
+              id="auto-match-button"
               class="settings-button no-select"
-              role="status"
-              aria-label="自动捕获状态"
             ></span>
           </div>
+
+          <div
+            class="flex items-center justify-between border-gray-100 py-2 gap-3"
+          >
+            <button
+              type="button"
+              class="info-link setting text-sm text-left"
+              data-info="开启后，导出印刷记录时将按时间从远到近导出"
+              aria-describedby="info-desc"
+            >
+              倒序导出
+            </button>
+
+            <span
+              id="reverse-upload-button"
+              class="settings-button no-select"
+              role="status"
+              aria-label="倒序导出"
+            ></span>
+          </div>
+          <div
+            class="flex items-center justify-between border-gray-100 py-2 gap-3"
+          >
+            <button
+              type="button"
+              class="info-link setting text-sm text-left"
+              data-info="开启后，警告和错误都会有声音提示"
+              aria-describedby="info-desc"
+            >
+              声音提示
+            </button>
+
+            <span
+              id="sound-prompt-button"
+              class="settings-button no-select"
+              role="status"
+              aria-label="声音提示"
+            ></span>
+          </div>
+          <div
+            class="flex items-center justify-between border-gray-100 py-2 gap-3"
+          >
+            <button
+              type="button"
+              class="info-link setting text-sm text-left"
+              data-info="开启后，每次导出按年级导出多个文件"
+              aria-describedby="info-desc"
+            >
+              按年级分批导出
+            </button>
+
+            <span
+              id="grade-upload-button"
+              class="settings-button no-select"
+              role="status"
+              aria-label="按年级分批导出"
+            ></span>
+          </div>
+
+          <div
+            class="flex items-center justify-between border-gray-100 py-2 gap-3"
+          >
+            <button
+              type="button"
+              class="info-link setting text-sm text-left"
+              data-info="开启后，系统将每次自动根据纸张和总数填充价格,如果不导入文件,系统将按默认价格规则进行匹配"
+              aria-describedby="info-desc"
+            >
+              自动填充价格
+            </button>
+
+            <div class="flex items-center gap-2 shrink-0">
+              <input
+                type="file"
+                class="hidden"
+                id="upload-price-rule"
+                accept=".json,application/json"
+              />
+              <div data-info="导出当前的价格规则" class="info-link tooltip">
+                <button
+                  id="download-price-rule-button"
+                  type="button"
+                  class="px-3 py-1.5 bg-[#8DE0D9] hover:brightness-90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect whitespace-nowrap"
+                >
+                  导出规则
+                </button>
+              </div>
+              <div data-info="导入价格规则json文件" class="info-link tooltip">
+                <button
+                  id="upload-price-button"
+                  type="button"
+                  class="px-3 py-1.5 bg-[#8DE0D9] hover:brightness-90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect whitespace-nowrap"
+                >
+                  导入规则
+                </button>
+              </div>
+              <div data-info="将价格规则重置为初始值" class="info-link tooltip">
+                <button
+                  id="reset-price-rule-button"
+                  type="button"
+                  class="px-3 py-1.5 bg-[#8DE0D9] hover:brightness-90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect whitespace-nowrap"
+                >
+                  重置规则
+                </button>
+              </div>
+              <span
+                id="auto-price-button"
+                class="settings-button no-select"
+                role="status"
+                aria-label="自动填充价格"
+              ></span>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center justify-between border-gray-100 py-2 gap-3"
+          >
+            <button
+              type="button"
+              class="info-link setting text-sm text-left"
+              data-info="开启后，系统将每次提交自动记录与教师匹配的信息"
+              aria-describedby="info-desc"
+            >
+              记录提交信息
+            </button>
+
+            <div class="flex items-center gap-2 shrink-0">
+              <button
+                id="edit-catch-teacher-data-button"
+                type="button"
+                class="px-3 py-1.5 bg-[#8DE0D9] hover:brightness-90 text-white text-sm rounded-lg transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 btn-scale ripple-effect whitespace-nowrap"
+              >
+                编辑教师信息
+              </button>
+
+              <span
+                id="auto-catch-button"
+                class="settings-button no-select"
+                role="status"
+                aria-label="自动捕获状态"
+              ></span>
+            </div>
+          </div>
         </div>
-        <span id="info-desc" class="sr-only"
-          >开启后，系统将每次提交自动记录与教师匹配的信息</span
-        >
+
+        <span id="info-desc" class="sr-only">
+          开启后，系统将每次提交自动记录与教师匹配的信息
+        </span>
+
         <div class="flex justify-end border-t border-gray-100 mt-4 pt-4">
           <button
             type="button"
@@ -783,7 +900,8 @@
             class="px-5 py-2 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 btn-scale flex items-center justify-center gap-2"
             style="background-color: #ffd38d"
           >
-            <i class="fa fa-check text-gray-600"></i> 完成
+            <i class="fa fa-check text-gray-600"></i>
+            完成
           </button>
         </div>
       </div>

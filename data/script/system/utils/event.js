@@ -1,7 +1,9 @@
+import { uploadRule } from '../../data/config/auto-price.js'
 import * as constants from '../../data/constants.js'
 import { reload } from '../../data/constants.js'
 import { delSelectedRecords, selectToday } from '../components/records.js'
 import {
+  showToast,
   calculateExpense,
   calculateTotalPages,
   disableBackgroundWheel,
@@ -31,9 +33,10 @@ import {
   exportSelectedRecords,
   fileUploadSubmitterData,
   handleFileUpload,
+  downloadPriceRule,
 } from './io.js'
 import { closeAddDataModal, closeModal, closePromptModal } from './modal.js'
-import { config } from '../../data/config/config.js'
+import { config, resetPriceRule } from '../../data/config/config.js'
 import {
   addData,
   closeEditDataPage,
@@ -44,7 +47,6 @@ import {
 } from '../../data/catch/form.js'
 
 export function registerEvents() {
-  // 点击切换
   for (let i = 0; i < constants.toggles.length; i++) {
     let toggle = constants.toggles[i]
     toggle.addEventListener('click', () => {
@@ -66,6 +68,10 @@ export function registerEvents() {
     config.autoCatchInfo = !config.autoCatchInfo
     localStorage.setItem('autoCatchInfo', JSON.stringify(config.autoCatchInfo))
   })
+  constants.soundPromptToggle.addEventListener('click', () => {
+    config.soundPrompt = !config.soundPrompt
+    localStorage.setItem('soundPrompt', JSON.stringify(config.soundPrompt))
+  })
   constants.reverseUpload.addEventListener('click', () => {
     config.reverseDateUpload = !config.reverseDateUpload
     localStorage.setItem(
@@ -73,7 +79,14 @@ export function registerEvents() {
       JSON.stringify(config.reverseDateUpload)
     )
   })
-
+  constants.gradeUpload.addEventListener('click', () => {
+    config.gradeUpload = !config.gradeUpload
+    localStorage.setItem('gradeUpload', JSON.stringify(config.gradeUpload))
+  })
+  constants.autoFillPrice.addEventListener('click', () => {
+    config.autoFillPrice = !config.autoFillPrice
+    localStorage.setItem('autoFillPrice', JSON.stringify(config.autoFillPrice))
+  })
   // 关闭模态框（点击遮罩或关闭按钮）
   constants.closeBtn.addEventListener('click', () => {
     constants.settingsModal.classList.add('hidden')
@@ -153,6 +166,7 @@ export function initEvents() {
       constants.subjectOtherInput.value = ''
       constants.submitterOtherContainer.value = ''
       constants.expenseTypeOtherInput.value = ''
+      constants.priceInput.value = '0.01'
       togglePaperSizeOther()
       toggleGradeOther()
       toggleSubjectOther()
@@ -191,7 +205,7 @@ export function initEvents() {
   constants.editModal.addEventListener('click', (e) => {
     if (e.target === constants.editModal) closeModal()
   })
-
+  constants.resetPriceRuleBtn.addEventListener('click', resetPriceRule)
   constants.importButton.addEventListener('click', () =>
     constants.fileUploadInput.click()
   )
@@ -203,6 +217,34 @@ export function initEvents() {
     'change',
     fileUploadSubmitterData
   )
+  constants.uploadPriceBtn.addEventListener('click', () => {
+    constants.uploadPriceRuleInput.click()
+  })
+  constants.downloadPriceRuleBtn.addEventListener('click', downloadPriceRule)
+  constants.uploadPriceRuleInput.addEventListener('change', (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const jsonData = JSON.parse(e.target.result)
+        const res = uploadRule(jsonData)
+        if (res.status) showToast('导入价格规则成功!', 'info')
+        else {
+          showToast(`此文件不是有效的价格规则设置:${res.err}`, 'error')
+          console.error(`此文件不是有效的价格规则设置:${res.err}`)
+        }
+      } catch (err) {
+        console.error('JSON 解析失败', err)
+        showToast('文件内容不是有效的 JSON 格式', 'error')
+      }
+    }
+    reader.onerror = () => {
+      console.error('文件读取失败')
+      showToast('无法读取文件')
+    }
+    reader.readAsText(file, 'UTF-8')
+  })
   constants.editTeacherDataToggle.addEventListener('click', () => {
     constants.settingsModal.classList.add('hidden')
     constants.editTeacherDataModal.classList.remove('hidden')

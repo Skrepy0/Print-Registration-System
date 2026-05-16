@@ -1,6 +1,7 @@
 const electron = require('electron')
 const path = require('path')
 const log = require('electron-log')
+const fs = require('fs')
 
 const { app, BrowserWindow, dialog, ipcMain } = electron
 
@@ -99,6 +100,42 @@ function setupAutoUpdater() {
 
   autoUpdater.checkForUpdatesAndNotify()
 }
+ipcMain.handle('dialog:selectDirectory', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory'],
+    title: '选择保存目录',
+  })
+  if (result.canceled) return null
+  return result.filePaths[0]
+})
+
+ipcMain.handle('fs:writeFile', async (event, filePath, buffer) => {
+  try {
+    fs.writeFileSync(filePath, buffer)
+    return { success: true }
+  } catch (error) {
+    return { success: false, error: error.message }
+  }
+})
+
+const rulePath = './data/assets/default_price.json'
+
+function readConfigFile() {
+  try {
+    if (fs.existsSync(rulePath)) {
+      const data = fs.readFileSync(rulePath, 'utf8')
+      return JSON.parse(data)
+    } else {
+      return { meg: '读取配置文件失败:' }
+    }
+  } catch (error) {
+    console.error('读取配置文件失败:', error)
+    return null
+  }
+}
+ipcMain.handle('get-default-price-rule', () => {
+  return readConfigFile()
+})
 
 app.whenReady().then(() => {
   createWindow()

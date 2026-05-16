@@ -1,11 +1,64 @@
 import * as constants from '../../data/constants.js'
 import { config } from '../../data/config/config.js'
 import { data, saveData } from '../../data/catch/catch.js'
+function playSound(type) {
+  try {
+    if (!config.soundPrompt) return
+  } catch {
+    return
+  }
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume()
+  }
+
+  const oscillator = audioCtx.createOscillator()
+  const gainNode = audioCtx.createGain()
+
+  oscillator.connect(gainNode)
+  gainNode.connect(audioCtx.destination)
+
+  const now = audioCtx.currentTime
+
+  switch (type) {
+    case 'warning':
+      oscillator.type = 'sine'
+
+      oscillator.frequency.setValueAtTime(700, now)
+      oscillator.frequency.setValueAtTime(900, now + 0.12)
+
+      gainNode.gain.setValueAtTime(0.001, now)
+      gainNode.gain.exponentialRampToValueAtTime(0.15, now + 0.01)
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.28)
+
+      oscillator.start(now)
+      oscillator.stop(now + 0.3)
+      break
+
+    case 'error':
+      oscillator.type = 'square'
+
+      oscillator.frequency.setValueAtTime(260, now)
+      oscillator.frequency.exponentialRampToValueAtTime(120, now + 0.35)
+
+      gainNode.gain.setValueAtTime(0.001, now)
+      gainNode.gain.exponentialRampToValueAtTime(0.2, now + 0.02)
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.4)
+
+      oscillator.start(now)
+      oscillator.stop(now + 0.4)
+      break
+
+    default:
+      return
+  }
+}
 
 export function showToast(msg, type = 'info') {
   const toast = document.getElementById('toast')
   const icon = document.getElementById('toast-icon')
   const msgEl = document.getElementById('toast-message')
+  playSound(type)
   const colors = {
     success: 'green',
     warning: 'yellow',
@@ -37,11 +90,41 @@ export function calculateTotalPages() {
   const copyCount = parseInt(constants.copyCountInput.value) || 0
   constants.totalPagesInput.value = paperCount * copyCount
   calculateExpense()
+  fillPrice()
 }
 export function calculateExpense() {
   const totalPages = parseInt(constants.totalPagesInput.value) || 0
   const price = parseFloat(constants.priceInput.value) || 0.0
   constants.expenseInput.value = (totalPages * price).toFixed(2)
+}
+export function getPrice(totalPages, paperType) {
+  const priceRule = config.autoPriceRule.prices.find(
+    (item) => item.spec === paperType
+  )
+  if (!priceRule) {
+    showToast(`未找到纸张类型 "${paperType}" 的价格规则,请手动输入`, 'warning')
+    return 0.01
+  }
+
+  const { data } = priceRule
+  for (const item of data) {
+    const [lower, upper] = item.region
+    const upperBound = upper === 'infinity' ? Infinity : upper
+
+    if (totalPages >= lower && totalPages <= upperBound) {
+      return parseFloat(item.price.toFixed(2))
+    }
+  }
+  showToast(`页数 ${totalPages} 未匹配到任何价格区间,请手动输入`, 'warning')
+  return 0.01
+}
+export function fillPrice() {
+  if (!config.autoFillPrice) return
+  const paperType = constants.paperSizeSelect.value
+  const copyCount = parseInt(constants.copyCountInput.value) || 0
+  const price = getPrice(copyCount, paperType)
+  constants.priceInput.value = price
+  calculateExpense()
 }
 
 export function updateSyncStatus(s) {
@@ -66,6 +149,7 @@ export function togglePaperSizeOther() {
     ? constants.paperSizeOtherContainer.classList.remove('hidden')
     : (constants.paperSizeOtherContainer.classList.add('hidden'),
       (constants.paperSizeOtherInput.value = ''))
+  fillPrice()
 }
 
 export function toggleGradeOther() {

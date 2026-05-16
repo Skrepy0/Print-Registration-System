@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer, shell } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
   send: (channel, data) => {
@@ -13,4 +13,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
       ipcRenderer.on(channel, (event, ...args) => callback(...args))
     }
   },
+  selectDirectory: () => ipcRenderer.invoke('dialog:selectDirectory'),
+  writeFile: (filePath, buffer) =>
+    ipcRenderer.invoke('fs:writeFile', filePath, buffer),
+  getDefaultPriceRule: () => ipcRenderer.invoke('get-default-price-rule'),
+  beep: () => shell.beep(),
 })

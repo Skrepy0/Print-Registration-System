@@ -37,43 +37,113 @@ export function exportAllRecords() {
   exportRecordsToExcel(state.records, '印刷记录_全部')
 }
 
-export function exportRecordsToExcel(data, name) {
-  if (state.records.length === 0) {
+export async function exportRecordsToExcel(data, name) {
+  if (!data || data.length === 0) {
     showToast('暂无数据', 'warning')
     return
   }
+
   let newData = data
   if (config.reverseDateUpload) {
     newData = [...data].sort((a, b) => {
-      const format = (dateStr) => dateStr.replace(/\//g, '-') // 将 / 替换为 -
+      const format = (dateStr) => dateStr.replace(/\//g, '-')
       return format(a.date).localeCompare(format(b.date))
     })
   }
-  const out = newData.map((r) => ({
-    日期: r.date,
-    年级: r.grade || '',
-    学科: r.subject,
-    送印人: r.submitter,
-    纸张: r.paperSize,
-    单双: r.printType,
-    张数: r.paperCount,
-    份数: r.copyCount,
-    印刷总数: r.totalPages,
-    类型: r.expenseType,
-    负责人: r.responsiblePerson || '',
-    金额: r.expense,
-    备注: r.notes || '',
-  }))
-  const ws = XLSX.utils.json_to_sheet(out)
-  const wb = XLSX.utils.book_new()
-  XLSX.utils.book_append_sheet(wb, ws, '印刷记录')
-  XLSX.writeFile(
-    wb,
-    `${name}_${new Date().toLocaleDateString().replace(/\//g, '-')}.xlsx`
-  )
-  showToast('导出成功', 'success')
-}
 
+  if (config.gradeUpload) {
+    const saveDir = await window.electronAPI.selectDirectory()
+    if (!saveDir) {
+      showToast('已取消导出', 'info')
+      return
+    }
+    const gradeTemp = [...new Set(newData.map((r) => r.grade))]
+    const dateStr = new Date().toLocaleDateString().replace(/\//g, '-')
+    let successCount = 0
+
+    for (const g of gradeTemp) {
+      const out = newData
+        .filter((r) => r.grade === g)
+        .map((r) => ({
+          日期: r.date,
+          年级: r.grade || '',
+          学科: r.subject,
+          送印人: r.submitter,
+          纸张: r.paperSize,
+          单双: r.printType,
+          张数: r.paperCount,
+          份数: r.copyCount,
+          印刷总数: r.totalPages,
+          类型: r.expenseType,
+          负责人: r.responsiblePerson || '',
+          金额: r.expense,
+          备注: r.notes || '',
+        }))
+
+      const ws = XLSX.utils.json_to_sheet(out)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, `${g} 印刷记录`)
+
+      const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
+      const fileName = `${name}_${g}_${dateStr}.xlsx`
+      const fullPath = `${saveDir}/${fileName}`
+
+      const result = await window.electronAPI.writeFile(fullPath, buffer)
+      if (!result.success) {
+        showToast(`写入 ${fileName} 失败: ${result.error}`, 'error')
+        return
+      }
+      successCount++
+    }
+    showToast(`成功导出 ${successCount} 个文件到 ${saveDir}`, 'success')
+  } else {
+    const out = newData.map((r) => ({
+      日期: r.date,
+      年级: r.grade || '',
+      学科: r.subject,
+      送印人: r.submitter,
+      纸张: r.paperSize,
+      单双: r.printType,
+      张数: r.paperCount,
+      份数: r.copyCount,
+      印刷总数: r.totalPages,
+      类型: r.expenseType,
+      负责人: r.responsiblePerson || '',
+      金额: r.expense,
+      备注: r.notes || '',
+    }))
+
+    const ws = XLSX.utils.json_to_sheet(out)
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, '印刷记录')
+
+    const excelBuffer = XLSX.write(wb, { type: 'array', bookType: 'xlsx' })
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' })
+
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${name}_${new Date().toLocaleDateString().replace(/\//g, '-')}.xlsx`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+
+    showToast('导出成功', 'success')
+  }
+}
+export function downloadPriceRule() {
+  const blob = new Blob([JSON.stringify(config.autoPriceRule)], {
+    type: 'application/json',
+  })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `价格规则_${new Date().toLocaleDateString().replace(/\//g, '-')}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  showToast(`成功导出为${a.download}`, 'success')
+}
 // ========== 备份 ==========
 export function backupData() {
   if (!state.records.length) return showToast('无数据可备份', 'warning')
