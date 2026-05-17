@@ -139,23 +139,6 @@ ipcMain.handle('open-backup-folder', async (event) => {
   await shell.openPath(backupDir)
 })
 
-function readConfigFile() {
-  try {
-    if (fs.existsSync(rulePath)) {
-      const data = fs.readFileSync(rulePath, 'utf8')
-      return JSON.parse(data)
-    } else {
-      return { meg: '读取配置文件失败:' }
-    }
-  } catch (error) {
-    console.error('读取配置文件失败:', error)
-    return null
-  }
-}
-ipcMain.handle('get-default-price-rule', () => {
-  return readConfigFile()
-})
-
 app.whenReady().then(() => {
   createWindow()
   setupAutoUpdater()

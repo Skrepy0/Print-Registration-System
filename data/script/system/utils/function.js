@@ -102,25 +102,34 @@ export function calculateExpense() {
   constants.expenseInput.value = (totalPages * price).toFixed(2)
 }
 export function getPrice(totalPages, paperType) {
-  const priceRule = config.autoPriceRule.prices.find(
-    (item) => item.spec === paperType
-  )
-  if (!priceRule && paperType !== '其他') {
-    showToast(`未找到纸张类型 "${paperType}" 的价格规则,请手动输入`, 'warning')
+  try {
+    const priceRule = config.autoPriceRule.prices.find(
+      (item) => item.spec === paperType
+    )
+    if (!priceRule && paperType !== '其他') {
+      showToast(
+        `未找到纸张类型 "${paperType}" 的价格规则,请手动输入`,
+        'warning'
+      )
+      return 0.01
+    }
+
+    const { data } = priceRule
+    for (const item of data) {
+      const [lower, upper] = item.region
+      const upperBound = upper === 'infinity' ? Infinity : upper
+
+      if (totalPages >= lower && totalPages <= upperBound) {
+        return parseFloat(item.price.toFixed(2))
+      }
+    }
+    showToast(`页数 ${totalPages} 未匹配到任何价格区间,请手动输入`, 'warning')
+    return 0.01
+  } catch (e) {
+    showToast('价格规则解析失败', 'error')
+    console.error(e)
     return 0.01
   }
-
-  const { data } = priceRule
-  for (const item of data) {
-    const [lower, upper] = item.region
-    const upperBound = upper === 'infinity' ? Infinity : upper
-
-    if (totalPages >= lower && totalPages <= upperBound) {
-      return parseFloat(item.price.toFixed(2))
-    }
-  }
-  showToast(`页数 ${totalPages} 未匹配到任何价格区间,请手动输入`, 'warning')
-  return 0.01
 }
 export function fillPrice() {
   if (!config.autoFillPrice) return
@@ -133,11 +142,17 @@ export function fillPrice() {
 export function updatePaperTypeByPriceRule() {
   PAPER_SIZE_OPTIONS.length = 0
   PAPER_SIZE_OPTIONS.push(...DEFAULT_PAPER_SIZE_OPTIONS)
-  config.autoPriceRule['prices']
-    .map((r) => r['spec'])
-    .forEach((item) => {
-      if (!PAPER_SIZE_OPTIONS.includes(item)) PAPER_SIZE_OPTIONS.push(item)
-    })
+  try {
+    config.autoPriceRule['prices']
+      .map((r) => r['spec'])
+      .forEach((item) => {
+        if (!PAPER_SIZE_OPTIONS.includes(item)) PAPER_SIZE_OPTIONS.push(item)
+      })
+  } catch (e) {
+    showToast('价格规则解析失败', 'error')
+    console.error(e)
+    return
+  }
   constants.paperSizeSelect.innerHTML = `${PAPER_SIZE_OPTIONS.map((p) => `<option value="${p}" ${PAPER_SIZE_OPTIONS[0] === p ? 'selected' : ''}>${p}</option>`).join('')}<option value="其他"}>其他</option>`
 }
 updatePaperTypeByPriceRule()

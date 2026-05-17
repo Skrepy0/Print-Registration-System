@@ -5,9 +5,10 @@ import {
   showToast,
   updatePaperTypeByPriceRule,
 } from '../../system/utils/function.js'
-export const getDefaultPriceRule = async () => {
-  const rule = await window.electronAPI.getDefaultPriceRule()
-  return rule
+export const getDefaultPriceRule = () => {
+  return JSON.parse(
+    '{"prices":[{"spec":"8K","data":[{"price":0.18,"region":[0,500]},{"price":0.15,"region":[501,1000]},{"price":0.13,"region":[1001,1500]},{"price":0.11,"region":[1501,2000]},{"price":0.07,"region":[2001,"infinity"]}]},{"spec":"A4","data":[{"price":0.14,"region":[0,500]},{"price":0.13,"region":[501,1000]},{"price":0.13,"region":[1001,1500]},{"price":0.11,"region":[1501,2000]},{"price":0.08,"region":[2001,"infinity"]}]}]}'
+  )
 }
 export const config = {
   autoMatchEnabled:
@@ -38,11 +39,12 @@ export const config = {
   autoPriceRule:
     localStorage.getItem('autoPriceRule') !== null
       ? JSON.parse(localStorage.getItem('autoPriceRule'))
-      : await getDefaultPriceRule(),
+      : getDefaultPriceRule(),
 }
 updatePaperTypeByPriceRule()
-export async function resetPriceRule() {
-  config.autoPriceRule = await getDefaultPriceRule()
+export function resetPriceRule() {
+  config.autoPriceRule = getDefaultPriceRule()
+  console.log(config.autoPriceRule)
   localStorage.setItem('autoPriceRule', JSON.stringify(config.autoPriceRule))
   showToast('已重置价格规则')
   updatePaperTypeByPriceRule()
