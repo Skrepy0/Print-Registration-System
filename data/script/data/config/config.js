@@ -6,6 +6,12 @@ import {
   updatePaperTypeByPriceRule,
 } from '../../system/utils/function.js'
 export const getDefaultPriceRule = () => {
+  if (window.defaultPriceRule) {
+    // console.log(JSON.stringify(window.defaultPriceRule))
+    return window.defaultPriceRule
+  }
+  console.warn('加载默认价格规则失败')
+  showToast('加载默认价格规则失败,已启用备用规则', 'warning')
   return JSON.parse(
     '{"prices":[{"spec":"8K","data":[{"price":0.18,"region":[0,500]},{"price":0.15,"region":[501,1000]},{"price":0.13,"region":[1001,1500]},{"price":0.11,"region":[1501,2000]},{"price":0.07,"region":[2001,"infinity"]}]},{"spec":"A4","data":[{"price":0.14,"region":[0,500]},{"price":0.13,"region":[501,1000]},{"price":0.13,"region":[1001,1500]},{"price":0.11,"region":[1501,2000]},{"price":0.08,"region":[2001,"infinity"]}]}]}'
   )

@@ -1,5 +1,21 @@
 window.teachersData = {}
 window.selectData = {}
+window.defaultPriceRule = {}
+fetch('./data/assets/default_price.json')
+  .then((response) => {
+    if (!response.ok) {
+      console.error(response.text)
+      showToast(`请求失败：${response.text}`)
+    }
+    return response.json()
+  })
+  .then((json) => {
+    window.defaultPriceRule = json
+  })
+  .catch((error) => {
+    console.error(error)
+    showToast('加载data/assets/default_price.json失败')
+  })
 fetch('./config/submitter.json')
   .then((response) => {
     if (!response.ok) {
