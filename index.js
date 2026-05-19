@@ -126,8 +126,37 @@ ipcMain.handle('fs:writeFile', async (event, filePath, buffer) => {
 })
 ipcMain.on('backup-local-storage', (event, data) => {
   try {
-    fs.writeFileSync(backupPath, JSON.stringify(data, null, 2), 'utf-8')
-    console.log(`LocalStorage 已备份至 ${backupPath}`)
+    if (!fs.existsSync(backupDir)) {
+      fs.mkdirSync(backupDir, { recursive: true })
+    }
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
+    const backupFile = path.join(
+      backupDir,
+      `localStorage_backup_${timestamp}.json`
+    )
+    fs.writeFileSync(backupFile, JSON.stringify(data, null, 2), 'utf-8')
+    console.log(`LocalStorage 已备份至 ${backupFile}`)
+    const files = fs
+      .readdirSync(backupDir)
+      .filter(
+        (file) =>
+          file.startsWith('localStorage_backup_') && file.endsWith('.json')
+      )
+      .map((file) => ({
+        name: file,
+        path: path.join(backupDir, file),
+        time: fs.statSync(path.join(backupDir, file)).mtime,
+      }))
+      .sort((a, b) => a.time - b.time)
+
+    const maxBackups = 30
+    if (files.length > maxBackups) {
+      const filesToDelete = files.slice(0, files.length - maxBackups)
+      filesToDelete.forEach((file) => {
+        fs.unlinkSync(file.path)
+        console.log(`删除最旧的备份文件: ${file.name}`)
+      })
+    }
   } catch (err) {
     console.error('备份 LocalStorage 失败:', err)
   }
